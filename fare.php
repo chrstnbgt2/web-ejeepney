@@ -1,9 +1,19 @@
+<?php
+session_start();
+if (isset($_SESSION['acc_name'])) {
+    $acc_name = $_SESSION['acc_name'];
+} else {
+    $acc_name = "Guest";  
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Settings</title>
+    <title>E-Jeep Fare</title>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/fare.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -19,21 +29,21 @@
       </div>
       <ul class="nav-list" style="margin-top: 40px">
         <li>
-          <a href="./index.html">
+          <a href="./index.php">
             <i class="bx bx-grid-alt"></i>
             <span class="link_name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
         </li>
         <li>
-          <a href="./jeepneys.html">
+          <a href="./jeepneys.php">
             <i class="bx bx-car"></i>
             <span class="link_name">Jeepneys</span>
           </a>
           <span class="tooltip">Jeepneys</span>
         </li>
         <li>
-          <a href="./drivers.html" style="height: 34px;">
+          <a href="./drivers.php" style="height: 34px;">
             <img
               src="./img/driver.png"
               style="width: 21px; height: 21px; margin-left: 14.5px"
@@ -43,21 +53,21 @@
           <span class="tooltip">Driver</span>
         </li>
         <li>
-          <a href="./user.html">
+          <a href="./user.php">
             <i class="bx bx-user"></i>
             <span class="link_name">User</span>
           </a>
           <span class="tooltip">User</span>
         </li>
         <li>
-          <a href="./fare.html">
+          <a href="./fare.php">
             <i class="bx bx-dollar"></i>
             <span class="link_name">Fare</span>
           </a>
           <span class="tooltip">Fare</span>
         </li>
         <li>
-          <a href="./setting.html" id="settings-link">
+          <a href="./setting.php" id="settings-link">
             <i class="bx bx-cog"></i>
             <span class="link_name">Settings</span>
           </a>
@@ -79,7 +89,7 @@
                   font-family: Rubik, system-ui;
                 "
               >
-                Welcome Username!
+              Welcome <?php echo htmlspecialchars($acc_name); ?>
               </h5>
             </div>
             <div class="top-icons">
@@ -98,29 +108,14 @@
           </div>
         </div>
         <div class="body">
-          <section class="settings-container">
-            <div class="text"><h5>Account Settings</h5></div>
-            <div class="username">
-              <h4>Username</h4>
-              <input type="text" class="in" />
-            </div>
-            <div class="password">
-              <h4>Password</h4>
-              <input type="password" class="in" />
-            </div>
-            <div class="new-password">
-              <h4>New Password</h4>
-              <input type="password" class="in" />
-            </div>
-            <div class="confirm-pass">
-              <h4>Confirm Password</h4>
-              <input type="password" class="in" />
-            </div>
-          </section>
+            <div class="fare-container">
+          <div class="intro-text">
+            JEEPNEY FARE RATE
+          </div>
+          <div class="fare-graph">
+
+          </div>
         </div>
-      </section>
-      <div class="container-button">
-        <button class="settings-save">SAVE</button>
       </div>
     </section>
     <!-- Scripts -->

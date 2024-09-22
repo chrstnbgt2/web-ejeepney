@@ -1,7 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['acc_name'])) {
+    $acc_name = $_SESSION['acc_name'];
+} else {
+    $acc_name = "Guest";  
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Jeepneys</title>
+  <title>Drivers</title>
   <!-- Link Styles -->
   <link rel="stylesheet" href="./css/jeepneys.css">
   <link rel="stylesheet" href="./css/style.css">
@@ -17,42 +26,42 @@
     </div>
     <ul class="nav-list" style="margin-top: 40px;">
       <li>
-        <a href="./index.html">
+        <a href="./index.php">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
         <span class="tooltip">Dashboard</span>
       </li>
       <li>
-        <a href="./jeepneys.html">
+        <a href="./jeepneys.php">
           <i class="bx bx-car"></i>
           <span class="link_name">Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.html" style="height: 34px;">
+        <a href="./drivers.php"style="height: 34px;">
           <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;">
           <span class="link_name">Driver</span>
         </a>
         <span class="tooltip">Driver</span>
       </li>
       <li>
-        <a href="./user.html">
+        <a href="./user.php">
           <i class="bx bx-user"></i>
           <span class="link_name">User</span>
         </a>
         <span class="tooltip">User</span>
       </li>
       <li>
-        <a href="./fare.html">
+        <a href="./fare.php">
           <i class="bx bx-dollar"></i>
           <span class="link_name">Fare</span>
         </a>
         <span class="tooltip">Fare</span>
       </li>
       <li>
-        <a href="./setting.html" id="settings-link">
+        <a href="./setting.php" id="settings-link">
           <i class="bx bx-cog"></i>
           <span class="link_name">Settings</span>
         </a>
@@ -75,7 +84,7 @@
                 font-family: Rubik, system-ui;
               "
             >
-              Welcome Username!
+            Welcome <?php echo htmlspecialchars($acc_name); ?>
             </h5>
           </div>
           <div class="top-icons">
@@ -103,16 +112,9 @@
                     <option>Today</option>
                     <option>This Week</option>
                     <option>This Month</option>
-                    <option>This Year</optin>
+                    <option>This Year</option>
                 </select>
              </div>
-             <div class="combobox">
-              <select>
-                  <option>All status</option>
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-              </select>
-           </div>
             </div>
             <div class="grow1">
             </div>
@@ -126,20 +128,22 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Plate No.</th>
-                        <th>Capacity</th>
-                        <th>Route</th>
-                        <th>Status</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>PWN-c0d3</td>
-                        <td>50</td>
-                        <td>Route 1</td>
-                        <td>Active</td>
+                        <td>Fzkn4</td>
+                        <td>mid</td>
+                        <td>PWNagdait</td>
+                        <td>PWNagdait@gmail.com</td>
+                        <td>09123232</td>
                         <td>
                             <div class="action-icons">
                               <img src="./img/edit.png" alt="edit">

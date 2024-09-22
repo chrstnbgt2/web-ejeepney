@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION['acc_name'])) {
+    $acc_name = $_SESSION['acc_name'];
+} else {
+    $acc_name = "Guest";  
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,21 +28,21 @@
       </div>
       <ul class="nav-list" style="margin-top: 40px">
         <li>
-          <a href="./index.html">
+          <a href="./index.php">
             <i class="bx bx-grid-alt"></i>
             <span class="link_name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
         </li>
         <li>
-          <a href="./jeepneys.html">
+          <a href="./jeepneys.php">
             <i class="bx bx-car"></i>
             <span class="link_name">Jeepneys</span>
           </a>
           <span class="tooltip">Jeepneys</span>
         </li>
         <li>
-          <a href="./drivers.html" style="height: 34px;">
+          <a href="./drivers.php" style="height: 34px;">
             <img
               src="./img/driver.png"
               style="width: 21px; height: 21px; margin-left: 14.5px"
@@ -43,21 +52,21 @@
           <span class="tooltip">Driver</span>
         </li>
         <li>
-          <a href="./user.html">
+          <a href="./user.php">
             <i class="bx bx-user"></i>
             <span class="link_name">User</span>
           </a>
           <span class="tooltip">User</span>
         </li>
         <li>
-          <a href="./fare.html">
+          <a href="./fare.php">
             <i class="bx bx-dollar"></i>
             <span class="link_name">Fare</span>
           </a>
           <span class="tooltip">Fare</span>
         </li>
         <li>
-          <a href="./setting.html" id="settings-link">
+          <a href="./setting.php" id="settings-link">
             <i class="bx bx-cog"></i>
             <span class="link_name">Settings</span>
           </a>
@@ -78,8 +87,8 @@
                   color: white;
                   font-family: Rubik, system-ui;
                 "
-              >
-                Welcome Username!
+              > 
+              Welcome <?php echo htmlspecialchars($acc_name); ?>
               </h5>
             </div>
             <div class="top-icons">
@@ -274,3 +283,4 @@
     <script src="./script.js"></script>
   </body>
 </html>
+
