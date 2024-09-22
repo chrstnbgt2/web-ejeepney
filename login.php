@@ -20,22 +20,30 @@
                 <img src="img/logo-login.png" alt="Logo" class="logo" style="padding-bottom: 10px;">
             </div>
             <h2 style="margin-top: -20px;" style="font-family: Rubik, system-ui;">ADMIN LOGIN</h2>
-            <form action ="./db.php" method="POST">
+
+            <?php if (isset($_GET['error'])): ?>
+                <div style="color: red; text-align: center; font-weight:bolder; margin-bottom: 10px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                Login failed. Check your credentials and try again.
+                </div>
+            <?php endif; ?>
+
+            <form action="./php/checklogin.php" method="POST">
                 <div class="input-container">
                     <i class="fas fa-user icon"></i>
-                    <input type="email" placeholder="Email" required >
+                    <input type="text" name="email" placeholder="Email" required>
                 </div>
                 <div class="input-container">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" name="password" placeholder="Password" required>
                     <i class="fas fa-eye-slash toggle-password"></i>
                 </div>
-                <button type="submit" class="login-button">LOG IN</button>
-            </form>
+                <input type="submit" class="login-button" value="LOGIN">
+            </form>            
             <a href="#" class="forgot-password">Forget Password?</a>
         </div>
     </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
