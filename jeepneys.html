@@ -1,16 +1,7 @@
-<?php
-session_start();
-if (isset($_SESSION['acc_name'])) {
-    $acc_name = $_SESSION['acc_name'];
-} else {
-    $acc_name = "Guest";  
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Drivers</title>
+  <title>Jeepneys</title>
   <!-- Link Styles -->
   <link rel="stylesheet" href="./css/jeepneys.css">
   <link rel="stylesheet" href="./css/style.css">
@@ -26,42 +17,42 @@ if (isset($_SESSION['acc_name'])) {
     </div>
     <ul class="nav-list" style="margin-top: 40px;">
       <li>
-        <a href="./index.php">
+        <a href="./index.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
         <span class="tooltip">Dashboard</span>
       </li>
       <li>
-        <a href="./jeepneys.php">
+        <a href="./jeepneys.html">
           <i class="bx bx-car"></i>
           <span class="link_name">Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.php"style="height: 34px;">
+        <a href="./drivers.html" style="height: 34px;">
           <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;">
           <span class="link_name">Driver</span>
         </a>
         <span class="tooltip">Driver</span>
       </li>
       <li>
-        <a href="./user.php">
+        <a href="./user.html">
           <i class="bx bx-user"></i>
           <span class="link_name">User</span>
         </a>
         <span class="tooltip">User</span>
       </li>
       <li>
-        <a href="./fare.php">
+        <a href="./fare.html">
           <i class="bx bx-dollar"></i>
           <span class="link_name">Fare</span>
         </a>
         <span class="tooltip">Fare</span>
       </li>
       <li>
-        <a href="./setting.php" id="settings-link">
+        <a href="./setting.html" id="settings-link">
           <i class="bx bx-cog"></i>
           <span class="link_name">Settings</span>
         </a>
@@ -84,12 +75,12 @@ if (isset($_SESSION['acc_name'])) {
                 font-family: Rubik, system-ui;
               "
             >
-            Welcome <?php echo htmlspecialchars($acc_name); ?>
+            Welcome
             </h5>
           </div>
           <div class="top-icons">
             <button style="width: 40px; height: 40px; margin-right: 10px">
-              <a href="./login.php">
+              <a href="./login.html">
                 <img
                   src="./img/account.png"
                   style="height: 100%; width: 100%"
@@ -112,9 +103,16 @@ if (isset($_SESSION['acc_name'])) {
                     <option>Today</option>
                     <option>This Week</option>
                     <option>This Month</option>
-                    <option>This Year</option>
+                    <option>This Year</optin>
                 </select>
              </div>
+             <div class="combobox">
+              <select>
+                  <option>All status</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+              </select>
+           </div>
             </div>
             <div class="grow1">
             </div>
@@ -128,22 +126,20 @@ if (isset($_SESSION['acc_name'])) {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
+                        <th>Plate No.</th>
+                        <th>Capacity</th>
+                        <th>Route</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Fzkn4</td>
-                        <td>mid</td>
-                        <td>PWNagdait</td>
-                        <td>PWNagdait@gmail.com</td>
-                        <td>09123232</td>
+                        <td>PWN-c0d3</td>
+                        <td>50</td>
+                        <td>Route 1</td>
+                        <td>Active</td>
                         <td>
                             <div class="action-icons">
                               <img src="./img/edit.png" alt="edit">

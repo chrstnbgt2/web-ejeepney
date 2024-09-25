@@ -21,12 +21,6 @@
             </div>
             <h2 style="margin-top: -20px;" style="font-family: Rubik, system-ui;">ADMIN LOGIN</h2>
 
-            <?php if (isset($_GET['error'])): ?>
-                <div style="color: red; text-align: center; font-weight:bolder; margin-bottom: 10px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-                Login failed. Check your credentials and try again.
-                </div>
-            <?php endif; ?>
-
             <form action="./php/checklogin.php" method="POST">
                 <div class="input-container">
                     <i class="fas fa-user icon"></i>

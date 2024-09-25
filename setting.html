@@ -1,15 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['acc_name'])) {
-  $acc_name = $_SESSION['acc_name'];
-} else {
-  $acc_name = "Guest";
-}
-
-$error = isset($_GET['error']) ? $_GET['error'] : '';
-$success = isset($_GET['success']) ? $_GET['success'] : '';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,21 +19,21 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
     </div>
     <ul class="nav-list" style="margin-top: 40px">
       <li>
-        <a href="./index.php">
+        <a href="./index.html">
           <i class="bx bx-grid-alt"></i>
           <span class="link_name">Dashboard</span>
         </a>
         <span class="tooltip">Dashboard</span>
       </li>
       <li>
-        <a href="./jeepneys.php">
+        <a href="./jeepneys.html">
           <i class="bx bx-car"></i>
           <span class="link_name">Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.php" style="height: 34px;">
+        <a href="./drivers.html" style="height: 34px;">
           <img
             src="./img/driver.png"
             style="width: 21px; height: 21px; margin-left: 14.5px" />
@@ -54,21 +42,21 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
         <span class="tooltip">Driver</span>
       </li>
       <li>
-        <a href="./user.php">
+        <a href="./user.html">
           <i class="bx bx-user"></i>
           <span class="link_name">User</span>
         </a>
         <span class="tooltip">User</span>
       </li>
       <li>
-        <a href="./fare.php">
+        <a href="./fare.html">
           <i class="bx bx-dollar"></i>
           <span class="link_name">Fare</span>
         </a>
         <span class="tooltip">Fare</span>
       </li>
       <li>
-        <a href="./setting.php" id="settings-link">
+        <a href="./setting.html" id="settings-link">
           <i class="bx bx-cog"></i>
           <span class="link_name">Settings</span>
         </a>
@@ -89,12 +77,12 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
                   color: white;
                   font-family: Rubik, system-ui;
                 ">
-              Welcome <?php echo htmlspecialchars($acc_name); ?>
+              Welcome
             </h5>
           </div>
           <div class="top-icons">
             <button style="width: 40px; height: 40px; margin-right: 10px">
-              <a href="./login.php">
+              <a href="./login.html">
                 <img
                   src="./img/account.png"
                   style="height: 100%; width: 100%" />
@@ -107,26 +95,13 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
         </div>
       </div>
       <div class="body">
-      <div id="message" class="message <?php echo $error ? 'error' : ($success ? 'success' : 'hidden'); ?>">
-    <?php
-      if ($error) {
-        if ($error == 'password_mismatch') {
-          echo "Passwords do not match!";
-        } elseif ($error == 'invalid_credentials') {
-          echo "Invalid credentials!";
-        } elseif ($error == 'update_failed') {
-          echo "Failed to update password!";
-        }
-      } elseif ($success) {
-        echo "Password updated successfully!";
-      }
-    ?>
+      <div id="message" class="message">
   </div>
         <section class="settings-container">
           <div class="text">
             <h5>Account Settings</h5>
           </div>
-          <form id="accountForm" action="./php/update_account.php" method="POST" class="form-group">
+          <form id="accountForm" action="" method="POST" class="form-group">
             <div class="username">
               <h4>Username</h4>
               <input type="text" name="username" class="in" required />
@@ -154,36 +129,6 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
   </section>
   </section>
   <!-- Scripts -->
-  <script>
-    window.onload = function() {
-      var message = document.getElementById('message');
-      var error = "<?php echo $error; ?>"; 
-      var success = "<?php echo $success; ?>"; 
-
-      if (error) {
-        message.innerHTML = error === 'password_mismatch' ? 'Passwords do not match!' :
-                            error === 'invalid_credentials' ? 'Invalid credentials!' :
-                            error === 'update_failed' ? 'Failed to update password!' : '';
-        message.classList.add('error');
-        message.style.display = 'block';
-      } else if (success) {
-        message.innerHTML = 'Password updated successfully!';
-        message.classList.add('success');
-        message.style.display = 'block';
-      }
-
-      if (message.innerHTML.trim() !== "") {
-        setTimeout(function() {
-          message.style.opacity = '0';
-
-          setTimeout(function() {
-            message.style.display = 'none'; 
-          }, 500); 
-        }, 3000); 
-      }
-    };
-  </script>
-
 
   <script src="./script.js"></script>
 </body>

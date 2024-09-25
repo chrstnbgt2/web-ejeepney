@@ -1,12 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['acc_name'])) {
-    $acc_name = $_SESSION['acc_name'];
-} else {
-    $acc_name = "Guest";  
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,21 +20,21 @@ if (isset($_SESSION['acc_name'])) {
       </div>
       <ul class="nav-list" style="margin-top: 40px">
         <li>
-          <a href="./index.php">
+          <a href="./index.html">
             <i class="bx bx-grid-alt"></i>
             <span class="link_name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
         </li>
         <li>
-          <a href="./jeepneys.php">
+          <a href="./jeepneys.html">
             <i class="bx bx-car"></i>
             <span class="link_name">Jeepneys</span>
           </a>
           <span class="tooltip">Jeepneys</span>
         </li>
         <li>
-          <a href="./drivers.php" style="height: 34px;">
+          <a href="./drivers.html" style="height: 34px;">
             <img
               src="./img/driver.png"
               style="width: 21px; height: 21px; margin-left: 14.5px"
@@ -53,21 +44,21 @@ if (isset($_SESSION['acc_name'])) {
           <span class="tooltip">Driver</span>
         </li>
         <li>
-          <a href="./user.php">
+          <a href="./user.html">
             <i class="bx bx-user"></i>
             <span class="link_name">User</span>
           </a>
           <span class="tooltip">User</span>
         </li>
         <li>
-          <a href="./fare.php">
+          <a href="./fare.html">
             <i class="bx bx-dollar"></i>
             <span class="link_name">Fare</span>
           </a>
           <span class="tooltip">Fare</span>
         </li>
         <li>
-          <a href="./setting.php" id="settings-link">
+          <a href="./setting.html" id="settings-link">
             <i class="bx bx-cog"></i>
             <span class="link_name">Settings</span>
           </a>
@@ -89,12 +80,12 @@ if (isset($_SESSION['acc_name'])) {
                   font-family: Rubik, system-ui;
                 "
               >
-              Welcome <?php echo htmlspecialchars($acc_name); ?>
+              Welcome 
               </h5>
             </div>
             <div class="top-icons">
               <button style="width: 40px; height: 40px; margin-right: 10px">
-                <a href="./login.php">
+                <a href="./login.html">
                   <img
                     src="./img/account.png"
                     style="height: 100%; width: 100%"
