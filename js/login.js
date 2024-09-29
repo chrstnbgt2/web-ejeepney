@@ -16,7 +16,7 @@ const firebaseConfig = {
   
     function get() {
         var email = document.getElementById('email').value
-        var password = document.getElementById('email').value
+        var password = document.getElementById('password').value
       
         var user_ref = database.ref('users/' + email)
         user_ref.on('value', function(snapshot) {

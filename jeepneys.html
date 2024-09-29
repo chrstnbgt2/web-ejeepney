@@ -9,6 +9,56 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
+
+
+
+
+
+  <div class="info-jeep-container" style="display: none;">
+    <section class="add-container">
+      <div class="text">
+        <h1>Jeepney Information</h1>
+        <i class="bx bx-x close-icon"></i>
+      </div>
+          <div class="form-group">
+           <div class="semi-con">
+            <div class="jeep-plate">
+              <h4>Plate No. :</h4>
+              <input type="text" name="plate-jeep" class="in" required />
+            </div>
+            <div class="jeep-capacity">
+              <h4>Capacity :</h4>
+              <input type="text" name="capacity-jeep" class="in" required />
+            </div>
+            <div class="jeep-route">
+              <h4>Route :</h4>
+              <input type="text" name="route-jeep" class="in" required />
+            </div>
+            <div class="jeep-status">
+              <h4>Status :</h4>
+              <input type="text" name="status-jeep" class="in" required />
+            </div>
+            <br>
+            <input type="submit" class="jeep-save" value="SAVE">
+          </div>
+        </div>
+        </section>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="sidebar">
     <div class="logo_details" style="margin-top: 20px;">
       <img src="./img/logo.png" alt="" class="jeepney-logo">
@@ -120,6 +170,7 @@
               <button class="add-button"><img src="./img/plus.png" alt=""><p>Add</p></button>
             </div>
           </section>
+
           <!-- table -->
           <div class="table-container">
             <table>
@@ -155,7 +206,22 @@
       </div>
     </section>
   </section>
+  
   <!-- Scripts -->
-  <script src="./script.js"></script>
+  <script src="./js/script.js"></script>
+
+  <script>
+    const addButton = document.querySelector('.add-button');
+    const closeIcon = document.querySelector('.close-icon');
+    const jeepContainer = document.querySelector('.info-jeep-container');
+  
+    addButton.addEventListener('click', () => {
+      jeepContainer.style.display = 'flex'; 
+    });
+    closeIcon.addEventListener('click', () => {
+      jeepContainer.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>

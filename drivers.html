@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
 </head>
 <body>
   <div class="sidebar">
@@ -127,23 +128,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Fzkn4</td>
-                        <td>mid</td>
-                        <td>PWNagdait</td>
-                        <td>PWNagdait@gmail.com</td>
-                        <td>09123232</td>
-                        <td>
-                            <div class="action-icons">
-                              <img src="./img/edit.png" alt="edit">
-                              <img src="./img/trash-bin.png" alt="delete">
-                              <img src="./img/more.png" alt="more">
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="dataTableBody"></tbody>
             </table>
         </div>
         </div>
@@ -151,6 +136,9 @@
     </section>
   </section>
   <!-- Scripts -->
-  <script src="./script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="./js/script.js"></script>
+  <script src="./js/drivers.js"></script>
 </body>
 </html>
