@@ -10,6 +10,82 @@
   
 </head>
 <body>
+
+
+
+
+
+
+
+
+  
+  <div class="info-jeep-container">
+    <section class="add-container">
+      <div class="text" style="margin-top: 5px;">
+        <h1>Driver Information</h1>
+        <i class="bx bx-x close-icon"></i>
+      </div>
+    <div class="info-con" style="margin-left: 12%;">
+      <div class="driver-fname" style="display: flex; flex-direction: row; margin-top: 30px;">
+        <div class="in-driver"">
+          <h5>First Name</h5>
+          <input type="text" name="driver-fname" class="in" required style="width: 15vw;">
+        </div>
+        <div class="in-driver">
+          <h5>Middle Name</h5>
+          <input type="text" name="driver-mname" class="in" required style="width: 15vw;">
+        </div>
+        <div class="in-driver">
+          <h5>Last Name</h5>
+          <input type="text" name="driver-lname" class="in" required style="width: 15vw;">
+        </div>
+      </div>
+
+      <div class="other-info" style="margin-top: 10px;">
+        <h5>Email</h5>
+        <input type="text" name="driver-email" class="in" required" style="margin-bottom: 20px;">
+        <h5>Phone Number</h5>
+        <input type="text" name="driver-phone" class="in" required" style="margin-bottom: 20px;">
+        <h5>Password</h5>
+        <input type="text" name="driver-password" class="in" required" style="margin-bottom: 20px;">
+      </div>
+      <div class="button-con" style="text-align: center;">
+    <input type="submit" class="jeep-save" value="SAVE">
+  </div>
+  </div>
+        </section>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="sidebar">
     <div class="logo_details" style="margin-top: 20px;">
       <img src="./img/logo.png" alt="" class="jeepney-logo">
@@ -140,5 +216,21 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="./js/script.js"></script>
   <script src="./js/drivers.js"></script>
+
+  <script src="./js/script.js"></script>
+
+  <script>
+    const addButton = document.querySelector('.add-button');
+    const closeIcon = document.querySelector('.close-icon');
+    const jeepContainer = document.querySelector('.info-jeep-container');
+  
+    addButton.addEventListener('click', () => {
+      jeepContainer.style.display = 'flex'; 
+    });
+    closeIcon.addEventListener('click', () => {
+      jeepContainer.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>

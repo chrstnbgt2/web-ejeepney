@@ -560,3 +560,7 @@ tbody tr:hover {
 }
 
 /*ADD DRIVER*/
+.info-con{
+  display: flex;
+  flex-direction: row;
+}

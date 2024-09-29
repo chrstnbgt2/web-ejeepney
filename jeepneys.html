@@ -184,22 +184,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>PWN-c0d3</td>
-                        <td>50</td>
-                        <td>Route 1</td>
-                        <td>Active</td>
-                        <td>
-                            <div class="action-icons">
-                              <img src="./img/edit.png" alt="edit">
-                              <img src="./img/trash-bin.png" alt="delete">
-                              <img src="./img/more.png" alt="more">
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="dataTableBody"></tbody>
             </table>
         </div>
         </div>
@@ -208,7 +193,10 @@
   </section>
   
   <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="./js/script.js"></script>
+  <script src="./js/jeepneys.js"></script>
 
   <script>
     const addButton = document.querySelector('.add-button');
