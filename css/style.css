@@ -278,6 +278,30 @@ body {
   background: none;
 }
 
+/* active tab*/
+#active::after
+{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  background-color: var(--color-white);
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+  transform-origin: left;
+  z-index: -2;
+  transform: scaleX(1);
+  color:var(--color-default)
+}
+
+#active-name, #active-icon, #active
+{
+  transform: scaleX(1);
+  color: var(--color-default);
+}
+/* active tab ends */
+
 .home-section {
   position: relative;
   background-color: white;

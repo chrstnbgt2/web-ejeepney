@@ -1,13 +1,13 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyAbKR42baFMFZSKbE63pr8cKE8IJ-6iVeY",
-    authDomain: "e-jeepney-8fe2e.firebaseapp.com",
-    databaseURL: "https://e-jeepney-8fe2e-default-rtdb.firebaseio.com",
-    projectId: "e-jeepney-8fe2e",
-    storageBucket: "e-jeepney-8fe2e.appspot.com",
-    messagingSenderId: "70390538365",
-    appId: "1:70390538365:web:59ffb8bac69c67db491114",
-    measurementId: "G-VJH1K6M4T2"
-  };
+  apiKey: "AIzaSyAbKR42baFMFZSKbE63pr8cKE8IJ-6iVeY",
+  authDomain: "e-jeepney-8fe2e.firebaseapp.com",
+  databaseURL: "https://e-jeepney-8fe2e-default-rtdb.firebaseio.com",
+  projectId: "e-jeepney-8fe2e",
+  storageBucket: "e-jeepney-8fe2e.appspot.com",
+  messagingSenderId: "70390538365",
+  appId: "1:70390538365:web:59ffb8bac69c67db491114",
+  measurementId: "G-VJH1K6M4T2"
+};
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -50,4 +50,29 @@ const firebaseConfig = {
       tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
     }
   });
+
+  function save() {
+    var firstName= document.getElementById('fname').value
+    var middleName = document.getElementById('mname').value
+    var lastName = document.getElementById('lname').value
+    var email = document.getElementById('email').value
+    var phoneNumber = document.getElementById('phoneNumber').value
+    var password = document.getElementById('password').value
+    const jeepContainer = document.querySelector('.info-jeep-container');
+  if (firstName !== "" || middleName !== "" || lastName !== "" || email !== "" || phoneNumber !== "" || password !== ""){
+      database.ref('drivers/').push({
+        firstName : firstName,
+        middleName : middleName,
+        lastName : lastName,
+        email : email,
+        phone : phoneNumber,
+        password : password,
+      })
+      jeepContainer.style.display = 'none';
+      alert('Saved')
+  } else{
+    jeepContainer.style.display = 'none';
+    alert("Please fill up all the input")
+  }
+}
   

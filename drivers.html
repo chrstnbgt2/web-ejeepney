@@ -7,18 +7,12 @@
   <link rel="stylesheet" href="./css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
   
 </head>
 <body>
 
-
-
-
-
-
-
-
-  
+  <!-- POP-UP WINDOW FORM -->
   <div class="info-jeep-container" style="display: none;">
     <section class="add-container">
       <div class="text" style="margin-top: 5px;">
@@ -29,63 +23,35 @@
       <div class="driver-fname" style="display: flex; flex-direction: row; margin-top: 30px;">
         <div class="in-driver"">
           <h5>First Name</h5>
-          <input type="text" name="driver-fname" class="in" required style="width: 15vw;">
+          <input type="text" name="driver-fname" class="in" required style="width: 15vw;" id="fname">
         </div>
         <div class="in-driver">
           <h5>Middle Name</h5>
-          <input type="text" name="driver-mname" class="in" required style="width: 15vw;">
+          <input type="text" name="driver-mname" class="in" required style="width: 15vw;" id="mname">
         </div>
         <div class="in-driver">
           <h5>Last Name</h5>
-          <input type="text" name="driver-lname" class="in" required style="width: 15vw;">
+          <input type="text" name="driver-lname" class="in" required style="width: 15vw;" id="lname">
         </div>
       </div>
 
       <div class="other-info" style="margin-top: 10px;">
         <h5>Email</h5>
-        <input type="text" name="driver-email" class="in" required" style="margin-bottom: 20px;">
+        <input type="text" name="driver-email" class="in" required" style="margin-bottom: 20px;" id="email">
         <h5>Phone Number</h5>
-        <input type="text" name="driver-phone" class="in" required" style="margin-bottom: 20px;">
+        <input type="text" name="driver-phone" class="in" required" style="margin-bottom: 20px;" id="phoneNumber">
         <h5>Password</h5>
-        <input type="text" name="driver-password" class="in" required" style="margin-bottom: 20px;">
+        <input type="text" name="driver-password" class="in" required" style="margin-bottom: 20px;" id="password">
       </div>
       <div class="button-con" style="text-align: center;">
-    <input type="submit" class="jeep-save" value="SAVE">
+    <input type="submit" class="jeep-save" value="SAVE" onclick=save()>
   </div>
   </div>
         </section>
   </div>
+<!-- POP-UP WINDOW FORM ENDS -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- SIDE BAR -->
   <div class="sidebar">
     <div class="logo_details" style="margin-top: 20px;">
       <img src="./img/logo.png" alt="" class="jeepney-logo">
@@ -101,16 +67,17 @@
         <span class="tooltip">Dashboard</span>
       </li>
       <li>
-        <a href="./jeepneys.html">
-          <i class="bx bx-car"></i>
-          <span class="link_name">Jeepneys</span>
+        <a href="./jeepneys.html" >
+          <i class="bx bx-car" ></i>
+          <span class="link_name" >Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.html"style="height: 34px;">
-          <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;">
-          <span class="link_name">Driver</span>
+        <a href="./drivers.html"style="height: 34px;" id="active">
+          <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
+          <i class="fi fi-br-driver-man" id="active-icon"></i>
+          <span class="link_name" id="active-name">Driver</span>
         </a>
         <span class="tooltip">Driver</span>
       </li>
@@ -138,6 +105,7 @@
       
     </ul>
   </div>
+  <!-- SIDE BAR ENDS  -->
   <section class="home-section">
     <section class="layout">
       <div class="header">

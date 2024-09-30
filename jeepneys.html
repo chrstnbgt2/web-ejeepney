@@ -7,14 +7,12 @@
   <link rel="stylesheet" href="./css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+
 </head>
 <body>
 
-
-
-
-
-
+  <!-- POP-UP WINDOW FORM -->
   <div class="info-jeep-container" style="display: none;">
     <section class="add-container">
       <div class="text">
@@ -25,92 +23,84 @@
            <div class="semi-con">
             <div class="jeep-plate">
               <h4>Plate No. :</h4>
-              <input type="text" name="plate-jeep" class="in" required />
+              <input type="text" name="plate-jeep" class="in" required id="plateNumber"/>
             </div>
             <div class="jeep-capacity">
               <h4>Capacity :</h4>
-              <input type="text" name="capacity-jeep" class="in" required />
+              <input type="text" name="capacity-jeep" class="in" required id="capacity"/>
             </div>
             <div class="jeep-route">
               <h4>Route :</h4>
-              <input type="text" name="route-jeep" class="in" required />
+              <input type="text" name="route-jeep" class="in" required id="route"/>
             </div>
             <div class="jeep-status">
               <h4>Status :</h4>
-              <input type="text" name="status-jeep" class="in" required />
+              <input type="text" name="status-jeep" class="in" required id="status"/>
             </div>
             <br>
-            <input type="submit" class="jeep-save" value="SAVE">
+            <input type="submit" class="jeep-save" value="SAVE" onclick=save()>
           </div>
         </div>
         </section>
   </div>
+<!-- POP-UP WINDOW FORM ENDS -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="sidebar">
-    <div class="logo_details" style="margin-top: 20px;">
-      <img src="./img/logo.png" alt="" class="jeepney-logo">
-      <div class="logo_name">E-JeepPay</div>
-      <i class="bx bx-menu" id="btn"></i>
-    </div>
-    <ul class="nav-list" style="margin-top: 40px;">
-      <li>
-        <a href="./index.html">
-          <i class="bx bx-grid-alt"></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-        <span class="tooltip">Dashboard</span>
-      </li>
-      <li>
-        <a href="./jeepneys.html">
-          <i class="bx bx-car"></i>
-          <span class="link_name">Jeepneys</span>
-        </a>
-        <span class="tooltip">Jeepneys</span>
-      </li>
-      <li>
-        <a href="./drivers.html" style="height: 34px;">
-          <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;">
-          <span class="link_name">Driver</span>
-        </a>
-        <span class="tooltip">Driver</span>
-      </li>
-      <li>
-        <a href="./user.html">
-          <i class="bx bx-user"></i>
-          <span class="link_name">User</span>
-        </a>
-        <span class="tooltip">User</span>
-      </li>
-      <li>
-        <a href="./fare.html">
-          <i class="bx bx-dollar"></i>
-          <span class="link_name">Fare</span>
-        </a>
-        <span class="tooltip">Fare</span>
-      </li>
-      <li>
-        <a href="./setting.html" id="settings-link">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Settings</span>
-        </a>
-        <span class="tooltip">Settings</span>
-      </li>
-      
-    </ul>
+ <!-- SIDE BAR -->
+ <div class="sidebar">
+  <div class="logo_details" style="margin-top: 20px;">
+    <img src="./img/logo.png" alt="" class="jeepney-logo">
+    <div class="logo_name">E-JeepPay</div>
+    <i class="bx bx-menu" id="btn"></i>
   </div>
+  <ul class="nav-list" style="margin-top: 40px;">
+    <li>
+      <a href="./index.html">
+        <i class="bx bx-grid-alt"></i>
+        <span class="link_name">Dashboard</span>
+      </a>
+      <span class="tooltip">Dashboard</span>
+    </li>
+    <li>
+      <a href="./jeepneys.html" id="active">
+        <i class="bx bx-car" id="active-icon"></i>
+        <span class="link_name" id="active-name">Jeepneys</span>
+      </a>
+      <span class="tooltip">Jeepneys</span>
+    </li>
+    <li>
+      <a href="./drivers.html"style="height: 34px;" >
+        <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
+        <i class="fi fi-br-driver-man"></i>
+        <span class="link_name" >Driver</span>
+      </a>
+      <span class="tooltip">Driver</span>
+    </li>
+    <li>
+      <a href="./user.html">
+        <i class="bx bx-user"></i>
+        <span class="link_name">User</span>
+      </a>
+      <span class="tooltip">User</span>
+    </li>
+    <li>
+      <a href="./fare.html">
+        <i class="bx bx-dollar"></i>
+        <span class="link_name">Fare</span>
+      </a>
+      <span class="tooltip">Fare</span>
+    </li>
+    <li>
+      <a href="./setting.html" id="settings-link">
+        <i class="bx bx-cog"></i>
+        <span class="link_name">Settings</span>
+      </a>
+      <span class="tooltip">Settings</span>
+    </li>
+  </ul>
+</div>
+<!-- SIDE BAR ENDS -->
+
+  <!-- BODY  -->
   <section class="home-section">
     <section class="layout">
       <div class="header">

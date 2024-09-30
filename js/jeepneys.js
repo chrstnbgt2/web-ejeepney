@@ -49,4 +49,25 @@ const firebaseConfig = {
       tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
     }
   });
+
+  function save() {
+    var capacity = document.getElementById('capacity').value
+    var plateNumber = document.getElementById('plateNumber').value
+    var route = document.getElementById('route').value
+    var status = document.getElementById('status').value
+    const jeepContainer = document.querySelector('.info-jeep-container');
+  if (capacity !== "" || plateNumber !== "" || route !== "" || status !== ""){
+      database.ref('jeepneys/').push({
+        capacity : capacity,
+        plateNumber : plateNumber,
+        route : route,
+        status : status,
+      })
+      jeepContainer.style.display = 'none';
+      alert('Saved')
+  } else{
+    jeepContainer.style.display = 'none';
+    alert("Please fill up all the input")
+  }
+}
   
