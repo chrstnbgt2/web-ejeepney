@@ -6,7 +6,7 @@ const firebaseConfig = {
   storageBucket: "e-jeepney-8fe2e.appspot.com",
   messagingSenderId: "70390538365",
   appId: "1:70390538365:web:59ffb8bac69c67db491114",
-  measurementId: "G-VJH1K6M4T2"
+  measurementId: "G-VJH1K6M4T2",
 };
 
 // Initialize Firebase
@@ -18,10 +18,10 @@ const jeepneyRef = database.ref("jeepneys");
 let currentData = {};
 
 // Reference the search input element
-const searchInput = document.querySelector('.search-input');
+const searchInput = document.querySelector(".search-input");
 
 // Add event listener for search input outside of Firebase data retrieval
-searchInput.addEventListener('input', () => {
+searchInput.addEventListener("input", () => {
   const searchTerm = searchInput.value.trim().toLowerCase();
   renderJeepneyData(currentData, searchTerm);
 });
@@ -42,15 +42,15 @@ function renderJeepneyData(data, searchTerm = "") {
     for (let id in data) {
       const jeepney = data[id];
 
-      const plateNumber = (jeepney.plateNumber || '').toString().toLowerCase();
-      const capacity = (jeepney.capacity || '').toString().toLowerCase();
-      const route = (jeepney.route || '').toString().toLowerCase();
-      const status = (jeepney.status || '').toString().toLowerCase();
+      const plateNumber = (jeepney.plateNumber || "").toString().toLowerCase();
+      const capacity = (jeepney.capacity || "").toString().toLowerCase();
+      const route = (jeepney.route || "").toString().toLowerCase();
+      const status = (jeepney.status || "").toString().toLowerCase();
 
       // Check if the search term matches any of the fields
       if (
-        searchTerm === "" ||  // If searchTerm is empty, show all data
-        plateNumber.includes(searchTerm) || 
+        searchTerm === "" || // If searchTerm is empty, show all data
+        plateNumber.includes(searchTerm) ||
         capacity.includes(searchTerm) ||
         route.includes(searchTerm) ||
         status.includes(searchTerm)
@@ -59,10 +59,10 @@ function renderJeepneyData(data, searchTerm = "") {
         const row = `
           <tr data-id="${id}">
             <td>${id}</td>
-            <td>${jeepney.plateNumber || ''}</td>
-            <td>${jeepney.capacity || ''}</td>
-            <td>${jeepney.route || ''}</td>
-            <td>${jeepney.status || ''}</td>
+            <td>${jeepney.plateNumber || ""}</td>
+            <td>${jeepney.capacity || ""}</td>
+            <td>${jeepney.route || ""}</td>
+            <td>${jeepney.status || ""}</td>
             <td>
               <div class="action-icons">
                 <img src="./img/edit.png" alt="edit" class="edit-icon">
@@ -78,57 +78,76 @@ function renderJeepneyData(data, searchTerm = "") {
     tbody.innerHTML = "<tr><td colspan='6'>No data available</td></tr>";
   }
 }
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const infoJeepContainer = document.getElementById("editJeepContainer");
   const viewJeepContainer = document.getElementById("viewJeepContainer");
   const editCloseIcon = document.getElementById("editCloseIcon");
   const viewCloseIcon = document.getElementById("viewCloseIcon");
 
   // Event listener for the edit close icon
-  editCloseIcon.addEventListener("click", function() {
+  editCloseIcon.addEventListener("click", function () {
     infoJeepContainer.style.display = "none";
   });
 
   // Event listener for the view close icon
-  viewCloseIcon.addEventListener("click", function() {
+  viewCloseIcon.addEventListener("click", function () {
     viewJeepContainer.style.display = "none";
   });
 
   // Add event listener to the table body to handle click events on the edit, delete, and more icons
-  document.getElementById("dataTableBody").addEventListener("click", function(event) {
-    const row = event.target.closest("tr");
-    const jeepneyId = row ? row.getAttribute("data-id") : null;
+  const confirmDelete = document.querySelector(".confirm-delete");
+  document
+    .getElementById("dataTableBody")
+    .addEventListener("click", function (event) {
+      const row = event.target.closest("tr");
+      const jeepneyId = row ? row.getAttribute("data-id") : null;
+      const deleteContainer = document.querySelector(".delete-jeep-container");
 
-    if (event.target && event.target.classList.contains("edit-icon")) {
-      infoJeepContainer.style.display = 'flex';
-      // Populate the form with data from the clicked row
-      const cells = row.getElementsByTagName("td");
-      document.getElementById("plateNumber").value = cells[1].innerText;
-      document.getElementById("capacity").value = cells[2].innerText;
-      document.getElementById("route").value = cells[3].innerText;
-      document.getElementById("status").value = cells[4].innerText;
+      if (event.target && event.target.classList.contains("edit-icon")) {
+        infoJeepContainer.style.display = "flex";
+        // Populate the form with data from the clicked row
+        const cells = row.getElementsByTagName("td");
+        document.getElementById("plateNumber").value = cells[1].innerText;
+        document.getElementById("capacity").value = cells[2].innerText;
+        document.getElementById("route").value = cells[3].innerText;
+        document.getElementById("status").value = cells[4].innerText;
+      } else if (
+        event.target &&
+        event.target.classList.contains("delete-icon")
+      ) {
+        deleteContainer.style.display = "flex";
 
-    } else if (event.target && event.target.classList.contains("delete-icon")) {
-      if (jeepneyId && confirm("Are you sure you want to delete this record?")) {
-        // Delete the record from Firebase
-        jeepneyRef.child(jeepneyId).remove()
-          .then(() => {
-            alert("Record deleted successfully.");
-          })
-          .catch((error) => {
-            console.error("Error deleting record: ", error);
-          });
+        // Wait for confirmation button click to delete the record
+        const confirmDelete = document.querySelector(".confirm-delete");
+
+        confirmDelete.addEventListener(
+          "click",
+          () => {
+            if (jeepneyId) {
+              // Delete the record from Firebase
+              jeepneyRef
+                .child(jeepneyId)
+                .remove()
+                .then(() => {
+                  alert("Record deleted successfully.");
+                })
+                .catch((error) => {
+                  console.error("Error deleting record: ", error);
+                });
+            }
+            deleteContainer.style.display = "none";
+          },
+          { once: true }
+        );
+      } else if (event.target && event.target.alt === "more") {
+        // Show the view container with data populated
+        viewJeepContainer.style.display = "flex";
+        const cells = row.getElementsByTagName("td");
+        document.getElementById("plateNumber").value = cells[1].innerText;
+        document.getElementById("capacity").value = cells[2].innerText;
+        document.getElementById("route").value = cells[3].innerText;
+        document.getElementById("status").value = cells[4].innerText;
+        document.getElementById("driver").value = "Sample Driver"; // Populate the driver field as needed
       }
-
-    } else if (event.target && event.target.alt === "more") {
-      // Show the view container with data populated
-      viewJeepContainer.style.display = 'flex';
-      const cells = row.getElementsByTagName("td");
-      document.getElementById("plateNumber").value = cells[1].innerText;
-      document.getElementById("capacity").value = cells[2].innerText;
-      document.getElementById("route").value = cells[3].innerText;
-      document.getElementById("status").value = cells[4].innerText;
-      document.getElementById("driver").value = "Sample Driver";  // Populate the driver field as needed
-    }
-  });
+    });
 });

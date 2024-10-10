@@ -1,291 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Jeepneys</title>
-  <!-- Link Styles -->
-  <link rel="stylesheet" href="./css/jeepneys.css">
-  <link rel="stylesheet" href="./css/style.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-
-</head>
-<body>
-
-  <!-- POP-UP WINDOW FORM -->
-  <div class="info-jeep-container" style="display: none;">
-    <section class="add-container">
-      <div class="text">
-        <h1>Jeepney Information</h1>
-        <i class="bx bx-x close-icon"></i>
-      </div>
-          <div class="form-group">
-           <div class="semi-con">
+  <head>
+    <title>Jeepneys</title>
+    <!-- Link Styles -->
+    <link rel="stylesheet" href="./css/jeepneys.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+  </head>
+  <body>
+    <!-- POP-UP WINDOW FORM -->
+    <div class="info-jeep-container" style="display: none">
+      <section class="add-container">
+        <div class="text">
+          <h1>Jeepney Information</h1>
+          <i class="bx bx-x close-icon"></i>
+        </div>
+        <div class="form-group">
+          <div class="semi-con">
             <div class="jeep-plate">
               <h4>Plate No. :</h4>
-              <input type="text" name="plate-jeep" class="in" required id="plateNumber"/>
+              <input
+                type="text"
+                name="plate-jeep"
+                class="in"
+                required
+                id="plateNumber"
+              />
             </div>
             <div class="jeep-capacity">
               <h4>Capacity :</h4>
-              <input type="text" name="capacity-jeep" class="in" required id="capacity"/>
+              <input
+                type="text"
+                name="capacity-jeep"
+                class="in"
+                required
+                id="capacity"
+              />
             </div>
             <div class="jeep-route">
               <h4>Route :</h4>
-              <input type="text" name="route-jeep" class="in" required id="route"/>
+              <input
+                type="text"
+                name="route-jeep"
+                class="in"
+                required
+                id="route"
+              />
             </div>
             <div class="jeep-status">
               <h4>Status :</h4>
-              <input type="text" name="status-jeep" class="in" required id="status"/>
+              <input
+                type="text"
+                name="status-jeep"
+                class="in"
+                required
+                id="status"
+              />
             </div>
-            <br>
-            <input type="submit" class="jeep-save" value="SAVE" onclick=save()>
+            <br />
+            <input
+              type="submit"
+              class="jeep-save"
+              value="SAVE"
+              onclick="save()"
+            />
           </div>
         </div>
-        </section>
-  </div>
+      </section>
+    </div>
 
+    <!-- POP-UP DELETE CONFIRMATION WINDOW -->
+    <div class="delete-jeep-container" style="display: none">
+      <section class="add-container">
+        <div class="text">
+          <h1></h1>
+          <i class="bx bx-x delete-close-icon"></i>
+        </div>
+        <h1>Are you sure you want to delete this Jeepney?</h1>
+        <div class="container" style="padding: 20px; padding-bottom: 40px">
+          <button class="confirm-delete">Yes</button>
+          <button class="cancel-delete">No</button>
+        </div>
+      </section>
+    </div>
 
-  <!--EDIT-->
-<!-- EDIT -->
-<div class="edit-jeep-container" id="editJeepContainer" style="display: none;">
-  <section class="edit-container">
-      <div class="text">
+    <!--EDIT-->
+    <!-- EDIT -->
+    <div
+      class="edit-jeep-container"
+      id="editJeepContainer"
+      style="display: none"
+    >
+      <section class="edit-container">
+        <div class="text">
           <h1>Jeepney Information</h1>
-          <i class="bx bx-x close-icon" id="editCloseIcon"></i> <!-- Changed id to editCloseIcon -->
-      </div>
-      <div>
+          <i class="bx bx-x close-icon" id="editCloseIcon"></i>
+          <!-- Changed id to editCloseIcon -->
+        </div>
+        <div>
           <div class="form-group">
-              <div class="semi-con">
-                  <div class="jeep-plate">
-                      <h4>Plate No. :</h4>
-                      <input type="text" name="plate-jeep" class="in" required id="plateNumber" />
-                  </div>
-                  <div class="jeep-capacity">
-                      <h4>Capacity :</h4>
-                      <input type="text" name="capacity-jeep" class="in" required id="capacity" />
-                  </div>
-                  <div class="jeep-route">
-                      <h4>Route :</h4>
-                      <input type="text" name="route-jeep" class="in" required id="route" />
-                  </div>
-                  <div class="jeep-status">
-                      <h4>Status :</h4>
-                      <input type="text" name="status-jeep" class="in" required id="status" />
-                  </div>
-                  <div class="jeep-driver">
-                      <h4>Driver :</h4>
-                      <input type="text" name="driver-jeep" class="in" required id="driver" />
-                  </div>
-                  <br>
-                  <input type="submit" class="jeep-edit" value="EDIT" onclick="edit()" />
-              </div>
-          </div>
-      </div>
-  </section>
-</div>
-
-<!-- VIEW -->
-<div class="view-jeep-container" id="viewJeepContainer" style="display: none;">
-<section class="view-container">
-    <div class="text">
-        <h1>Jeepney Information</h1>
-        <i class="bx bx-x close-icon" id="viewCloseIcon"></i> <!-- Changed id to viewCloseIcon -->
-    </div>
-    <div>
-        <div class="form-group">
             <div class="semi-con">
-                <div class="jeep-plate">
-                    <h4>Plate No. :</h4>
-                    <input type="text" name="plate-view" class="in" required id="plateNumber" readonly />
-                </div>
-                <div class="jeep-capacity">
-                    <h4>Capacity :</h4>
-                    <input type="text" name="capacity-view" class="in" required id="capacity" readonly />
-                </div>
-                <div class="jeep-route">
-                    <h4>Route :</h4>
-                    <input type="text" name="route-view" class="in" required id="route" readonly />
-                </div>
-                <div class="jeep-status">
-                    <h4>Status :</h4>
-                    <input type="text" name="status-view" class="in" required id="status" readonly />
-                </div>
-                <div class="jeep-driver">
-                    <h4>Driver :</h4>
-                    <input type="text" name="driver-view" class="in" required id="driver" readonly />
-                </div>
-                <br>
-                <input type="submit" class="jeep-view" value="DONE" onclick="hideViewContainer()" />
-            </div>
-        </div>
-    </div>
-</section>
-</div>
-
-<!-- POP-UP WINDOW FORM ENDS -->
-
- <!-- SIDE BAR -->
- <div class="sidebar">
-  <div class="logo_details" style="margin-top: 20px;">
-    <img src="./img/logo.png" alt="" class="jeepney-logo">
-    <div class="logo_name">E-JeepPay</div>
-    <i class="bx bx-menu" id="btn"></i>
-  </div>
-  <ul class="nav-list" style="margin-top: 40px;">
-    <li>
-      <a href="./index.html">
-        <i class="bx bx-grid-alt"></i>
-        <span class="link_name">Dashboard</span>
-      </a>
-      <span class="tooltip">Dashboard</span>
-    </li>
-    <li>
-      <a href="./jeepneys.html" id="active">
-        <i class="bx bx-car" id="active-icon"></i>
-        <span class="link_name" id="active-name">Jeepneys</span>
-      </a>
-      <span class="tooltip">Jeepneys</span>
-    </li>
-    <li>
-      <a href="./drivers.html"style="height: 34px;" >
-        <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
-        <i class="fi fi-br-driver-man"></i>
-        <span class="link_name" >Driver</span>
-      </a>
-      <span class="tooltip">Driver</span>
-    </li>
-    <li>
-      <a href="./user.html">
-        <i class="bx bx-user"></i>
-        <span class="link_name">User</span>
-      </a>
-      <span class="tooltip">User</span>
-    </li>
-    <li>
-      <a href="./fare.html">
-        <i class="bx bx-dollar"></i>
-        <span class="link_name">Fare</span>
-      </a>
-      <span class="tooltip">Fare</span>
-    </li>
-    <li>
-      <a href="./setting.html" id="settings-link">
-        <i class="bx bx-cog"></i>
-        <span class="link_name">Settings</span>
-      </a>
-      <span class="tooltip">Settings</span>
-    </li>
-  </ul>
-</div>
-<!-- SIDE BAR ENDS -->
-
-  <!-- BODY  -->
-  <section class="home-section">
-    <section class="layout">
-      <div class="header">
-        <div class="container">
-          <input type="text" class="search-input">
-          <div class="topbar-user">
-            <h5
-              style="
-                margin-top: 0.9%;
-                font-size: 18px;
-                color: white;
-                font-family: Rubik, system-ui;
-              "
-            >
-            Welcome
-            </h5>
-          </div>
-          <div class="top-icons">
-            <button style="width: 40px; height: 40px; margin-right: 10px">
-              <a href="./login.html">
-                <img
-                  src="./img/account.png"
-                  style="height: 100%; width: 100%"
+              <div class="jeep-plate">
+                <h4>Plate No. :</h4>
+                <input
+                  type="text"
+                  name="plate-jeep"
+                  class="in"
+                  required
+                  id="plateNumber"
                 />
-              </a>
-            </button>
-            <button style="width: 40px; height: 40px">
-              <img src="./img/bell.png" style="height: 100%; width: 100%" />
-            </button>
+              </div>
+              <div class="jeep-capacity">
+                <h4>Capacity :</h4>
+                <input
+                  type="text"
+                  name="capacity-jeep"
+                  class="in"
+                  required
+                  id="capacity"
+                />
+              </div>
+              <div class="jeep-route">
+                <h4>Route :</h4>
+                <input
+                  type="text"
+                  name="route-jeep"
+                  class="in"
+                  required
+                  id="route"
+                />
+              </div>
+              <div class="jeep-status">
+                <h4>Status :</h4>
+                <input
+                  type="text"
+                  name="status-jeep"
+                  class="in"
+                  required
+                  id="status"
+                />
+              </div>
+              <div class="jeep-driver">
+                <h4>Driver :</h4>
+                <input
+                  type="text"
+                  name="driver-jeep"
+                  class="in"
+                  required
+                  id="driver"
+                />
+              </div>
+              <br />
+              <input
+                type="submit"
+                class="jeep-edit"
+                value="EDIT"
+                onclick="edit()"
+              />
+            </div>
           </div>
         </div>
+      </section>
+    </div>
+
+    <!-- VIEW -->
+    <div
+      class="view-jeep-container"
+      id="viewJeepContainer"
+      style="display: none"
+    >
+      <section class="view-container">
+        <div class="text">
+          <h1>Jeepney Information</h1>
+          <i class="bx bx-x close-icon" id="viewCloseIcon"></i>
+          <!-- Changed id to viewCloseIcon -->
+        </div>
+        <div>
+          <div class="form-group">
+            <div class="semi-con">
+              <div class="jeep-plate">
+                <h4>Plate No. :</h4>
+                <input
+                  type="text"
+                  name="plate-view"
+                  class="in"
+                  required
+                  id="plateNumber"
+                  readonly
+                />
+              </div>
+              <div class="jeep-capacity">
+                <h4>Capacity :</h4>
+                <input
+                  type="text"
+                  name="capacity-view"
+                  class="in"
+                  required
+                  id="capacity"
+                  readonly
+                />
+              </div>
+              <div class="jeep-route">
+                <h4>Route :</h4>
+                <input
+                  type="text"
+                  name="route-view"
+                  class="in"
+                  required
+                  id="route"
+                  readonly
+                />
+              </div>
+              <div class="jeep-status">
+                <h4>Status :</h4>
+                <input
+                  type="text"
+                  name="status-view"
+                  class="in"
+                  required
+                  id="status"
+                  readonly
+                />
+              </div>
+              <div class="jeep-driver">
+                <h4>Driver :</h4>
+                <input
+                  type="text"
+                  name="driver-view"
+                  class="in"
+                  required
+                  id="driver"
+                  readonly
+                />
+              </div>
+              <br />
+              <input
+                type="submit"
+                class="jeep-view"
+                value="DONE"
+                onclick="hideViewContainer()"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- POP-UP WINDOW FORM ENDS -->
+
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+      <div class="logo_details" style="margin-top: 20px">
+        <img src="./img/logo.png" alt="" class="jeepney-logo" />
+        <div class="logo_name">E-JeepPay</div>
+        <i class="bx bx-menu" id="btn"></i>
       </div>
-      <div class="body">
-        <div class="container">
-          <h1>Data Records</h1>
-          <section class="components-layout">
-            <div class="grow1">
-              <div class="combobox">
-                <select>
+      <ul class="nav-list" style="margin-top: 40px">
+        <li>
+          <a href="./index.html">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link_name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="./jeepneys.html" id="active">
+            <i class="bx bx-car" id="active-icon"></i>
+            <span class="link_name" id="active-name">Jeepneys</span>
+          </a>
+          <span class="tooltip">Jeepneys</span>
+        </li>
+        <li>
+          <a href="./drivers.html" style="height: 34px">
+            <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
+            <i class="fi fi-br-driver-man"></i>
+            <span class="link_name">Driver</span>
+          </a>
+          <span class="tooltip">Driver</span>
+        </li>
+        <li>
+          <a href="./user.html">
+            <i class="bx bx-user"></i>
+            <span class="link_name">User</span>
+          </a>
+          <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="./fare.html">
+            <i class="bx bx-dollar"></i>
+            <span class="link_name">Fare</span>
+          </a>
+          <span class="tooltip">Fare</span>
+        </li>
+        <li>
+          <a href="./setting.html" id="settings-link">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
+    </div>
+    <!-- SIDE BAR ENDS -->
+
+    <!-- BODY  -->
+    <section class="home-section">
+      <section class="layout">
+        <div class="header">
+          <div class="container">
+            <input type="text" class="search-input" />
+            <div class="topbar-user">
+              <h5
+                style="
+                  margin-top: 0.9%;
+                  font-size: 18px;
+                  color: white;
+                  font-family: Rubik, system-ui;
+                "
+              >
+                Welcome
+              </h5>
+            </div>
+            <div class="top-icons">
+              <button style="width: 40px; height: 40px; margin-right: 10px">
+                <a href="./login.html">
+                  <img
+                    src="./img/account.png"
+                    style="height: 100%; width: 100%"
+                  />
+                </a>
+              </button>
+              <button style="width: 40px; height: 40px">
+                <img src="./img/bell.png" style="height: 100%; width: 100%" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="container">
+            <h1>Data Records</h1>
+            <section class="components-layout">
+              <div class="grow1">
+                <div class="combobox">
+                  <select>
                     <option>Today</option>
                     <option>This Week</option>
                     <option>This Month</option>
-                    <option>This Year</optin>
-                </select>
-             </div>
-             <div class="combobox">
-              <select>
-                  <option>All status</option>
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-              </select>
-           </div>
-            </div>
-            <div class="grow1">
-            </div>
-            <div class="grow1">
-              <button class="add-button"><img src="./img/plus.png" alt=""><p>Add</p></button>
-            </div>
-          </section>
+                    <option>This Year</option>
+                  </select>
+                </div>
+                <div class="combobox">
+                  <select>
+                    <option>All status</option>
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grow1"></div>
+              <div class="grow1">
+                <button class="add-button">
+                  <img src="./img/plus.png" alt="" />
+                  <p>Add</p>
+                </button>
+              </div>
+            </section>
 
-          <!-- table -->
-          <div class="table-container">
-            <table>
+            <!-- table -->
+            <div class="table-container">
+              <table>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Plate No.</th>
-                        <th>Capacity</th>
-                        <th>Route</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                  <tr>
+                    <th>ID</th>
+                    <th>Plate No.</th>
+                    <th>Capacity</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
                 </thead>
                 <tbody id="dataTableBody"></tbody>
-            </table>
+              </table>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
+      </section>
     </section>
-  </section>
-  
-  <!-- Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script src="./js/script.js"></script>
-  <script src="./js/jeepneys.js"></script>
 
-  <script>
-    const addButton = document.querySelector('.add-button');
-    const closeIcon = document.querySelector('.close-icon');
-    const jeepContainer1 = document.querySelector('.info-jeep-container');
-  
-    addButton.addEventListener('click', () => {
-      jeepContainer1.style.display = 'flex'; 
-    });
-    closeIcon.addEventListener('click', () => {
-      jeepContainer1.style.display = 'none';
-    });
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/jeepneys.js"></script>
 
-    function hideViewContainer() {
-    const viewJeepContainer = document.getElementById("viewJeepContainer");
-    viewJeepContainer.style.display = "none";
-    }
-  </script>
+    <script>
+      const addButton = document.querySelector(".add-button");
+      const closeIcon = document.querySelector(".close-icon");
+      const jeepContainer1 = document.querySelector(".info-jeep-container");
 
-  
+      addButton.addEventListener("click", () => {
+        jeepContainer1.style.display = "flex";
+      });
+      closeIcon.addEventListener("click", () => {
+        jeepContainer1.style.display = "none";
+      });
 
-</body>
+      function hideViewContainer() {
+        const viewJeepContainer = document.getElementById("viewJeepContainer");
+        viewJeepContainer.style.display = "none";
+      }
+
+      const deleteButton = document.querySelector(".delete-close-icon");
+      const deleteContainer = document.querySelector(".delete-jeep-container");
+      const cancelDelete = document.querySelector(".cancel-delete");
+
+      deleteButton.addEventListener("click", () => {
+        deleteContainer.style.display = "none";
+      });
+      cancelDelete.addEventListener("click", () => {
+        deleteContainer.style.display = "none";
+      });
+    </script>
+  </body>
 </html>
