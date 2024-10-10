@@ -573,6 +573,28 @@ tbody tr:hover {
   z-index: 100;
 }
 
+.edit-jeep-container{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(234, 234, 234, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.view-jeep-container{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(234, 234, 234, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
 .add-container {
   width: 100%;
   display: grid;
@@ -580,15 +602,44 @@ tbody tr:hover {
     "text" 0.2fr "username" 0.6fr;
   gap: 8px;
   width:60%;
-  height: 420px;
+  height:max-content;
   background-color: #FFFFFF;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   align-items: center;
 }
 
+.edit-container{
+  width: 100%;
+  display: grid;
+  grid:
+    "text" 0.2fr "username" 0.6fr;
+  gap: 8px;
+  width:60%;
+  height:max-content;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  align-items: center;
+}
+
+.view-container{
+  width: 100%;
+  display: grid;
+  grid:
+    "text" 0.2fr "username" 0.6fr;
+  gap: 8px;
+  width:60%;
+  height:max-content;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  align-items: center;
+}
+
+
 .form-group{
-  margin-top: -40px;
+  margin-top: -20px;
   margin-left: 4.5vw;
 }
 
@@ -658,6 +709,16 @@ h1 {
   gap: 70px;
 }
 
+.jeep-driver{
+  margin-top: 50px;
+  margin-left: 100px;
+  height: max-content;
+  grid-area: confirm-pass;
+  display: flex;
+  flex-direction: row;
+  gap: 75px;
+}
+
 .in{
   margin-right: 10px;
   width: 50%;
@@ -700,6 +761,52 @@ h1 {
   margin-right: 9%;
 }
 .jeep-save::hover {
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+}
+
+.jeep-edit{
+  width: 130px;
+  height: 40px;
+  margin-bottom: -90px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: white;
+  background-color: #2B393B;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 8px;
+  display: inline-block;
+  min-height: 28px;
+  transition: background-color .24s,box-shadow .24s;
+  margin-right: 9%;
+}
+.jeep-edit::hover {
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+}
+
+.jeep-view{
+  width: 130px;
+  height: 40px;
+  margin-bottom: -90px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: white;
+  background-color: #2B393B;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 8px;
+  display: inline-block;
+  min-height: 28px;
+  transition: background-color .24s,box-shadow .24s;
+  margin-right: 9%;
+}
+.jeep-view::hover {
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 

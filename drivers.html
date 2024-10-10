@@ -1,57 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Drivers</title>
   <!-- Link Styles -->
-  <link rel="stylesheet" href="./css/jeepneys.css">
+  <link rel="stylesheet" href="./css/drivers.css">
   <link rel="stylesheet" href="./css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-  
+  <link rel='stylesheet'
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 </head>
+
 <body>
 
   <!-- POP-UP WINDOW FORM -->
-  <div class="info-jeep-container" style="display: none;">
+  <div class="driver-jeep-container" style="display: none;">
     <section class="add-container">
-      <div class="text" style="margin-top: 5px;">
+      <div class="text">
         <h1>Driver Information</h1>
         <i class="bx bx-x close-icon"></i>
       </div>
-    <div class="info-con" style="margin-left: 12%;">
-      <div class="driver-fname" style="display: flex; flex-direction: row; margin-top: 30px;">
-        <div class="in-driver"">
-          <h5>First Name</h5>
-          <input type="text" name="driver-fname" class="in" required style="width: 15vw;" id="fname">
-        </div>
-        <div class="in-driver">
-          <h5>Middle Name</h5>
-          <input type="text" name="driver-mname" class="in" required style="width: 15vw;" id="mname">
-        </div>
-        <div class="in-driver">
-          <h5>Last Name</h5>
-          <input type="text" name="driver-lname" class="in" required style="width: 15vw;" id="lname">
+      <div class="form-group">
+        <div class="semi-con">
+          <div class="driver-fname">
+            <h4>First Name :</h4>
+            <input type="text" name="driver-fname" class="in" required id="fname" />
+          </div>
+          <div class="driver-mname">
+            <h4>Middle Name :</h4>
+            <input type="text" name="driver-mname" class="in" required id="mname" />
+          </div>
+          <div class="driver-lname">
+            <h4>Last Name :</h4>
+            <input type="text" name="driver-lname" class="in" required id="lname" />
+          </div>
+          <div class="driver-email">
+            <h4>Email :</h4>
+            <input type="text" name="driver-email" class="in" required id="email" />
+          </div>
+          <div class="driver-phone">
+            <h4>Phone Number :</h4>
+            <input type="text" name="driver-phone" class="in" required id="phoneNumber" />
+          </div>
+          <div class="driver-password">
+            <h4>Password :</h4>
+            <input type="text" name="driver-password" class="in" required id="password" />
+            <i class="fi fi-rr-eye-crossed"></i>
+          </div>
+          <br>
+          <input type="submit" class="driver-save" value="SAVE" onclick=save()>
         </div>
       </div>
+    </section>
+  </div>
+  
+  <!-- POP-UP WINDOW FORM ENDS -->
 
-      <div class="other-info" style="margin-top: 10px;">
-        <h5>Email</h5>
-        <input type="text" name="driver-email" class="in" required" style="margin-bottom: 20px;" id="email">
-        <h5>Phone Number</h5>
-        <input type="text" name="driver-phone" class="in" required" style="margin-bottom: 20px;" id="phoneNumber">
-        <h5>Password</h5>
-        <input type="text" name="driver-password" class="in" required" style="margin-bottom: 20px;" id="password">
-      </div>
-      <div class="button-con" style="text-align: center;">
-    <input type="submit" class="jeep-save" value="SAVE" onclick=save()>
-  </div>
-  </div>
-        </section>
-  </div>
-<!-- POP-UP WINDOW FORM ENDS -->
-
-<!-- SIDE BAR -->
+  <!-- SIDE BAR -->
   <div class="sidebar">
     <div class="logo_details" style="margin-top: 20px;">
       <img src="./img/logo.png" alt="" class="jeepney-logo">
@@ -67,14 +74,14 @@
         <span class="tooltip">Dashboard</span>
       </li>
       <li>
-        <a href="./jeepneys.html" >
-          <i class="bx bx-car" ></i>
-          <span class="link_name" >Jeepneys</span>
+        <a href="./jeepneys.html">
+          <i class="bx bx-car"></i>
+          <span class="link_name">Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.html"style="height: 34px;" id="active">
+        <a href="./drivers.html" style="height: 34px;" id="active">
           <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
           <i class="fi fi-br-driver-man" id="active-icon"></i>
           <span class="link_name" id="active-name">Driver</span>
@@ -102,7 +109,7 @@
         </a>
         <span class="tooltip">Settings</span>
       </li>
-      
+
     </ul>
   </div>
   <!-- SIDE BAR ENDS  -->
@@ -112,24 +119,19 @@
         <div class="container">
           <input type="text" class="search-input" />
           <div class="topbar-user">
-            <h5
-              style="
+            <h5 style="
                 margin-top: 0.9%;
                 font-size: 18px;
                 color: white;
                 font-family: Rubik, system-ui;
-              "
-            >
-            Welcome 
+              ">
+              Welcome
             </h5>
           </div>
           <div class="top-icons">
             <button style="width: 40px; height: 40px; margin-right: 10px">
               <a href="./login.html">
-                <img
-                  src="./img/account.png"
-                  style="height: 100%; width: 100%"
-                />
+                <img src="./img/account.png" style="height: 100%; width: 100%" />
               </a>
             </button>
             <button style="width: 40px; height: 40px">
@@ -145,36 +147,38 @@
             <div class="grow1">
               <div class="combobox">
                 <select>
-                    <option>Today</option>
-                    <option>This Week</option>
-                    <option>This Month</option>
-                    <option>This Year</option>
+                  <option>Today</option>
+                  <option>This Week</option>
+                  <option>This Month</option>
+                  <option>This Year</option>
                 </select>
-             </div>
+              </div>
             </div>
             <div class="grow1">
             </div>
             <div class="grow1">
-              <button class="add-button"><img src="./img/plus.png" alt=""><p>Add</p></button>
+              <button class="add-button"><img src="./img/plus.png" alt="">
+                <p>Add</p>
+              </button>
             </div>
           </section>
           <!-- table -->
           <div class="table-container">
             <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="dataTableBody"></tbody>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Middle Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dataTableBody"></tbody>
             </table>
-        </div>
+          </div>
         </div>
       </div>
     </section>
@@ -185,15 +189,13 @@
   <script src="./js/script.js"></script>
   <script src="./js/drivers.js"></script>
 
-  <script src="./js/script.js"></script>
-
   <script>
     const addButton = document.querySelector('.add-button');
     const closeIcon = document.querySelector('.close-icon');
-    const jeepContainer = document.querySelector('.info-jeep-container');
-  
+    const jeepContainer = document.querySelector('.driver-jeep-container');
+
     addButton.addEventListener('click', () => {
-      jeepContainer.style.display = 'flex'; 
+      jeepContainer.style.display = 'flex';
     });
     closeIcon.addEventListener('click', () => {
       jeepContainer.style.display = 'none';
@@ -201,4 +203,5 @@
   </script>
 
 </body>
+
 </html>

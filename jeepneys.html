@@ -43,6 +43,85 @@
         </div>
         </section>
   </div>
+
+
+  <!--EDIT-->
+<!-- EDIT -->
+<div class="edit-jeep-container" id="editJeepContainer" style="display: none;">
+  <section class="edit-container">
+      <div class="text">
+          <h1>Jeepney Information</h1>
+          <i class="bx bx-x close-icon" id="editCloseIcon"></i> <!-- Changed id to editCloseIcon -->
+      </div>
+      <div>
+          <div class="form-group">
+              <div class="semi-con">
+                  <div class="jeep-plate">
+                      <h4>Plate No. :</h4>
+                      <input type="text" name="plate-jeep" class="in" required id="plateNumber" />
+                  </div>
+                  <div class="jeep-capacity">
+                      <h4>Capacity :</h4>
+                      <input type="text" name="capacity-jeep" class="in" required id="capacity" />
+                  </div>
+                  <div class="jeep-route">
+                      <h4>Route :</h4>
+                      <input type="text" name="route-jeep" class="in" required id="route" />
+                  </div>
+                  <div class="jeep-status">
+                      <h4>Status :</h4>
+                      <input type="text" name="status-jeep" class="in" required id="status" />
+                  </div>
+                  <div class="jeep-driver">
+                      <h4>Driver :</h4>
+                      <input type="text" name="driver-jeep" class="in" required id="driver" />
+                  </div>
+                  <br>
+                  <input type="submit" class="jeep-edit" value="EDIT" onclick="edit()" />
+              </div>
+          </div>
+      </div>
+  </section>
+</div>
+
+<!-- VIEW -->
+<div class="view-jeep-container" id="viewJeepContainer" style="display: none;">
+<section class="view-container">
+    <div class="text">
+        <h1>Jeepney Information</h1>
+        <i class="bx bx-x close-icon" id="viewCloseIcon"></i> <!-- Changed id to viewCloseIcon -->
+    </div>
+    <div>
+        <div class="form-group">
+            <div class="semi-con">
+                <div class="jeep-plate">
+                    <h4>Plate No. :</h4>
+                    <input type="text" name="plate-view" class="in" required id="plateNumber" readonly />
+                </div>
+                <div class="jeep-capacity">
+                    <h4>Capacity :</h4>
+                    <input type="text" name="capacity-view" class="in" required id="capacity" readonly />
+                </div>
+                <div class="jeep-route">
+                    <h4>Route :</h4>
+                    <input type="text" name="route-view" class="in" required id="route" readonly />
+                </div>
+                <div class="jeep-status">
+                    <h4>Status :</h4>
+                    <input type="text" name="status-view" class="in" required id="status" readonly />
+                </div>
+                <div class="jeep-driver">
+                    <h4>Driver :</h4>
+                    <input type="text" name="driver-view" class="in" required id="driver" readonly />
+                </div>
+                <br>
+                <input type="submit" class="jeep-view" value="DONE" onclick="hideViewContainer()" />
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
 <!-- POP-UP WINDOW FORM ENDS -->
 
  <!-- SIDE BAR -->
@@ -105,7 +184,7 @@
     <section class="layout">
       <div class="header">
         <div class="container">
-          <input type="text" class="search-input" />
+          <input type="text" class="search-input">
           <div class="topbar-user">
             <h5
               style="
@@ -191,15 +270,22 @@
   <script>
     const addButton = document.querySelector('.add-button');
     const closeIcon = document.querySelector('.close-icon');
-    const jeepContainer = document.querySelector('.info-jeep-container');
+    const jeepContainer1 = document.querySelector('.info-jeep-container');
   
     addButton.addEventListener('click', () => {
-      jeepContainer.style.display = 'flex'; 
+      jeepContainer1.style.display = 'flex'; 
     });
     closeIcon.addEventListener('click', () => {
-      jeepContainer.style.display = 'none';
+      jeepContainer1.style.display = 'none';
     });
+
+    function hideViewContainer() {
+    const viewJeepContainer = document.getElementById("viewJeepContainer");
+    viewJeepContainer.style.display = "none";
+    }
   </script>
+
+  
 
 </body>
 </html>

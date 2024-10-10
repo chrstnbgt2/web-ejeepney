@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>E-Jeep Fare</title>
-    <!-- Link Styles -->
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/fare.css" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+
+<head>
+  <title>E-Jeep Fare</title>
+  <!-- Link Styles -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/fare.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-   <!-- SIDE BAR -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- SIDE BAR -->
   <div class="sidebar">
     <div class="logo_details" style="margin-top: 20px;">
       <img src="./img/logo.png" alt="" class="jeepney-logo">
@@ -31,16 +30,16 @@
       </li>
       <li>
         <a href="./jeepneys.html">
-          <i class="bx bx-car" ></i>
-          <span class="link_name" >Jeepneys</span>
+          <i class="bx bx-car"></i>
+          <span class="link_name">Jeepneys</span>
         </a>
         <span class="tooltip">Jeepneys</span>
       </li>
       <li>
-        <a href="./drivers.html"style="height: 34px;" >
+        <a href="./drivers.html" style="height: 34px;">
           <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
           <i class="fi fi-br-driver-man"></i>
-          <span class="link_name" >Driver</span>
+          <span class="link_name">Driver</span>
         </a>
         <span class="tooltip">Driver</span>
       </li>
@@ -68,442 +67,153 @@
     </ul>
   </div>
   <!-- SIDE BAR ENDS -->
-    <section class="home-section">
-      <section class="layout">
-        <div class="header">
-          <div class="container">
-            <input type="text" class="search-input" />
-            <div class="topbar-user">
-              <h5
-                style="
+  <section class="home-section">
+    <section class="layout">
+      <div class="header">
+        <div class="container">
+          <input type="text" class="search-input" />
+          <div class="topbar-user">
+            <h5 style="
                   margin-top: 0.9%;
                   font-size: 18px;
                   color: white;
                   font-family: Rubik, system-ui;
-                "
-              >
-              Welcome 
-              </h5>
-            </div>
-            <div class="top-icons">
-              <button style="width: 40px; height: 40px; margin-right: 10px">
-                <a href="./login.html">
-                  <img
-                    src="./img/account.png"
-                    style="height: 100%; width: 100%"
-                  />
-                </a>
-              </button>
-              <button style="width: 40px; height: 40px">
-                <img src="./img/bell.png" style="height: 100%; width: 100%" />
-              </button>
-            </div>
+                ">
+              Welcome
+            </h5>
+          </div>
+          <div class="top-icons">
+            <button style="width: 40px; height: 40px; margin-right: 10px">
+              <a href="./login.html">
+                <img src="./img/account.png" style="height: 100%; width: 100%" />
+              </a>
+            </button>
+            <button style="width: 40px; height: 40px">
+              <img src="./img/bell.png" style="height: 100%; width: 100%" />
+            </button>
           </div>
         </div>
-        <div class="body">
-            <div class="fare-container">
-          <div class="intro-text">
-            JEEPNEY FARE RATE
+      </div>
+      <div class="body">
+        
+
+        <div class="intro-text">
+          COMPUTATION OF FARES
+      </div>
+      <div class="fare-container">
+          <div class="fare-box">
+              <h3 class="fare-title">
+                  Regular Fare
+                  <span class="edit-icon" onclick="toggleEdit('regular')">✎</span>
+              </h3>
+              <div class="fare-details">
+                  <p>First Four (4) kilometers:</p>
+                  <div class="input-container">
+                      <span class="peso-sign">₱</span>
+                      <input type="number" id="regular-first-km" value="14.00" readonly>
+                  </div>
+              </div>
+              <div class="fare-details">
+                  <p>Succeeding kilometers:</p>
+                  <div class="input-container" style="margin-left: 4.5px;">
+                      <span class="peso-sign">₱</span>
+                      <input type="number" id="regular-succeeding-km" value="2.20" readonly>
+                  </div>
+              </div>
+              <div class="butt-con">
+                  <button class="fare-button" id="regular-save-button" onclick="saveFare('regular')" style="display: none;">Save</button>
+              </div>
           </div>
-          <div class="fare-graph">
-                <!-- table -->
-              <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Distance (kms.)</th>
-                            <th>Regular</th>
-                            <th>Student / Elderly / Disabled</th>
-                            <th>Distance (kms.)</th>
-                            <th>Regular</th>
-                            <th>Student / Elderly / Disabled</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTableBody">
-                      <tr>
-                        <td>1</td>
-                        <td>14.00</td>
-                        <td>11.25</td>
-                        <td>26</td>
-                        <td>62.50</td>
-                        <td>50.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>14.00</td>
-                        <td>11.25</td>
-                        <td>27</td>
-                        <td>64.50</td>
-                        <td>51.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>14.00</td>
-                        <td>11.25</td>
-                        <td>28</td>
-                        <td>66.75</td>
-                        <td>53.50</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>14.00</td>
-                        <td>11.25</td>
-                        <td>29</td>
-                        <td>69.00</td>
-                        <td>55.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>16.25</td>
-                        <td>13.00</td>
-                        <td>30</td>
-                        <td>71.25</td>
-                        <td>57.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>6</td>
-                        <td>18.50</td>
-                        <td>14.75</td>
-                        <td>31</td>
-                        <td>73.50</td>
-                        <td>58.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>7</td>
-                        <td>20.50</td>
-                        <td>16.50</td>
-                        <td>32</td>
-                        <td>75.50</td>
-                        <td>60.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>8</td>
-                        <td>22.50</td>
-                        <td>18.00</td>
-                        <td>33</td>
-                        <td>77.75</td>
-                        <td>62.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>9</td>
-                        <td>25.00</td>
-                        <td>20.00</td>
-                        <td>34</td>
-                        <td>80.00</td>
-                        <td>64.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>10</td>
-                        <td>27.25</td>
-                        <td>21.75</td>
-                        <td>35</td>
-                        <td>82.25</td>
-                        <td>65.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>11</td>
-                        <td>29.50</td>
-                        <td>23.50</td>
-                        <td>36</td>
-                        <td>84.50</td>
-                        <td>67.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>12</td>
-                        <td>31.75</td>
-                        <td>25.25</td>
-                        <td>37</td>
-                        <td>86.50</td>
-                        <td>68.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>13</td>
-                        <td>33.75</td>
-                        <td>27.00</td>
-                        <td>38</td>
-                        <td>88.75</td>
-                        <td>70.50</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>14</td>
-                        <td>36.00</td>
-                        <td>28.75</td>
-                        <td>39</td>
-                        <td>91.00</td>
-                        <td>72.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>15</td>
-                        <td>38.25</td>
-                        <td>30.50</td>
-                        <td>40</td>
-                        <td>93.25</td>
-                        <td>75.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>16</td>
-                        <td>40.50</td>
-                        <td>32.25</td>
-                        <td>41</td>
-                        <td>95.75</td>
-                        <td>76.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>17</td>
-                        <td>42.50</td>
-                        <td>34.25</td>
-                        <td>42</td>
-                        <td>97.75</td>
-                        <td>78.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>18</td>
-                        <td>44.75</td>
-                        <td>36.00</td>
-                        <td>43</td>
-                        <td>99.75</td>
-                        <td>80.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>19</td>
-                        <td>47.00</td>
-                        <td>37.75</td>
-                        <td>44</td>
-                        <td>102.00</td>
-                        <td>81.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>20</td>
-                        <td>49.25</td>
-                        <td>39.50</td>
-                        <td>45</td>
-                        <td>104.25</td>
-                        <td>83.50</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>21</td>
-                        <td>51.50</td>
-                        <td>41.25</td>
-                        <td>46</td>
-                        <td>106.50</td>
-                        <td>85.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>22</td>
-                        <td>53.75</td>
-                        <td>43.00</td>
-                        <td>47</td>
-                        <td>108.75</td>
-                        <td>87.00</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>23</td>
-                        <td>56.00</td>
-                        <td>44.75</td>
-                        <td>48</td>
-                        <td>110.75</td>
-                        <td>88.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>24</td>
-                        <td>58.75</td>
-                        <td>47.00</td>
-                        <td>49</td>
-                        <td>113.00</td>
-                        <td>90.75</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>25</td>
-                        <td>60.25</td>
-                        <td>48.25</td>
-                        <td>50</td>
-                        <td>115.25</td>
-                        <td>92.25</td>
-                        <td>
-                          <div class="action-icons">
-                            <img src="./img/edit.png" alt="edit">
-                            <img src="./img/trash-bin.png" alt="delete">
-                            <img src="./img/more.png" alt="more">
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
+      
+          <div class="fare-box">
+              <h3 class="fare-title">
+                  Discount (20%) Fare
+                  <span class="edit-icon" onclick="toggleEdit('discount')">✎</span>
+              </h3>
+              <div class="fare-details">
+                  <p>First Four (4) kilometers:</p>
+                  <div class="input-container">
+                      <span class="peso-sign">₱</span>
+                      <input type="number" id="discount-first-km" value="11.20" readonly>
+                  </div>
+              </div>
+              <div class="fare-details">
+                  <p>Succeeding kilometers:</p>
+                  <div class="input-container" style="margin-left: 4.5px;">
+                      <span class="peso-sign">₱</span>
+                      <input type="number" id="discount-succeeding-km" value="1.76" readonly>
+                  </div>
+              </div>
+              <div class="butt-con">
+                  <button class="fare-button" id="discount-save-button" onclick="saveFare('discount')" style="display: none;">Save</button>
+              </div>
           </div>
+      </div>
+      
+      <script>
+          function toggleEdit(type) {
+              const firstKmInput = document.getElementById(`${type}-first-km`);
+              const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
+              const saveButton = document.getElementById(`${type}-save-button`);
+      
+              if (firstKmInput.readOnly) {
+                  firstKmInput.readOnly = false;
+                  succeedingKmInput.readOnly = false;
+                  saveButton.style.display = 'inline-block';
+                  firstKmInput.style.backgroundColor = '#fff';
+                  succeedingKmInput.style.backgroundColor = '#fff';
+              } else {
+                  firstKmInput.readOnly = true;
+                  succeedingKmInput.readOnly = true;
+                  saveButton.style.display = 'none';
+                  firstKmInput.style.backgroundColor = '';
+                  succeedingKmInput.style.backgroundColor = '';
+              }
+          }
+      
+          function saveFare(type) {
+              const firstKmInput = document.getElementById(`${type}-first-km`);
+              const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
+              const saveButton = document.getElementById(`${type}-save-button`);
+      
+              if (type === 'regular') {
+                  updateDiscountFare();
+              }
+      
+              firstKmInput.readOnly = true;
+              succeedingKmInput.readOnly = true;
+              saveButton.style.display = 'none';
+              firstKmInput.style.backgroundColor = '';
+              succeedingKmInput.style.backgroundColor = '';
+      
+              alert(`${type.charAt(0).toUpperCase() + type.slice(1)} fare saved successfully!`);
+          }
+      
+          function updateDiscountFare() {
+              const regularFirstKm = parseFloat(document.getElementById('regular-first-km').value);
+              const regularSucceedingKm = parseFloat(document.getElementById('regular-succeeding-km').value);
+      
+              const discountFirstKm = (regularFirstKm * 0.8).toFixed(2);
+              const discountSucceedingKm = (regularSucceedingKm * 0.8).toFixed(2);
+      
+              document.getElementById('discount-first-km').value = discountFirstKm;
+              document.getElementById('discount-succeeding-km').value = discountSucceedingKm;
+          }
+      
+          // Initial discount fare update
+          updateDiscountFare();
+      </script>
+      
+      
+      
+
+
+
         </div>
       </div>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
-  </body>
+</body>
+
 </html>
