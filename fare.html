@@ -74,11 +74,11 @@
           <input type="text" class="search-input" />
           <div class="topbar-user">
             <h5 style="
-                  margin-top: 0.9%;
-                  font-size: 18px;
-                  color: white;
-                  font-family: Rubik, system-ui;
-                ">
+                margin-top: 0.9%;
+                font-size: 18px;
+                color: white;
+                font-family: Rubik, system-ui;
+              ">
               Welcome
             </h5>
           </div>
@@ -95,121 +95,123 @@
         </div>
       </div>
       <div class="body">
-        
+
 
         <div class="intro-text">
           COMPUTATION OF FARES
-      </div>
-      <div class="fare-container">
+        </div>
+        <div class="fare-container">
           <div class="fare-box">
-              <h3 class="fare-title">
-                  Regular Fare
-                  <span class="edit-icon" onclick="toggleEdit('regular')">✎</span>
-              </h3>
-              <div class="fare-details">
-                  <p>First Four (4) kilometers:</p>
-                  <div class="input-container">
-                      <span class="peso-sign">₱</span>
-                      <input type="number" id="regular-first-km" value="14.00" readonly>
-                  </div>
+            <h3 class="fare-title">
+              Regular Fare
+              <span class="edit-icon" onclick="toggleEdit('regular')">✎</span>
+            </h3>
+            <div class="fare-details">
+              <p>First Four (4) kilometers:</p>
+              <div class="input-container">
+                <span class="peso-sign">₱</span>
+                <input type="number" id="regular-first-km" value="14.00" readonly>
               </div>
-              <div class="fare-details">
-                  <p>Succeeding kilometers:</p>
-                  <div class="input-container" style="margin-left: 4.5px;">
-                      <span class="peso-sign">₱</span>
-                      <input type="number" id="regular-succeeding-km" value="2.20" readonly>
-                  </div>
+            </div>
+            <div class="fare-details">
+              <p>Succeeding kilometers:</p>
+              <div class="input-container" style="margin-left: 4.5px;">
+                <span class="peso-sign">₱</span>
+                <input type="number" id="regular-succeeding-km" value="2.20" readonly>
               </div>
-              <div class="butt-con">
-                  <button class="fare-button" id="regular-save-button" onclick="saveFare('regular')" style="display: none;">Save</button>
-              </div>
+            </div>
+            <div class="butt-con">
+              <button class="fare-button butt-icon" id="regular-save-button" onclick="saveFare('regular')"
+                style="display: none;">Save</button>
+            </div>
           </div>
-      
+
           <div class="fare-box">
-              <h3 class="fare-title">
-                  Discount (20%) Fare
-                  <span class="edit-icon" onclick="toggleEdit('discount')">✎</span>
-              </h3>
-              <div class="fare-details">
-                  <p>First Four (4) kilometers:</p>
-                  <div class="input-container">
-                      <span class="peso-sign">₱</span>
-                      <input type="number" id="discount-first-km" value="11.20" readonly>
-                  </div>
+            <h3 class="fare-title">
+              Discount (20%) Fare
+              <span class="edit-icon" onclick="toggleEdit('discount')">✎</span>
+            </h3>
+            <div class="fare-details">
+              <p>First Four (4) kilometers:</p>
+              <div class="input-container">
+                <span class="peso-sign">₱</span>
+                <input type="number" id="discount-first-km" value="11.20" readonly>
               </div>
-              <div class="fare-details">
-                  <p>Succeeding kilometers:</p>
-                  <div class="input-container" style="margin-left: 4.5px;">
-                      <span class="peso-sign">₱</span>
-                      <input type="number" id="discount-succeeding-km" value="1.76" readonly>
-                  </div>
+            </div>
+            <div class="fare-details">
+              <p>Succeeding kilometers:</p>
+              <div class="input-container" style="margin-left: 4.5px;">
+                <span class="peso-sign">₱</span>
+                <input type="number" id="discount-succeeding-km" value="1.76" readonly>
               </div>
-              <div class="butt-con">
-                  <button class="fare-button" id="discount-save-button" onclick="saveFare('discount')" style="display: none;">Save</button>
-              </div>
+            </div>
+            <div class="butt-con">
+              <button class="fare-button butt-icon" id="discount-save-button" onclick="saveFare('discount')"
+                style="display: none;">Save</button>
+            </div>
           </div>
-      </div>
-      
-      <script>
+        </div>
+
+        <script>
           function toggleEdit(type) {
-              const firstKmInput = document.getElementById(`${type}-first-km`);
-              const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
-              const saveButton = document.getElementById(`${type}-save-button`);
-      
-              if (firstKmInput.readOnly) {
-                  firstKmInput.readOnly = false;
-                  succeedingKmInput.readOnly = false;
-                  saveButton.style.display = 'inline-block';
-                  firstKmInput.style.backgroundColor = '#fff';
-                  succeedingKmInput.style.backgroundColor = '#fff';
-              } else {
-                  firstKmInput.readOnly = true;
-                  succeedingKmInput.readOnly = true;
-                  saveButton.style.display = 'none';
-                  firstKmInput.style.backgroundColor = '';
-                  succeedingKmInput.style.backgroundColor = '';
-              }
-          }
-      
-          function saveFare(type) {
-              const firstKmInput = document.getElementById(`${type}-first-km`);
-              const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
-              const saveButton = document.getElementById(`${type}-save-button`);
-      
-              if (type === 'regular') {
-                  updateDiscountFare();
-              }
-      
+            const firstKmInput = document.getElementById(`${type}-first-km`);
+            const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
+            const saveButton = document.getElementById(`${type}-save-button`);
+
+            if (firstKmInput.readOnly) {
+              firstKmInput.readOnly = false;
+              succeedingKmInput.readOnly = false;
+              saveButton.style.display = 'inline-block';
+              firstKmInput.style.backgroundColor = '#fff';
+              succeedingKmInput.style.backgroundColor = '#fff';
+            } else {
               firstKmInput.readOnly = true;
               succeedingKmInput.readOnly = true;
               saveButton.style.display = 'none';
               firstKmInput.style.backgroundColor = '';
               succeedingKmInput.style.backgroundColor = '';
-      
-              alert(`${type.charAt(0).toUpperCase() + type.slice(1)} fare saved successfully!`);
+            }
           }
-      
+
+          function saveFare(type) {
+            const firstKmInput = document.getElementById(`${type}-first-km`);
+            const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
+            const saveButton = document.getElementById(`${type}-save-button`);
+
+            if (type === 'regular') {
+              updateDiscountFare();
+            }
+
+            firstKmInput.readOnly = true;
+            succeedingKmInput.readOnly = true;
+            saveButton.style.display = 'none';
+            firstKmInput.style.backgroundColor = '';
+            succeedingKmInput.style.backgroundColor = '';
+
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} fare saved successfully!`);
+          }
+
           function updateDiscountFare() {
-              const regularFirstKm = parseFloat(document.getElementById('regular-first-km').value);
-              const regularSucceedingKm = parseFloat(document.getElementById('regular-succeeding-km').value);
-      
-              const discountFirstKm = (regularFirstKm * 0.8).toFixed(2);
-              const discountSucceedingKm = (regularSucceedingKm * 0.8).toFixed(2);
-      
-              document.getElementById('discount-first-km').value = discountFirstKm;
-              document.getElementById('discount-succeeding-km').value = discountSucceedingKm;
+            const regularFirstKm = parseFloat(document.getElementById('regular-first-km').value);
+            const regularSucceedingKm = parseFloat(document.getElementById('regular-succeeding-km').value);
+
+            const discountFirstKm = (regularFirstKm * 0.8).toFixed(2);
+            const discountSucceedingKm = (regularSucceedingKm * 0.8).toFixed(2);
+
+            document.getElementById('discount-first-km').value = discountFirstKm;
+            document.getElementById('discount-succeeding-km').value = discountSucceedingKm;
           }
-      
+
           // Initial discount fare update
           updateDiscountFare();
-      </script>
-      
-      
-      
+        </script>
 
 
 
-        </div>
+
+
+
+      </div>
       </div>
     </section>
     <!-- Scripts -->

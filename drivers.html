@@ -24,6 +24,7 @@
       </div>
       <div class="form-group">
         <div class="semi-con">
+          <div class="name-container">
           <div class="driver-fname">
             <h4>First Name :</h4>
             <input type="text" name="driver-fname" class="in" required id="fname" />
@@ -36,25 +37,127 @@
             <h4>Last Name :</h4>
             <input type="text" name="driver-lname" class="in" required id="lname" />
           </div>
+        </div>
+        <div class="other">
           <div class="driver-email">
             <h4>Email :</h4>
-            <input type="text" name="driver-email" class="in" required id="email" />
+            <input type="text" name="driver-email" class="in2" required id="email" />
           </div>
           <div class="driver-phone">
             <h4>Phone Number :</h4>
-            <input type="text" name="driver-phone" class="in" required id="phoneNumber" />
+            <input type="text" name="driver-phone" class="in2" required id="phoneNumber" />
           </div>
-          <div class="driver-password">
+          <div class="driver-password" style="position: relative;">
             <h4>Password :</h4>
-            <input type="text" name="driver-password" class="in" required id="password" />
-            <i class="fi fi-rr-eye-crossed"></i>
-          </div>
+            <input type="password" name="driver-password" class="in2" required id="password" />
+            <i class="fi fi-rr-eye-crossed" style="position: absolute; right:6.5%; top: 56%; transform: translateY(-50%); cursor: pointer; font-size: 20px;" onclick="togglePasswordVisibility()"></i>
+        </div>          
+        </div>
           <br>
           <input type="submit" class="driver-save" value="SAVE" onclick=save()>
         </div>
       </div>
     </section>
   </div>
+
+  <!--EDIT-->
+  <div class="driver-edit-container" style="display: none;">
+    <section class="edit-container">
+      <div class="text">
+        <h1>Driver Information</h1>
+        <i class="bx bx-x close-icon"></i>
+      </div>
+      <div class="form-group">
+        <div class="semi-con">
+          <div class="name-container">
+          <div class="driver-fname">
+            <h4>First Name :</h4>
+            <input type="text" name="edit-fname" class="in" required id="fname" />
+          </div>
+          <div class="driver-mname">
+            <h4>Middle Name :</h4>
+            <input type="text" name="edit-mname" class="in" required id="mname" />
+          </div>
+          <div class="driver-lname">
+            <h4>Last Name :</h4>
+            <input type="text" name="edit-lname" class="in" required id="lname" />
+          </div>
+        </div>
+        <div class="other">
+          <div class="driver-email">
+            <h4>Email :</h4>
+            <input type="text" name="edit-email" class="in2" required id="email" />
+          </div>
+          <div class="driver-phone">
+            <h4>Phone Number :</h4>
+            <input type="text" name="edit-phone" class="in2" required id="phoneNumber" />
+          </div>
+          <div class="driver-password" style="position: relative;">
+            <h4>Password :</h4>
+            <input type="password" name="edit-password" class="in2" required id="password" />
+            <i class="fi fi-rr-eye-crossed" style="position: absolute; right:6.5%; top: 56%; transform: translateY(-50%); cursor: pointer; font-size: 20px;" onclick="togglePasswordVisibility()"></i>
+        </div>   
+        <div class="driver-phone">
+          <h4>Jeepney Plate No.</h4>
+          <input type="text" name="plate-no" class="in2" required id="plate-no" />
+        </div>           
+        </div>
+          <br>
+          <input type="submit" class="driver-save" value="SAVE" onclick=save()>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!--VIEW-->
+  <div class="driver-view-container" style="display: none;">
+    <section class="view-container">
+      <div class="text">
+        <h1>Driver Information</h1>
+        <i class="bx bx-x close-icon"></i>
+      </div>
+      <div class="form-group">
+        <div class="semi-con">
+          <div class="name-container">
+          <div class="driver-fname">
+            <h4>First Name :</h4>
+            <input type="text" name="view-fname" class="in" required id="fname" readonly/>
+          </div>
+          <div class="driver-mname">
+            <h4>Middle Name :</h4>
+            <input type="text" name="view-mname" class="in" required id="mname" readonly/>
+          </div>
+          <div class="driver-lname">
+            <h4>Last Name :</h4>
+            <input type="text" name="view-lname" class="in" required id="lname" readonly/>
+          </div>
+        </div>
+        <div class="other">
+          <div class="driver-email">
+            <h4>Email :</h4>
+            <input type="text" name="view-email" class="in2" required id="email" readonly/>
+          </div>
+          <div class="driver-phone">
+            <h4>Phone Number :</h4>
+            <input type="text" name="view-phone" class="in2" required id="phoneNumber" readonly/>
+          </div>
+          <div class="driver-password" style="position: relative;">
+            <h4>Password :</h4>
+            <input type="password" name="view-password" class="in2" required id="password" readonly/>
+            <i class="fi fi-rr-eye-crossed" style="position: absolute; right:6.5%; top: 56%; transform: translateY(-50%); cursor: pointer; font-size: 20px;" onclick="togglePasswordVisibility()"></i>
+        </div>   
+        <div class="driver-phone">
+          <h4>Jeepney Plate No.</h4>
+          <input type="text" name="plate-no" class="in2" required id="plate-no" readonly/>
+        </div>           
+        </div>
+          <br>
+          <input type="submit" class="driver-save" value="DONE" onclick=save()>
+        </div>
+      </div>
+    </section>
+  </div>
+
   
   <!-- POP-UP WINDOW FORM ENDS -->
 
@@ -200,6 +303,21 @@
     closeIcon.addEventListener('click', () => {
       jeepContainer.style.display = 'none';
     });
+
+    function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const icon = document.querySelector('.fi');
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fi-rr-eye-crossed');
+        icon.classList.add('fi-rr-eye');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fi-rr-eye');
+        icon.classList.add('fi-rr-eye-crossed');
+    }
+}
   </script>
 
 </body>

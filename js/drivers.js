@@ -36,6 +36,28 @@ dataRef.on("value", (snapshot) => {
   });
 });
 
+// Function to handle showing the driver-edit-container
+function showEditContainer() {
+  const editContainer = document.querySelector('.driver-edit-container');
+  editContainer.style.display = 'flex';
+}
+
+// Function to handle showing the driver-view-container
+function showViewContainer() {
+  const viewContainer = document.querySelector('.driver-view-container');
+  viewContainer.style.display = 'flex';
+}
+
+// Function to close the active container
+function closeActiveContainer() {
+  const editContainer = document.querySelector('.driver-edit-container');
+  const viewContainer = document.querySelector('.driver-view-container');
+  
+  // Hide both containers
+  editContainer.style.display = 'none';
+  viewContainer.style.display = 'none';
+}
+
 // Function to render the data into the table
 function renderData(data, searchTerm = "") {
   const tbody = document.getElementById("dataTableBody");
@@ -65,19 +87,33 @@ function renderData(data, searchTerm = "") {
                 <td>${driver.phone || ''}</td>
                 <td>
                     <div class="action-icons">
-                        <img src="./img/edit.png" alt="edit">
+                        <img src="./img/edit.png" alt="edit" class="edit-icon">
                         <img src="./img/trash-bin.png" alt="delete">
-                        <img src="./img/more.png" alt="more">
+                        <img src="./img/more.png" alt="more" class="more-icon">
                     </div>
                 </td>
             </tr>`;
         tbody.innerHTML += row;
       }
     }
+
+    // Add event listeners to the edit and more icons after rendering
+    document.querySelectorAll('.edit-icon').forEach(icon => {
+      icon.addEventListener('click', showEditContainer);
+    });
+
+    document.querySelectorAll('.more-icon').forEach(icon => {
+      icon.addEventListener('click', showViewContainer);
+    });
   } else {
     tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
   }
 }
+
+// Close the active container when the close icon is clicked
+document.querySelectorAll('.close-icon').forEach(icon => {
+  icon.addEventListener('click', closeActiveContainer);
+});
 
 // Function to save new driver data
 function save() {
@@ -105,3 +141,4 @@ function save() {
     alert("Please fill up all the input fields");
   }
 }
+

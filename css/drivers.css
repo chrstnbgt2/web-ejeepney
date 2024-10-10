@@ -575,7 +575,53 @@ tbody tr:hover {
   height: 100%;
   z-index: 100;
 }
+.driver-view-container{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(234, 234, 234, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.driver-edit-container{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(234, 234, 234, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
 .add-container {
+  width: 100%;
+  display: grid;
+  grid:
+    "text" 0.2fr "username" 0.6fr;
+  gap: 8px;
+  width:60%;
+  height:max-content;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  align-items: center;
+}
+.edit-container {
+  width: 100%;
+  display: grid;
+  grid:
+    "text" 0.2fr "username" 0.6fr;
+  gap: 8px;
+  width:60%;
+  height:max-content;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  align-items: center;
+}
+.view-container {
   width: 100%;
   display: grid;
   grid:
@@ -590,7 +636,7 @@ tbody tr:hover {
 }
 .in{
   margin-right: 10px;
-  width: 50%;
+  width: 100%;
   padding: 5px 12px;
   font-size: 14px;
   line-height: 20px;
@@ -600,11 +646,32 @@ tbody tr:hover {
   background-repeat: no-repeat;
   background-position: right 8px center;
   border: 1px solid #000000;
-  border-radius: 6px;
+  border-radius: 1px;
   outline: none;
   box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
 }
 .in::focus{
+  border-color: #0366d6;
+  outline: none;
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
+.in2{
+  width:95%;
+  padding: 5px 40px 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000000;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  border: 1px solid #000000;
+  border-radius: 1px;
+  outline: none;
+  box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+}
+.in2::focus{
   border-color: #0366d6;
   outline: none;
   box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
@@ -615,7 +682,7 @@ h1 {
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  margin-top:15px;
+  margin-top:25px;
   margin-right: -40px;
   text-align: center;
   flex-grow: 1;
@@ -665,3 +732,24 @@ h1 {
 .jeep-save::hover {
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
+
+/*form containers design*/
+.name-container{
+  display: flex;
+  flex-direction: row;
+  gap: 27px;
+  text-align: left;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.other{
+  text-align: left;
+}
+.other input{
+  margin-bottom: 20px;
+}
+
+#password{
+  position: relative;
+}
+/*form containers design end*/
