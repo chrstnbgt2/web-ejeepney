@@ -28,16 +28,17 @@
   padding: 10px;
   background-color: #f9f9f9;
   position: relative;
-  border-left: 5px solid #4CAF50; /* Green border on the left side */
-  padding-top: 30px; /* Added padding to prevent overlap with the icon */
+  border-left: 10px solid #4E764E; 
+  padding-top: 30px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .fare-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #ddd;
+  font-size: 20px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 600;
+  margin-top: -5px;
+  margin-left: 10px;
   padding-bottom: 5px;
   display: flex;
   justify-content: space-between;
@@ -54,10 +55,13 @@
 }
 
 .fare-details {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
   display: flex;
   align-items: center;
   gap: 100px;
   margin: 8px 0;
+  margin-left: 55px;
 }
 
 .input-container {
@@ -75,7 +79,7 @@
 
 input[type="number"] {
   width: 190px;
-  height: 50px;
+  height: 60px;
   padding: 5px 5px 5px 20px; /* Extra padding to make room for the peso sign */
   border: 0px;
   border-radius: 10px;
