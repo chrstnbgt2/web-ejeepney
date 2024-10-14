@@ -1,44 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>E-JeepPay Login</title>
-    <link rel="stylesheet" href="./css/login.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css"
+    />
+  </head>
+  <body>
     <div class="container">
-        <!-- Left section -->
-        <div class="welcome-section">
-            <h1 style="padding-bottom: 70%;">Welcome to E-JeepPay!</h1>
-        </div>
+      <!-- Left section -->
+      <div class="welcome-section">
+        <h1 style="padding-bottom: 70%">Welcome to E-JeepPay!</h1>
+      </div>
 
-        <!-- Right section -->
-        <div class="login-section">
-            <div class="logo-container">
-                <img src="img/logo-login.png" alt="Logo" class="logo" style="padding-bottom: 10px;">
-            </div>
-            <h2 style="margin-top: -20px;" style="font-family: Rubik, system-ui;">ADMIN LOGIN</h2>
-
-                <div class="input-container">
-                    <i class="fas fa-user icon"></i>
-                    <input type="text" name="email" placeholder="Email" id="email" required>
-                </div>
-                <div class="input-container">
-                    <i class="fas fa-lock icon"></i>
-                    <input type="password" name="password" placeholder="Password" id="password" required>
-                    <i class="fas fa-eye-slash toggle-password"></i>
-                </div>
-                <input type="submit" class="login-button" value="LOGIN" onclick=get()>
-            <a href="#" class="forgot-password">Forget Password?</a>
+      <!-- Right section -->
+      <div class="login-section">
+        <div class="logo-container">
+          <img
+            src="img/logo-login.png"
+            alt="Logo"
+            class="logo"
+            style="padding-bottom: 10px"
+          />
         </div>
+        <h2 style="margin-top: -20px">ADMIN LOGIN</h2>
+
+        <div class="input-container">
+          <i class="fas fa-user icon"></i>
+          <input
+            type="text"
+            name="email"
+            placeholder="Email"
+            id="email"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <i class="fas fa-lock icon"></i>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            id="password"
+            required
+          />
+          <i
+            class="fi fi-ss-eye-crossed toggle_password"
+            onclick="show_hide_passwordField()"
+          ></i>
+        </div>
+        <input type="submit" class="login-button" value="LOGIN" id="login" />
+        <a href="#" class="forgot-password">Forget Password?</a>
+      </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
-    <script src="./js/login.js"></script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js"></script>
+    <script type="module" src="./js/login.js"></script>
+    <script>
+      function show_hide_passwordField() {
+        const toggle = document.querySelector(".toggle_password");
+        var passwordField = document.getElementById("password");
 
-</body>
+        if (passwordField.type === "password") {
+          // Switch the password field to 'text' to show the password
+          passwordField.type = "text";
+          // Change the icon to the 'eye' icon
+          toggle.classList.replace("fi-ss-eye-crossed", "fi-ss-eye");
+        } else {
+          // Switch the password field back to 'password' to hide the password
+          passwordField.type = "password";
+          // Change the icon back to the 'eye-crossed' icon
+          toggle.classList.replace("fi-ss-eye", "fi-ss-eye-crossed");
+        }
+      }
+    </script>
+  </body>
 </html>
