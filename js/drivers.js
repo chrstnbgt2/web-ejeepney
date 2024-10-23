@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // Reference the 'drivers' node
-var dataRef = database.ref("drivers");
+var dataRef = database.ref("users/driver");
 
 // Reference the search input element
 const searchInput = document.querySelector(".search-input");
@@ -86,7 +86,8 @@ function renderData(data, searchTerm = "") {
                 <td>${driver.middleName || ""}</td>
                 <td>${driver.lastName || ""}</td>
                 <td>${driver.email || ""}</td>
-                <td>${driver.phone || ""}</td>
+                <td>${driver.phoneNumber || ""}</td>
+                <td>${driver.role || ""}</td>
                 <td>
                     <div class="action-icons">
                         <img src="./img/edit.png" alt="edit" class="edit-icon">
@@ -135,7 +136,7 @@ function save() {
     phoneNumber !== "" &&
     password !== ""
   ) {
-    database.ref("drivers/").push({
+    database.ref("users/driver/").push({
       firstName: firstName,
       middleName: middleName,
       lastName: lastName,

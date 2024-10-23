@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // Reference the 'users' node
-var dataRef = database.ref("users");
+var dataRef = database.ref("users/passenger");
 
 // Reference the search input element
 const searchInput = document.querySelector('.search-input');
@@ -63,6 +63,7 @@ function renderData(data, searchTerm = "") {
                       <td>${user.lastName || ''}</td>
                       <td>${user.email || ''}</td>
                       <td>${user.phoneNumber || ''}</td>
+                      <td>${user.role || ''}</td>
                   </tr>`;
               tbody.innerHTML += row;
           }
