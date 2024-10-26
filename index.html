@@ -9,64 +9,66 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
   </head>
   <body>
-   <!-- SIDE BAR -->
-   <div class="sidebar">
-    <div class="logo_details" style="margin-top: 20px;">
-      <img src="./img/logo.png" alt="" class="jeepney-logo">
-      <div class="logo_name">E-JeepPay</div>
-      <i class="bx bx-menu" id="btn"></i>
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+      <div class="logo_details" style="margin-top: 20px">
+        <img src="./img/logo.png" alt="" class="jeepney-logo" />
+        <div class="logo_name">E-JeepPay</div>
+        <i class="bx bx-menu" id="btn"></i>
+      </div>
+      <ul class="nav-list" style="margin-top: 40px">
+        <li>
+          <a href="./index.html" id="active">
+            <i class="bx bx-grid-alt" id="active-icon"></i>
+            <span class="link_name" id="active-name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="./jeepneys.html">
+            <i class="bx bx-car"></i>
+            <span class="link_name">Jeepneys</span>
+          </a>
+          <span class="tooltip">Jeepneys</span>
+        </li>
+        <li>
+          <a href="./drivers.html" style="height: 34px">
+            <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
+            <i class="fi fi-br-driver-man"></i>
+            <span class="link_name">Driver</span>
+          </a>
+          <span class="tooltip">Driver</span>
+        </li>
+        <li>
+          <a href="./user.html">
+            <i class="bx bx-user"></i>
+            <span class="link_name">User</span>
+          </a>
+          <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="./fare.html">
+            <i class="bx bx-dollar"></i>
+            <span class="link_name">Fare</span>
+          </a>
+          <span class="tooltip">Fare</span>
+        </li>
+        <li>
+          <a href="./setting.html" id="settings-link">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
     </div>
-    <ul class="nav-list" style="margin-top: 40px;">
-      <li>
-        <a href="./index.html"  id="active">
-          <i class="bx bx-grid-alt"  id="active-icon"></i>
-          <span class="link_name"  id="active-name">Dashboard</span>
-        </a>
-        <span class="tooltip">Dashboard</span>
-      </li>
-      <li>
-        <a href="./jeepneys.html">
-          <i class="bx bx-car"></i>
-          <span class="link_name">Jeepneys</span>
-        </a>
-        <span class="tooltip">Jeepneys</span>
-      </li>
-      <li>
-        <a href="./drivers.html"style="height: 34px;" >
-          <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
-          <i class="fi fi-br-driver-man"></i>
-          <span class="link_name" >Driver</span>
-        </a>
-        <span class="tooltip">Driver</span>
-      </li>
-      <li>
-        <a href="./user.html">
-          <i class="bx bx-user"></i>
-          <span class="link_name">User</span>
-        </a>
-        <span class="tooltip">User</span>
-      </li>
-      <li>
-        <a href="./fare.html">
-          <i class="bx bx-dollar"></i>
-          <span class="link_name">Fare</span>
-        </a>
-        <span class="tooltip">Fare</span>
-      </li>
-      <li>
-        <a href="./setting.html" id="settings-link">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Settings</span>
-        </a>
-        <span class="tooltip">Settings</span>
-      </li>
-    </ul>
-  </div>
-  <!-- SIDE BAR ENDS -->
+    <!-- SIDE BAR ENDS -->
     <section class="home-section">
       <section class="layout">
         <div class="header">
@@ -80,8 +82,8 @@
                   color: white;
                   font-family: Rubik, system-ui;
                 "
-              > 
-              Welcome 
+              >
+                Welcome
               </h5>
             </div>
             <div class="top-icons">
@@ -93,7 +95,7 @@
                   />
                 </a>
               </button>
-              <button style="width: 40px; height: 40px" onclick=save()>
+              <button style="width: 40px; height: 40px" onclick="notif()">
                 <img src="./img/bell.png" style="height: 100%; width: 100%" />
               </button>
             </div>
@@ -165,9 +167,8 @@
                         padding-left: 148px;
                         text-decoration: underline;
                       "
-                    >
-                      43
-                    </h3>
+                      class="display_count"
+                    ></h3>
                   </div>
                 </div>
                 <div class="driver">
@@ -197,9 +198,8 @@
                         text-decoration: underline;
                         padding-top: 10px;
                       "
-                    >
-                      29
-                    </h3>
+                      class="display_count"
+                    ></h3>
                   </div>
                 </div>
                 <div class="conduc">
@@ -229,9 +229,8 @@
                         text-decoration: underline;
                         padding-top: 7px;
                       "
-                    >
-                      11
-                    </h3>
+                      class="display_count"
+                    ></h3>
                   </div>
                 </div>
                 <div class="users">
@@ -261,9 +260,8 @@
                         text-decoration: underline;
                         padding-top: 13px;
                       "
-                    >
-                      67
-                    </h3>
+                      class="display_count"
+                    ></h3>
                   </div>
                 </div>
               </div>
@@ -279,4 +277,3 @@
     <script src="./js/index.js"></script>
   </body>
 </html>
-
