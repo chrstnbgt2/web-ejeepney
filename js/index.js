@@ -80,3 +80,48 @@ Promise.all([
   .catch((error) => {
     console.error("Error updating counts:", error);
   });
+
+// References to the different user roles in the database
+const dbRefs = [
+  firebase.database().ref("users/conductor"),
+  firebase.database().ref("users/driver"),
+  firebase.database().ref("users/passenger"),
+];
+
+// Function to get and display users from each role
+function getAndDisplayUsers() {
+  const usersContainer = document.getElementById("usersContainer");
+  usersContainer.innerHTML = ""; // Clear previous content
+
+  dbRefs.forEach((dbRef) => {
+    dbRef.once("value", (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const user = childSnapshot.val();
+
+        // Check if the user has a registered date
+        if (user.timestamp) {
+          // Create a div to display each user
+          const userDiv = document.createElement("div");
+          userDiv.classList.add("item1");
+
+          userDiv.innerHTML = `
+            <p><strong>Name:</strong> ${user.firstName} ${user.middleName} ${
+            user.lastName
+          }</p>
+            <p><strong>Role:</strong> ${user.role}</p>
+            <p><strong>Registered on:</strong> ${new Date(
+              user.timestamp
+            ).toLocaleString()}</p>
+          `;
+
+          usersContainer.appendChild(userDiv);
+        }
+      });
+    });
+  });
+}
+
+// Fetch and display users on page load
+document.addEventListener("DOMContentLoaded", () => {
+  getAndDisplayUsers();
+});

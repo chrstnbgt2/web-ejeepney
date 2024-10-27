@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 :root {
-  --color-default: #4E6A6A;
+  --color-default: #4e6a6a;
   --color-second: #0067ac;
   --color-white: #fff;
   --color-body: #e4e9f7;
@@ -12,7 +12,7 @@
   padding: 0%;
   margin: 0%;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -25,7 +25,7 @@ body {
   padding: 6px 14px;
   z-index: 99;
   background-color: var(--color-default);
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   position: fixed;
   top: 0;
   left: 0;
@@ -47,14 +47,12 @@ body {
   transition: all 0.5s ease;
 }
 
-
-
 .sidebar .logo_details .logo_name {
   color: var(--color-white);
   font-size: 22px;
   font-weight: 600;
   opacity: 0;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   text-align: center;
   margin-left: 7%;
 }
@@ -72,7 +70,7 @@ body {
   font-size: 23px;
   text-align: center;
   cursor: pointer;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 
 .sidebar.open .logo_details #btn {
@@ -137,11 +135,11 @@ body {
   border: none;
   border-radius: 5px;
   background-color: var(--color-second);
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 
 .sidebar input::placeholder {
-  color: var(--color-light)
+  color: var(--color-light);
 }
 
 .sidebar.open input {
@@ -167,7 +165,7 @@ body {
   text-decoration: none;
   background-color: var(--color-default);
   position: relative;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   z-index: 12;
 }
 
@@ -186,7 +184,7 @@ body {
 
 .sidebar li a:hover::after {
   transform: scaleX(1);
-  color: var(--color-default)
+  color: var(--color-default);
 }
 
 .sidebar li a .link_name {
@@ -203,7 +201,7 @@ body {
 .sidebar li a:hover .link_name,
 .sidebar li a:hover i {
   transition: all 0.5s ease;
-  color: var(--color-default)
+  color: var(--color-default);
 }
 
 .sidebar.open li a .link_name {
@@ -226,7 +224,7 @@ body {
   bottom: -8px;
   padding: 10px 14px;
   overflow: hidden;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 
 .sidebar.open li.profile {
@@ -279,8 +277,7 @@ body {
 }
 
 /* active tab*/
-#active::after
-{
+#active::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -292,11 +289,12 @@ body {
   transform-origin: left;
   z-index: -2;
   transform: scaleX(1);
-  color:var(--color-default)
+  color: var(--color-default);
 }
 
-#active-name, #active-icon, #active
-{
+#active-name,
+#active-icon,
+#active {
   transform: scaleX(1);
   color: var(--color-default);
 }
@@ -309,7 +307,7 @@ body {
   top: 0;
   left: 78px;
   width: calc(100% - 78px);
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   z-index: 2;
 }
 
@@ -321,19 +319,17 @@ body {
   margin: 18px;
 }
 
-.sidebar.open~.home-section {
+.sidebar.open ~ .home-section {
   left: 250px;
   width: calc(100% - 250px);
 }
-
 
 /* body layout  */
 
 .layout {
   width: 100%;
   display: grid;
-  grid:
-    "header header header" 0.2fr "body body body" 1fr "body body body" 1fr / 0.3fr 1fr 1fr;
+  grid: "header header header" 0.2fr "body body body" 1fr "body body body" 1fr / 0.3fr 1fr 1fr;
   gap: 8px;
 }
 
@@ -350,7 +346,7 @@ body {
 .layout .header .container {
   width: 100%;
   max-height: fit-content;
-  background-color: #2B393B;
+  background-color: #2b393b;
   padding: 2%;
   padding-left: 100px;
   display: flex;
@@ -365,7 +361,7 @@ body {
 }
 
 .search-input {
-  background-image: url('/img/magnifying-glass.png');
+  background-image: url("/img/magnifying-glass.png");
   background-repeat: no-repeat;
   background-position: 95%;
   background-size: 20px;
@@ -396,8 +392,7 @@ body {
   width: 100%;
 
   display: grid;
-  grid:
-    "main-content info-data" 1fr /3.2fr 1fr;
+  grid: "main-content info-data" 1fr /3.2fr 1fr;
   gap: 8px;
 }
 
@@ -419,8 +414,9 @@ body {
   width: 96%;
   height: 265px;
   border-radius: 10px;
-  background-color: #F4F4F4;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  background-color: #f4f4f4;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .added {
@@ -432,17 +428,21 @@ body {
   gap: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #F4F4F4;
+  background-color: #f4f4f4;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   border-radius: 10px;
+  overflow-y: scroll;
 }
 
 .item1 {
-  height: 51px;
+  max-height: fit-content;
+  padding: 10px;
   width: 100%;
   background-color: rgba(165, 190, 125, 0.5);
+  margin-bottom: 5px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .item2 {
@@ -450,7 +450,8 @@ body {
   width: 100%;
   background-color: rgba(165, 190, 125, 0.5);
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .item3 {
@@ -458,7 +459,8 @@ body {
   width: 100%;
   background-color: rgba(165, 190, 125, 0.5);
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .item4 {
@@ -467,9 +469,9 @@ body {
   background-color: rgba(165, 190, 125, 0.5);
   border-radius: 10px;
   margin-bottom: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
-
 
 /* main page side bar*/
 .info-data {
@@ -490,32 +492,60 @@ body {
   width: 100%;
   height: 131px;
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(108, 115, 98, 0.7) 0%, rgba(108, 115, 98, 0.7) 50%, rgba(204, 217, 184, 0.9) 100%);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  background: linear-gradient(
+    180deg,
+    rgba(108, 115, 98, 0.7) 0%,
+    rgba(108, 115, 98, 0.7) 50%,
+    rgba(204, 217, 184, 0.9) 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .driver {
   width: 100%;
   height: 131px;
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(108, 115, 98, 0.7) 0%, rgba(108, 115, 98, 0.7) 50%, rgba(204, 217, 184, 0.9) 100%);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  background: linear-gradient(
+    180deg,
+    rgba(108, 115, 98, 0.7) 0%,
+    rgba(108, 115, 98, 0.7) 50%,
+    rgba(204, 217, 184, 0.9) 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .conduc {
   width: 100%;
   height: 131px;
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(108, 115, 98, 0.7) 0%, rgba(108, 115, 98, 0.7) 50%, rgba(204, 217, 184, 0.9) 100%);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  background: linear-gradient(
+    180deg,
+    rgba(108, 115, 98, 0.7) 0%,
+    rgba(108, 115, 98, 0.7) 50%,
+    rgba(204, 217, 184, 0.9) 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .users {
   width: 100%;
   height: 131px;
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(108, 115, 98, 0.7) 0%, rgba(108, 115, 98, 0.7) 50%, rgba(204, 217, 184, 0.9) 100%);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  background: linear-gradient(
+    180deg,
+    rgba(108, 115, 98, 0.7) 0%,
+    rgba(108, 115, 98, 0.7) 50%,
+    rgba(204, 217, 184, 0.9) 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .semi-container {
