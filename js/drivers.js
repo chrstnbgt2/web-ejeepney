@@ -81,7 +81,7 @@ function renderData(data, searchTerm = "") {
         // Create a new table row with the fetched data
         let row = `
             <tr data-id=${id}>
-                <td>${id}</td>
+                <td style="font-size:10px;">${id}</td>
                 <td>${driver.firstName || ""}</td>
                 <td>${driver.middleName || ""}</td>
                 <td>${driver.lastName || ""}</td>
@@ -117,8 +117,6 @@ function renderData(data, searchTerm = "") {
 document.querySelectorAll(".close-icon").forEach((icon) => {
   icon.addEventListener("click", closeActiveContainer);
 });
-
-// Function to save new driver data
 function save() {
   var firstName = document.getElementById("fname").value;
   var middleName = document.getElementById("mname").value;
@@ -128,6 +126,9 @@ function save() {
   var password = document.getElementById("password").value;
   const jeepContainer = document.querySelector(".info-jeep-container");
 
+  var role = "Driver"; // Set role to Driver
+  var wallet_balance = 0; // Default wallet balance
+
   if (
     firstName !== "" &&
     middleName !== "" &&
@@ -136,20 +137,110 @@ function save() {
     phoneNumber !== "" &&
     password !== ""
   ) {
-    database.ref("users/driver/").push({
-      firstName: firstName,
-      middleName: middleName,
-      lastName: lastName,
-      email: email,
-      phone: phoneNumber,
-      password: password,
+    console.log("All fields are filled, generating QR code..."); // Debug log
+    generateQRCode(email).then(qrCodeUrl => {
+      console.log("QR code URL received, preparing to upload..."); // Debug log
+
+      // Upload the QR code to Firebase Storage
+      uploadQRCodeToStorage(qrCodeUrl, email).then(downloadURL => {
+        console.log("QR code uploaded, storage URL received:", downloadURL); // Debug log
+
+        // Create a new user in Firebase Authentication
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            var user = userCredential.user;
+            console.log("User created in Firebase Auth:", user.uid);
+
+            // Save the driver data with the QR code download URL in Firebase Database
+            database.ref("users/driver").push({
+              uid: user.uid,
+              firstName: firstName,
+              middleName: middleName,
+              lastName: lastName,
+              email: email,
+              phone: phoneNumber,
+              password: password,
+              role: role,
+              qr: downloadURL, // Storage download URL
+              wallet_balance: wallet_balance
+            });
+
+            jeepContainer.style.display = "none";
+            alert("Saved and authenticated successfully!");
+          })
+          .catch((error) => {
+            console.error("Error creating user in Firebase Auth:", error);
+            alert("Failed to create user in authentication.");
+          });
+      }).catch(error => {
+        console.error("Error uploading QR code:", error); // Debug log
+        alert("Failed to upload QR code.");
+      });
+    }).catch(error => {
+      console.error("Error generating QR code:", error); // Debug log
+      alert("Failed to generate QR code.");
     });
-    jeepContainer.style.display = "none";
-    alert("Saved");
   } else {
+    console.log("Some fields are missing"); // Debug log
     jeepContainer.style.display = "none";
     alert("Please fill up all the input fields");
   }
+}
+
+// Function to generate a QR code
+function generateQRCode(text) {
+  return new Promise((resolve, reject) => {
+    QRCode.toDataURL(text, { errorCorrectionLevel: 'H' }, function (err, url) {
+      if (err) {
+        console.error("Error generating QR code:", err);
+        reject(err);
+      } else {
+        resolve(url); // QR code generated successfully
+      }
+    });
+  });
+}
+
+// Function to upload QR code to Firebase Storage
+function uploadQRCodeToStorage(qrCodeUrl, email) {
+  return new Promise((resolve, reject) => {
+    // Convert base64 URL to Blob
+    const blob = base64ToBlob(qrCodeUrl.split(",")[1], "image/png");
+
+    // Firebase storage reference
+    const storageRef = firebase.storage().ref();
+    const qrRef = storageRef.child(`qrcodes/${email}_qr.png`); // Save in "qrcodes" folder
+
+    // Upload the Blob to Firebase Storage
+    const uploadTask = qrRef.put(blob);
+
+    // Listen for the upload to complete
+    uploadTask.on('state_changed', 
+      (snapshot) => {
+        // Optional: Track progress here
+      }, 
+      (error) => {
+        reject(error); // Handle upload errors
+      }, 
+      () => {
+        // Get the download URL once the upload is complete
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          resolve(downloadURL); // Resolve with the download URL
+        });
+      }
+    );
+  });
+}
+
+// Helper function to convert base64 to Blob
+function base64ToBlob(base64, mime) {
+  const byteString = atob(base64);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mime });
 }
 
 // Add event listener to the table body to handle click events on the edit, delete, and more icons

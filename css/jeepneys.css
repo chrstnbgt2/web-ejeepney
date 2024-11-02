@@ -418,9 +418,9 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px 16px;
+  width:max-content;
   cursor: pointer;
   position: relative;
-  width: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;

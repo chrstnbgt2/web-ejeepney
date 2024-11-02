@@ -60,21 +60,13 @@
             </div>
             <div class="jeep-status">
               <h4>Status :</h4>
-              <input
-                type="text"
-                name="status-jeep"
-                class="in"
-                required
-                id="status"
-              />
+              <select name="status-jeep" class="in" required id="status" style="margin-right: 10px;">
+                <option value="in-service">In Service</option>
+                <option value="out-of-service">Out Of Service</option>
+              </select>
             </div>
             <br />
-            <input
-              type="submit"
-              class="jeep-save"
-              value="SAVE"
-              onclick="save()"
-            />
+            <input type="submit" class="jeep-save" value="SAVE" onclick="save()"/>
           </div>
         </div>
       </section>
@@ -143,13 +135,10 @@
               </div>
               <div class="jeep-status">
                 <h4>Status :</h4>
-                <input
-                  type="text"
-                  name="status-jeep"
-                  class="in"
-                  required
-                  id="status"
-                />
+                <select name="status-jeep" class="in" required id="status" style="margin-right: 10px;">
+                  <option value="in-service">In Service</option>
+                  <option value="out-of-service">Out Of Service</option>
+                </select>
               </div>
               <div class="jeep-driver">
                 <h4>Driver :</h4>
@@ -361,10 +350,10 @@
                   </select>
                 </div>
                 <div class="combobox">
-                  <select>
+                  <select style="margin-right: 10px;">
                     <option>All status</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
+                    <option>In Service</option>
+                    <option>Out Of Service</option>
                   </select>
                 </div>
               </div>

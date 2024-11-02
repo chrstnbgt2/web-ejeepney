@@ -151,3 +151,40 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 });
+
+// Save the newly added jeepney to Firebase
+function save() {
+  const plateNumber = document.getElementById("plateNumber").value;
+  const capacity = document.getElementById("capacity").value;
+  const route = document.getElementById("route").value;
+  const status = document.getElementById("status").value;
+
+  // Validate input fields before saving
+  if (!plateNumber || !capacity || !route || !status) {
+    alert("Please fill in all the fields.");
+    return;
+  }
+
+  // Push new jeepney data to Firebase
+  const newJeepneyRef = jeepneyRef.push();
+  newJeepneyRef
+    .set({
+      plateNumber: plateNumber,
+      capacity: capacity,
+      route: route,
+      status: status
+    })
+    .then(() => {
+      alert("Jeepney added successfully.");
+      // Clear the form
+      document.getElementById("plateNumber").value = "";
+      document.getElementById("capacity").value = "";
+      document.getElementById("route").value = "";
+      document.getElementById("status").value = "";
+      // Hide the add jeepney form
+      document.querySelector(".info-jeep-container").style.display = "none";
+    })
+    .catch((error) => {
+      console.error("Error adding jeepney: ", error);
+    });
+}
