@@ -23,7 +23,7 @@ var usersCount = 0;
 function updateJeepneyCount() {
   return firebase
     .database()
-    .ref("/users/jeepney")
+    .ref("jeepneys")
     .once("value")
     .then((snapshot) => {
       const jeepneyCount = snapshot.numChildren(); // Count number of entries under '/users/jeepney'

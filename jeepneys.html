@@ -87,81 +87,61 @@
       </section>
     </div>
 
-    <!--EDIT-->
     <!-- EDIT -->
-    <div
-      class="edit-jeep-container"
-      id="editJeepContainer"
-      style="display: none"
-    >
-      <section class="edit-container">
-        <div class="text">
-          <h1>Jeepney Information</h1>
-          <i class="bx bx-x close-icon" id="editCloseIcon"></i>
-          <!-- Changed id to editCloseIcon -->
-        </div>
-        <div>
-          <div class="form-group">
-            <div class="semi-con">
-              <div class="jeep-plate">
-                <h4>Plate No. :</h4>
-                <input
-                  type="text"
-                  name="plate-jeep"
-                  class="in"
-                  required
-                  id="plateNumber"
-                />
-              </div>
-              <div class="jeep-capacity">
-                <h4>Capacity :</h4>
-                <input
-                  type="text"
-                  name="capacity-jeep"
-                  class="in"
-                  required
-                  id="capacity"
-                />
-              </div>
-              <div class="jeep-route">
-                <h4>Route :</h4>
-                <input
-                  type="text"
-                  name="route-jeep"
-                  class="in"
-                  required
-                  id="route"
-                />
-              </div>
-              <div class="jeep-status">
-                <h4>Status :</h4>
-                <select name="status-jeep" class="in" required id="status" style="margin-right: 10px;">
-                  <option value="in-service">In Service</option>
-                  <option value="out-of-service">Out Of Service</option>
-                </select>
-              </div>
-              <div class="jeep-driver">
-                <h4>Driver :</h4>
-                <input
-                  type="text"
-                  name="driver-jeep"
-                  class="in"
-                  required
-                  id="driver"
-                />
-              </div>
-              <br />
-              <input
-                type="submit"
-                class="jeep-edit"
-                value="EDIT"
-                onclick="edit()"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+<div class="edit-jeep-container" id="editJeepContainer" style="display: none;">
+  <section class="edit-container">
+    <div class="text">
+      <h1>Jeepney Information</h1>
+      <i class="bx bx-x close-icon" id="editCloseIcon"></i>
     </div>
+    <div class="form-group">
+      <div class="semi-con">
+        <input type="hidden" id="editJeepId" />
+
+        <!-- Plate Number Field -->
+        <div class="jeep-plate">
+          <h4>Plate No. :</h4>
+          <input type="text" name="edit-plate-jeep" class="in" required id="editPlateNumber" />
+        </div>
+        
+        <!-- Capacity Field -->
+        <div class="jeep-capacity">
+          <h4>Capacity :</h4>
+          <input type="text" name="edit-capacity-jeep" class="in" required id="editCapacity" />
+        </div>
+        
+        <!-- Route Field -->
+        <div class="jeep-route">
+          <h4>Route :</h4>
+          <input type="text" name="edit-route-jeep" class="in" required id="editRoute" />
+        </div>
+        
+        <!-- Status Dropdown -->
+        <div class="jeep-status">
+          <h4>Status :</h4>
+          <select name="edit-status-jeep" class="in" required id="editStatus" style="margin-right: 10px;">
+            <option value="in-service">In Service</option>
+            <option value="out-of-service">Out Of Service</option>
+          </select>
+        </div>
+        
+        <!-- Driver Selection -->
+        <div class="jeep-driver">
+          <h4>Driver :</h4>
+          <select name="edit-driver-jeep" class="in" required id="editDriverSelect">
+            <option value="">Select a Driver</option>
+          </select>
+        </div>
+        
+        <!-- Edit Button -->
+        <br />
+        <input type="submit" class="jeep-edit" value="EDIT" onclick="updateJeepney()" />
+      </div>
+    </div>
+  </section>
+</div>
+
+    
 
     <!-- VIEW -->
     <div
@@ -178,68 +158,29 @@
         <div>
           <div class="form-group">
             <div class="semi-con">
+              <input type="hidden" id="viewJeepId"/>
               <div class="jeep-plate">
                 <h4>Plate No. :</h4>
-                <input
-                  type="text"
-                  name="plate-view"
-                  class="in"
-                  required
-                  id="plateNumber"
-                  readonly
-                />
+                <input type="text" name="plate-view" class="in" id="viewPlateNumber"readonly/>
               </div>
               <div class="jeep-capacity">
                 <h4>Capacity :</h4>
-                <input
-                  type="text"
-                  name="capacity-view"
-                  class="in"
-                  required
-                  id="capacity"
-                  readonly
-                />
+                <input type="text" name="capacity-view" class="in" id="viewCapacity" readonly/>
               </div>
               <div class="jeep-route">
                 <h4>Route :</h4>
-                <input
-                  type="text"
-                  name="route-view"
-                  class="in"
-                  required
-                  id="route"
-                  readonly
-                />
+                <input type="text" name="route-view" class="in" id="viewRoute" readonly/>
               </div>
               <div class="jeep-status">
                 <h4>Status :</h4>
-                <input
-                  type="text"
-                  name="status-view"
-                  class="in"
-                  required
-                  id="status"
-                  readonly
-                />
-              </div>
+                <input type="text" name="status-view" class="in" id="viewStatus" readonly style="margin-right: 10px;" />
+              </div>              
               <div class="jeep-driver">
                 <h4>Driver :</h4>
-                <input
-                  type="text"
-                  name="driver-view"
-                  class="in"
-                  required
-                  id="driver"
-                  readonly
-                />
+                <input type="text" name="driver-view" class="in" id="viewSelect" readonly/>
               </div>
-              <br />
-              <input
-                type="submit"
-                class="jeep-view"
-                value="DONE"
-                onclick="hideViewContainer()"
-              />
+              <br>
+              <input type="submit" class="jeep-view" value="DONE" onclick="hideViewContainer()"/>
             </div>
           </div>
         </div>
@@ -342,18 +283,19 @@
             <section class="components-layout">
               <div class="grow1">
                 <div class="combobox">
-                  <select>
-                    <option>Today</option>
-                    <option>This Week</option>
-                    <option>This Month</option>
-                    <option>This Year</option>
+                  <select id="timeFilter">
+                    <option value="allTime">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="thisWeek">This Week</option>
+                    <option value="thisMonth">This Month</option>
+                    <option value="thisYear">This Year</option>
                   </select>
                 </div>
                 <div class="combobox">
-                  <select style="margin-right: 10px;">
-                    <option>All status</option>
-                    <option>In Service</option>
-                    <option>Out Of Service</option>
+                  <select id="statusFilter" style="margin-right: 10px;">
+                    <option value="allStatus">All status</option>
+                    <option value="inService">In Service</option>
+                    <option value="outOfService">Out Of Service</option>
                   </select>
                 </div>
               </div>
@@ -365,6 +307,7 @@
                 </button>
               </div>
             </section>
+            
 
             <!-- table -->
             <div class="table-container">

@@ -17,6 +17,8 @@ const firebaseConfig = {
   measurementId: "G-VJH1K6M4T2",
 };
 
+let email_user = "";
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -26,10 +28,10 @@ login.addEventListener("click", (e) => {
   const password = document.getElementById("password").value;
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in successfully
       const user = userCredential.user;
       alert("Login successful");
       window.location.href = "index.html";
+      email_user = email;
     })
     .catch((error) => {
       const errorCode = error.code;
