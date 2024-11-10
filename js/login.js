@@ -19,41 +19,60 @@ const firebaseConfig = {
 
 let email_user = "";
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-login.addEventListener("click", (e) => {
+const popupModal = document.getElementById("popupModal");
+const popupMessage = document.getElementById("popupMessage");
+const closeModal = document.getElementById("closeModal");
+
+function showPopup(message) {
+  popupMessage.textContent = message;
+  popupModal.style.display = "block";
+}
+
+closeModal.onclick = function() {
+  popupModal.style.display = "none";
+};
+
+window.onclick = function(event) {
+  if (event.target == popupModal) {
+    popupModal.style.display = "none";
+  }
+};
+
+login.addEventListener("click", async (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      alert("Login successful");
+  
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    showPopup("Login successful");
+    setTimeout(() => {
       window.location.href = "index.html";
-      email_user = email;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("Login failed: " + errorMessage);
-    });
+    }, 1500); 
+    email_user = email;
+  } catch (error) {
+    const errorCode = error.code;
+    
+    if (errorCode === "auth/invalid-email") {
+      showPopup("Invalid email format");
+    } else {
+      showPopup("Invalid user credentials");
+    }
+  }
 });
 
-// Adding keyup event listener to the password input
 document.getElementById("password").addEventListener("keyup", function (event) {
-  if (event.keyCode === 13) {
-    // Check if Enter key is pressed
-    document.getElementById("login").click();
-    // Trigger button click
+  if (event.keyCode === 13) { 
+    document.getElementById("login").click();  
   }
 });
 
-// Adding keyup event listener to the password input
 document.getElementById("email").addEventListener("keyup", function (event) {
-  if (event.keyCode === 13) {
-    // Check if Enter key is pressed
-    document.getElementById("login").click();
-    // Trigger button click
+  if (event.keyCode === 13) {  
+    document.getElementById("login").click(); 
   }
 });
+

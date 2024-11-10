@@ -42,27 +42,7 @@
     grid-area: password;
     display: flex;
     flex-direction: row;
-    gap: 120px;
-  }
-  
-  .new-password {
-    margin-top: 50px;
-    margin-left: 100px;
-    display: flex;
-    flex-direction: row;
-    height: max-content;
-    grid-area: new-pass;
-    gap: 80px;
-  }
-  
-  .confirm-pass {
-    margin-top: 50px;
-    margin-left: 100px;
-    height: max-content;
-    grid-area: confirm-pass;
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
+    gap: 105px;
   }
   
   .in{
@@ -71,7 +51,7 @@
     padding: 5px 12px;
     font-size: 14px;
     line-height: 20px;
-    color: #cbcbcb;
+    color: #000000;
     vertical-align: middle;
     background-color: #ffffff;
     background-repeat: no-repeat;
@@ -104,7 +84,7 @@
     display: inline-block;
     min-height: 28px;
     transition: background-color .24s,box-shadow .24s;
-  
+    margin-right:320px;
   }
   .settings-save::hover {
     box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
