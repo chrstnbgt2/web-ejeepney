@@ -10,7 +10,10 @@
     rel="stylesheet" />
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -38,7 +41,6 @@
     </li>
     <li>
       <a href="./drivers.html"style="height: 34px;" >
-        <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
         <i class="fi fi-br-driver-man" ></i>
         <span class="link_name" >Driver</span>
       </a>
@@ -60,7 +62,6 @@
     </li>
     <li>
       <a href="./setting.html" id="settings-link" style="background-color: white; border-radius: 7px;">
-        <!-- <i class="bx bx-cog" id="active-icon"></i> -->
         <i class="fi fi-rr-settings" style="background-color: white; color: black; font-size: 17px;  border-radius: 7px;"></i>
         <span class="link_name" style="color: black;">Settings</span>
       </a>
@@ -70,7 +71,6 @@
   </ul>
 </div>
 <!-- SIDE BAR ENDS  -->
-
   <section class="home-section">
     <section class="layout">
       <div class="header">
@@ -109,7 +109,7 @@
             <h5>Account Settings</h5>
           </div>
           <form id="accountForm" action="" method="POST" class="form-group">
-            <div class="username">
+            <div class="role">
                 <h4>Role</h4>
                 <select name="role" class="in" required id="editAdminSelect">
                     <option value="admin">Admin</option>
@@ -120,7 +120,7 @@
             </div>
             <div class="email">
                 <h4>Email</h4>
-                <input type="text" name="email" class="in" required />
+                <select name="email" class="in" required id="emailSelect"></select>
             </div>
             <br><br>
             <div class="container-button">
@@ -129,14 +129,14 @@
         </form>
         
         
+        
+        
         </section>
       </div>
     </section>
   </section>
   </section>
   <!-- Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="./js/settings.js"></script>
 </body>
 

@@ -25,7 +25,7 @@
     color: black;
   }
   
-  .username {
+  .role {
     margin-top: 50px;
     margin-left: 100px;
     height: max-content;
@@ -35,7 +35,7 @@
     gap: 115px;
   }
   
-  .password {
+  .email {
     margin-top: 50px;
     margin-left: 100px;
     height: max-content;
