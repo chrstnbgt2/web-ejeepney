@@ -71,16 +71,10 @@
         <div class="container">
           <input type="text" class="search-input" />
           <div class="topbar-user">
-            <h5
-              style="
-                margin-top: 0.9%;
-                font-size: 18px;
-                color: white;
-                font-family: Rubik, system-ui;
-              "
-            >
-            Welcome 
-            </h5>
+            <h5 id="welcomeMessage"
+      style="margin-top: 0.9%; font-size: 18px; color: white; font-family: Rubik, system-ui;">
+                Welcome
+              </h5>
           </div>
           <div class="top-icons">
             <button style="width: 40px; height: 40px; margin-right: 10px">
@@ -142,5 +136,15 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="./js/script.js"></script>
   <script src="./js/user.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const username = localStorage.getItem("username");
+      if (username) {
+        document.getElementById("welcomeMessage").textContent = "Welcome " + username;
+      } else {
+        document.getElementById("welcomeMessage").textContent = "Welcome";
+      }
+    });
+  </script>
 </body>
 </html>

@@ -138,7 +138,8 @@ function save() {
     password !== ""
   ) {
     console.log("All fields are filled, generating QR code..."); // Debug log
-    generateQRCode(email).then(qrCodeUrl => {
+    var qrData = `First Name: ${firstName}\nMiddle Name: ${middleName}\nLast Name: ${lastName}\nEmail: ${email}`;
+    generateQRCode(qrData).then(qrCodeUrl => {
       console.log("QR code URL received, preparing to upload..."); // Debug log
 
       // Upload the QR code to Firebase Storage
@@ -152,6 +153,7 @@ function save() {
             console.log("User created in Firebase Auth:", user.uid);
 
             // Save the driver data with the QR code download URL in Firebase Database
+            var timestamp = Math.floor(Date.now() / 1000); // Current Unix timestamp
             database.ref("users/driver").push({
               uid: user.uid,
               firstName: firstName,
@@ -162,7 +164,8 @@ function save() {
               password: password,
               role: role,
               qr: downloadURL, // Storage download URL
-              wallet_balance: wallet_balance
+              wallet_balance: wallet_balance,
+              timestamp: timestamp // Add timestamp
             });
 
             jeepContainer.style.display = "none";
@@ -187,60 +190,47 @@ function save() {
   }
 }
 
-// Function to generate a QR code
-function generateQRCode(text) {
+// Function to generate QR code
+function generateQRCode(data) {
   return new Promise((resolve, reject) => {
-    QRCode.toDataURL(text, { errorCorrectionLevel: 'H' }, function (err, url) {
-      if (err) {
-        console.error("Error generating QR code:", err);
-        reject(err);
-      } else {
-        resolve(url); // QR code generated successfully
-      }
+    var qr = new QRCode(document.createElement("div"), {
+      text: data,
+      width: 128,
+      height: 128
     });
+    setTimeout(() => {
+      var img = qr._el.children[0];
+      if (img) {
+        resolve(img.src);
+      } else {
+        reject(new Error("QR code generation failed"));
+      }
+    }, 500); // Allow some time for QR code generation
   });
 }
 
 // Function to upload QR code to Firebase Storage
 function uploadQRCodeToStorage(qrCodeUrl, email) {
   return new Promise((resolve, reject) => {
-    // Convert base64 URL to Blob
-    const blob = base64ToBlob(qrCodeUrl.split(",")[1], "image/png");
-
-    // Firebase storage reference
-    const storageRef = firebase.storage().ref();
-    const qrRef = storageRef.child(`qrcodes/${email}_qr.png`); // Save in "qrcodes" folder
-
-    // Upload the Blob to Firebase Storage
-    const uploadTask = qrRef.put(blob);
-
-    // Listen for the upload to complete
-    uploadTask.on('state_changed', 
-      (snapshot) => {
-        // Optional: Track progress here
-      }, 
-      (error) => {
-        reject(error); // Handle upload errors
-      }, 
-      () => {
-        // Get the download URL once the upload is complete
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          resolve(downloadURL); // Resolve with the download URL
-        });
+    var storageRef = firebase.storage().ref();
+    var qrRef = storageRef.child(`qrcodes/${email}.png`);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", qrCodeUrl, true);
+    xhr.responseType = "blob";
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var blob = xhr.response;
+        qrRef.put(blob).then(snapshot => {
+          snapshot.ref.getDownloadURL().then(downloadURL => {
+            resolve(downloadURL);
+          }).catch(reject);
+        }).catch(reject);
+      } else {
+        reject(new Error("Failed to fetch QR code"));
       }
-    );
+    };
+    xhr.send();
   });
-}
-
-// Helper function to convert base64 to Blob
-function base64ToBlob(base64, mime) {
-  const byteString = atob(base64);
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], { type: mime });
 }
 
 // Add event listener to the table body to handle click events on the edit, delete, and more icons

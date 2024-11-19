@@ -4,6 +4,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -17,10 +18,9 @@ const firebaseConfig = {
   measurementId: "G-VJH1K6M4T2",
 };
 
-let email_user = "";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const database = getDatabase(app);
 
 const popupModal = document.getElementById("popupModal");
 const popupMessage = document.getElementById("popupMessage");
@@ -44,18 +44,46 @@ window.onclick = function(event) {
 login.addEventListener("click", async (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  
+
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    showPopup("Login successful");
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1500); 
-    email_user = email;
+
+    const dbRef = ref(database, 'users/admin');
+    get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        let userFound = false;
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.email === email) {
+            console.log("User data found:", userData); 
+            if (userData.role === "admin") {
+              localStorage.setItem("username", userData.username);
+              showPopup("Login successful");
+              setTimeout(() => {
+                window.location.href = "index.html";
+              }, 1500);
+              userFound = true;
+              return;
+            } else {
+              showPopup("You do not have admin privileges");
+              userFound = true;
+              return;
+            }
+          }
+        });
+        if (!userFound) {
+          showPopup("User doesn't have privilege to Login");
+        }
+      } else {
+        showPopup("No user data found");
+      }
+    });
+
   } catch (error) {
     const errorCode = error.code;
-    
+    console.error("Login error:", error);
+
     if (errorCode === "auth/invalid-email") {
       showPopup("Invalid email format");
     } else {
@@ -75,4 +103,3 @@ document.getElementById("email").addEventListener("keyup", function (event) {
     document.getElementById("login").click(); 
   }
 });
-
