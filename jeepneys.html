@@ -35,7 +35,7 @@
                 name="plate-jeep"
                 class="in"
                 required
-                id="plateNumber"
+                id="add-plateNumber"
               />
             </div>
             <div class="jeep-capacity">
@@ -45,7 +45,7 @@
                 name="capacity-jeep"
                 class="in"
                 required
-                id="capacity"
+                id="add-capacity"
               />
             </div>
             <div class="jeep-route">
@@ -55,23 +55,34 @@
                 name="route-jeep"
                 class="in"
                 required
-                id="route"
+                id="add-route"
               />
             </div>
             <div class="jeep-status">
               <h4>Status :</h4>
-              <select name="status-jeep" class="in" required id="status" style="margin-right: 10px;">
+              <select
+                name="status-jeep"
+                class="in"
+                required
+                id="status"
+                style="margin-right: 10px"
+              >
                 <option value="in-service">In Service</option>
                 <option value="out-of-service">Out Of Service</option>
               </select>
             </div>
             <br />
-            <input type="submit" class="jeep-save" value="SAVE" onclick="save()"/>
+            <input
+              type="submit"
+              class="jeep-save"
+              value="SAVE"
+              onclick="save()"
+            />
           </div>
         </div>
       </section>
     </div>
-
+    
     <!-- POP-UP DELETE CONFIRMATION WINDOW -->
     <div class="delete-jeep-container" style="display: none">
       <section class="add-container">

@@ -293,11 +293,10 @@ function showEditForm(jeepneyId) {
   });
 }
 
-
 function save() {
-  const plateNumber = document.getElementById("plateNumber").value;
-  const capacity = document.getElementById("capacity").value;
-  const route = document.getElementById("route").value;
+  const plateNumber = document.getElementById("add-plateNumber").value;
+  const capacity = document.getElementById("add-capacity").value;
+  const route = document.getElementById("add-route").value;
   const status = document.getElementById("status").value;
 
   if (!plateNumber || !capacity || !route || !status) {
@@ -306,9 +305,9 @@ function save() {
   }
 
   latestJeepIdRef.transaction((currentId) => {
-    return (currentId || 0) + 1; 
+    return (currentId || 0) + 1;
   }).then((result) => {
-    const newJeepId = result.snapshot.val(); 
+    const newJeepId = result.snapshot.val();
     const timestamp = Date.now();
 
     jeepneyRef.child(newJeepId).set({
@@ -317,11 +316,11 @@ function save() {
       capacity: capacity,
       route: route,
       status: status,
-      timestamp: timestamp 
+      timestamp: timestamp
     }).then(() => {
-      document.getElementById("plateNumber").value = "";
-      document.getElementById("capacity").value = "";
-      document.getElementById("route").value = "";
+      document.getElementById("add-plateNumber").value = "";
+      document.getElementById("add-capacity").value = "";
+      document.getElementById("add-route").value = "";
       document.getElementById("status").value = "";
       document.querySelector(".info-jeep-container").style.display = "none";
     }).catch((error) => {

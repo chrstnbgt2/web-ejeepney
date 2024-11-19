@@ -22,26 +22,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-const popupModal = document.getElementById("popupModal");
-const popupMessage = document.getElementById("popupMessage");
-const closeModal = document.getElementById("closeModal");
-
-function showPopup(message) {
-  popupMessage.textContent = message;
-  popupModal.style.display = "block";
+function showPopup(message, type = 'info') {
+  Swal.fire({
+    icon: type,
+    title: message,
+    showConfirmButton: false,
+    timer: 1500
+  });
 }
 
-closeModal.onclick = function() {
-  popupModal.style.display = "none";
-};
+const loginButton = document.getElementById("login");
 
-window.onclick = function(event) {
-  if (event.target == popupModal) {
-    popupModal.style.display = "none";
-  }
-};
-
-login.addEventListener("click", async (e) => {
+loginButton.addEventListener("click", async (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -59,24 +51,30 @@ login.addEventListener("click", async (e) => {
             console.log("User data found:", userData); 
             if (userData.role === "admin") {
               localStorage.setItem("username", userData.username);
-              showPopup("Login successful");
+              showPopup("Login successful", 'success');
               setTimeout(() => {
                 window.location.href = "index.html";
               }, 1500);
               userFound = true;
               return;
             } else {
-              showPopup("You do not have admin privileges");
+              showPopup("You do not have admin privileges", 'error');
               userFound = true;
+              document.getElementById("email").value = '';
+              document.getElementById("password").value = '';
               return;
             }
           }
         });
         if (!userFound) {
-          showPopup("User doesn't have privilege to Login");
+          showPopup("User doesn't have privilege to Login", 'error');
+          document.getElementById("email").value = '';
+          document.getElementById("password").value = '';
         }
       } else {
-        showPopup("No user data found");
+        showPopup("No user data found", 'error');
+        document.getElementById("email").value = '';
+        document.getElementById("password").value = '';
       }
     });
 
@@ -85,10 +83,12 @@ login.addEventListener("click", async (e) => {
     console.error("Login error:", error);
 
     if (errorCode === "auth/invalid-email") {
-      showPopup("Invalid email format");
+      showPopup("Invalid email format", 'error');
     } else {
-      showPopup("Invalid user credentials");
+      showPopup("Invalid user credentials", 'error');
     }
+    document.getElementById("email").value = '';
+    document.getElementById("password").value = '';
   }
 });
 
