@@ -8,6 +8,12 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css'>
 
 </head>
 <body>
@@ -95,7 +101,7 @@
         <div class="container">
           <h1>Data Records</h1>
           <section class="components-layout">
-            <div class="grow1">
+            <div class="grow1" style="display: flex; align-items: center;">
               <div class="combobox">
                 <select>
                     <option>Today</option>
@@ -104,6 +110,14 @@
                     <option>This Year</optin>
                 </select>
              </div>
+             <div class="request-notification-form">
+              <button class="notification-button">
+                <span class="text">Request</span> <!-- Text now dynamically controlled -->
+                <span class="notification-bubble" id="notification-count">8</span>
+                <i class="fi fi-rr-poll-h" style="padding-left: 8px; margin-top: 3px;"></i>
+              </button>
+              
+            </div>
             </div>
             <div class="grow1">
             </div>

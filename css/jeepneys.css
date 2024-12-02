@@ -418,7 +418,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px 16px;
-  width:max-content;
+  width: max-content;
   cursor: pointer;
   position: relative;
   display: inline-flex;
@@ -863,4 +863,138 @@ h1 {
 .semi-con {
   align-items: center;
   text-align: center;
+}
+
+/* REQUEST NOTIFICATION FORM CONTAINER AND ITS ITEMS */
+.request-notification-form {
+  text-align: center;
+}
+
+.notification-button {
+  position: relative;
+  padding: 10px 20px; /* Adjusted for consistent dimensions */
+  font-size: 16px;
+  color: #333;
+  background-color: #ffdddd;
+  border: 1px solid #ffdddd;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Ensures vertical alignment for all children */
+  justify-content: center;
+  gap: 10px; /* Adds space between the "Request" text and the <i> tag */
+  transition: all ease-in-out 0.15s;
+  height: 50px; /* Fixed height to maintain button size consistency */
+  width: auto; /* Allow button width to adjust dynamically */
+}
+
+.notification-button:hover {
+  background-color: #fcbdbd;
+  border: 1px solid #fa5050;
+}
+
+.notification-bubble {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #e00000;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.notification-button i {
+  font-size: 16px; /* Adjust icon size if necessary */
+}
+
+.notification-button span.text {
+  font-size: 16px; /* Maintain consistent text size */
+  font-weight: normal; /* Adjust font weight as per design */
+}
+
+.notification-button.active {
+  background-color: #2c3e50; /* Darker background for active state */
+  color: white; /* White text */
+  border: none;
+  padding: 10px 20px; /* Ensure consistent padding for active state */
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between text and icon */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  height: 50px; /* Maintain the same fixed height as inactive state */
+  width: auto; /* Dynamic width */
+}
+
+.notification-button.active i {
+  font-size: 18px; /* Slightly larger icon for emphasis in active state */
+}
+
+.notification-button.active span.text {
+  font-size: 16px; /* Keep text size consistent */
+}
+
+.request-action-icons {
+  font-size: 22px;
+  border: none;
+  background-color: transparent;
+  margin: 5px;
+}
+
+#approved-icon {
+  transition: all ease-in-out 0.15s;
+  color: #277a63;
+}
+
+#rejected-icon {
+  transition: all ease-in-out 0.15s;
+  color: #c7353e;
+}
+
+#approved-icon:hover {
+  color: #1cba8e;
+}
+
+#rejected-icon:hover {
+  color: #fa2835;
+}
+
+/* Status styles */
+.status-approved {
+  background-color: #eafaf1; /* Light green background */
+  color: #4caf50; /* Green text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.status-pending {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #808080; /* Grey text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.status-rejected {
+  background-color: #ffebeb; /* Light red background */
+  color: #f44336; /* Red text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
 }
