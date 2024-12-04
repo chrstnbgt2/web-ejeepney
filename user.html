@@ -113,11 +113,38 @@
              <div class="request-notification-form">
               <button class="notification-button">
                 <span class="text">Request</span> <!-- Text now dynamically controlled -->
-                <span class="notification-bubble" id="notification-count">8</span>
+                <span class="notification-bubble" id="notification-count">0</span>
                 <i class="fi fi-rr-poll-h" style="padding-left: 8px; margin-top: 3px;"></i>
               </button>
               
             </div>
+            <!-- Confirmation Modal -->
+            <div id="confirmationModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Confirm Action</h3>
+                <p id="modalMessage">Are you sure you want to perform this action?</p>
+                <div class="modal-buttons">
+                  <button id="confirmButton" class="confirm">Yes</button>
+                  <button id="cancelButton" class="cancel">No</button>
+                </div>
+              </div>
+            </div>
+            <!-- confirmation modal ends -->
+            <!-- Details Modal -->
+            <div id="detailsModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Passenger Details</h3>
+                <div id="detailsContent">
+                  <!-- Dynamic content will be populated here -->
+                </div>
+                <div class="modal-buttons">
+                  <button id="closeDetailsButton" class="cancel">Close</button>
+                </div>
+              </div>
+            </div>
+            <!-- details modal ends -->
             </div>
             <div class="grow1">
             </div>
