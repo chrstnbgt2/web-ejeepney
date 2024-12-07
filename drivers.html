@@ -25,7 +25,7 @@
 
   <body>
     <!-- POP-UP WINDOW FORM -->
-    <div class="driver-jeep-container" style="display: none">
+    <div class="add-driver-jeep-container" style="display: none">
       <section class="add-container">
         <div class="text">
           <h1>Driver Information</h1>
@@ -114,7 +114,7 @@
               type="submit"
               class="driver-save"
               value="SAVE"
-              onclick="save()"
+              onclick="addDriver()"
             />
           </div>
         </div>
@@ -153,7 +153,7 @@
                   name="edit-fname"
                   class="in"
                   required
-                  id="fname"
+                  id="edit-fname"
                 />
               </div>
               <div class="driver-mname">
@@ -163,7 +163,7 @@
                   name="edit-mname"
                   class="in"
                   required
-                  id="mname"
+                  id="edit-mname"
                 />
               </div>
               <div class="driver-lname">
@@ -173,21 +173,11 @@
                   name="edit-lname"
                   class="in"
                   required
-                  id="lname"
+                  id="edit-lname"
                 />
               </div>
             </div>
             <div class="other">
-              <div class="driver-email">
-                <h4>Email :</h4>
-                <input
-                  type="text"
-                  name="edit-email"
-                  class="in2"
-                  required
-                  id="email"
-                />
-              </div>
               <div class="driver-phone">
                 <h4>Phone Number :</h4>
                 <input
@@ -195,39 +185,7 @@
                   name="edit-phone"
                   class="in2"
                   required
-                  id="phoneNumber"
-                />
-              </div>
-              <div class="driver-password" style="position: relative">
-                <h4>Password :</h4>
-                <input
-                  type="password"
-                  name="edit-password"
-                  class="in2"
-                  required
-                  id="password"
-                />
-                <i
-                  class="fi fi-rr-eye-crossed"
-                  style="
-                    position: absolute;
-                    right: 6.5%;
-                    top: 56%;
-                    transform: translateY(-50%);
-                    cursor: pointer;
-                    font-size: 20px;
-                  "
-                  onclick="togglePasswordVisibility()"
-                ></i>
-              </div>
-              <div class="driver-phone">
-                <h4>Jeepney Plate No.</h4>
-                <input
-                  type="text"
-                  name="plate-no"
-                  class="in2"
-                  required
-                  id="plate-no"
+                  id="edit-phoneNumber"
                 />
               </div>
             </div>
@@ -235,8 +193,10 @@
             <input
               type="submit"
               class="driver-save"
+              id="driver-edit"
               value="SAVE"
-              onclick="save()"
+              onclick=""
+              style="margin-bottom: 20px"
             />
           </div>
         </div>
@@ -260,7 +220,7 @@
                   name="view-fname"
                   class="in"
                   required
-                  id="fname"
+                  id="view-fname"
                   readonly
                 />
               </div>
@@ -271,7 +231,7 @@
                   name="view-mname"
                   class="in"
                   required
-                  id="mname"
+                  id="view-mname"
                   readonly
                 />
               </div>
@@ -282,7 +242,7 @@
                   name="view-lname"
                   class="in"
                   required
-                  id="lname"
+                  id="view-lname"
                   readonly
                 />
               </div>
@@ -295,7 +255,7 @@
                   name="view-email"
                   class="in2"
                   required
-                  id="email"
+                  id="view-email"
                   readonly
                 />
               </div>
@@ -306,7 +266,7 @@
                   name="view-phone"
                   class="in2"
                   required
-                  id="phoneNumber"
+                  id="view-phoneNumber"
                   readonly
                 />
               </div>
@@ -317,7 +277,7 @@
                   name="view-password"
                   class="in2"
                   required
-                  id="password"
+                  id="view-password"
                   readonly
                 />
                 <i
@@ -330,19 +290,8 @@
                     cursor: pointer;
                     font-size: 20px;
                   "
-                  onclick="togglePasswordVisibility()"
+                  onclick="togglePasswordVisibility(event)"
                 ></i>
-              </div>
-              <div class="driver-phone">
-                <h4>Jeepney Plate No.</h4>
-                <input
-                  type="text"
-                  name="plate-no"
-                  class="in2"
-                  required
-                  id="plate-no"
-                  readonly
-                />
               </div>
             </div>
             <br />
@@ -350,7 +299,7 @@
               type="submit"
               class="driver-save"
               value="DONE"
-              onclick="save()"
+              onclick="closeActiveContainer()"
             />
           </div>
         </div>
@@ -419,8 +368,15 @@
           <div class="container">
             <input type="text" class="search-input" />
             <div class="topbar-user">
-              <h5 id="welcomeMessage"
-      style="margin-top: 0.9%; font-size: 18px; color: white; font-family: Rubik, system-ui;">
+              <h5
+                id="welcomeMessage"
+                style="
+                  margin-top: 0.9%;
+                  font-size: 18px;
+                  color: white;
+                  font-family: Rubik, system-ui;
+                "
+              >
                 Welcome
               </h5>
             </div>
@@ -445,11 +401,12 @@
             <section class="components-layout">
               <div class="grow1">
                 <div class="combobox">
-                  <select>
-                    <option>Today</option>
-                    <option>This Week</option>
-                    <option>This Month</option>
-                    <option>This Year</option>
+                  <select id="timestampFilter">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="thisWeek">This Week</option>
+                    <option value="thisMonth">This Month</option>
+                    <option value="thisYear">This Year</option>
                   </select>
                 </div>
               </div>
@@ -472,7 +429,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
-                    <th>Role</th> 
+                    <th>Role</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -484,8 +441,12 @@
       </section>
     </section>
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
     <script src="./js/script.js"></script>
     <script src="./js/drivers.js"></script>
 
@@ -515,6 +476,21 @@
           icon.classList.add("fi-rr-eye-crossed");
         }
       }
+      function togglePasswordVisibility(event) {
+        // Identify the clicked icon's parent container
+        const icon = event.target;
+        const passwordInput = icon.previousElementSibling; // Get the corresponding password input field
+
+        if (passwordInput && passwordInput.type === "password") {
+          passwordInput.type = "text";
+          icon.classList.remove("fi-rr-eye-crossed");
+          icon.classList.add("fi-rr-eye");
+        } else if (passwordInput) {
+          passwordInput.type = "password";
+          icon.classList.remove("fi-rr-eye");
+          icon.classList.add("fi-rr-eye-crossed");
+        }
+      }
 
       const deleteButton = document.querySelector(".delete-close-icon");
       const deleteContainer = document.querySelector(".delete-jeep-container");
@@ -530,10 +506,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         const username = localStorage.getItem("username");
         if (username) {
-          document.getElementById("welcomeMessage").textContent = "Welcome " + username;
+          document.getElementById("welcomeMessage").textContent =
+            "Welcome " + username;
         } else {
           document.getElementById("welcomeMessage").textContent = "Welcome";
         }

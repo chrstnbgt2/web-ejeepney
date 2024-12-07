@@ -1,191 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>User</title>
-  <!-- Link Styles -->
-  <link rel="stylesheet" href="./css/jeepneys.css">
-  <link rel="stylesheet" href="./css/style.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css'>
-
-</head>
-<body>
- <!-- SIDE BAR -->
- <div class="sidebar">
-  <div class="logo_details" style="margin-top: 20px;">
-    <img src="./img/logo.png" alt="" class="jeepney-logo">
-    <div class="logo_name">E-JeepPay</div>
-    <i class="bx bx-menu" id="btn"></i>
-  </div>
-  <ul class="nav-list" style="margin-top: 40px;">
-    <li>
-      <a href="./index.html">
-        <i class="bx bx-grid-alt"></i>
-        <span class="link_name">Dashboard</span>
-      </a>
-      <span class="tooltip">Dashboard</span>
-    </li>
-    <li>
-      <a href="./jeepneys.html">
-        <i class="bx bx-car"></i>
-        <span class="link_name">Jeepneys</span>
-      </a>
-      <span class="tooltip">Jeepneys</span>
-    </li>
-    <li>
-      <a href="./drivers.html"style="height: 34px;" >
-        <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
-        <i class="fi fi-br-driver-man"></i>
-        <span class="link_name" >Driver</span>
-      </a>
-      <span class="tooltip">Driver</span>
-    </li>
-    <li>
-      <a href="./user.html"  id="active">
-        <i class="bx bx-user"  id="active-icon"></i>
-        <span class="link_name"  id="active-name">User</span>
-      </a>
-      <span class="tooltip">User</span>
-    </li>
-    <li>
-      <a href="./fare.html">
-        <i class="bx bx-dollar"></i>
-        <span class="link_name">Fare</span>
-      </a>
-      <span class="tooltip">Fare</span>
-    </li>
-    <li>
-      <a href="./setting.html" id="settings-link">
-        <i class="bx bx-cog"></i>
-        <span class="link_name">Settings</span>
-      </a>
-      <span class="tooltip">Settings</span>
-    </li>
-  </ul>
-</div>
-<!-- SIDE BAR ENDS -->
-  <section class="home-section">
-    <section class="layout">
-      <div class="header">
-        <div class="container">
-          <input type="text" class="search-input" />
-          <div class="topbar-user">
-            <h5 id="welcomeMessage"
-      style="margin-top: 0.9%; font-size: 18px; color: white; font-family: Rubik, system-ui;">
+  <head>
+    <title>User</title>
+    <!-- Link Styles -->
+    <link rel="stylesheet" href="./css/jeepneys.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css"
+    />
+  </head>
+  <body>
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+      <div class="logo_details" style="margin-top: 20px">
+        <img src="./img/logo.png" alt="" class="jeepney-logo" />
+        <div class="logo_name">E-JeepPay</div>
+        <i class="bx bx-menu" id="btn"></i>
+      </div>
+      <ul class="nav-list" style="margin-top: 40px">
+        <li>
+          <a href="./index.html">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link_name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="./jeepneys.html">
+            <i class="bx bx-car"></i>
+            <span class="link_name">Jeepneys</span>
+          </a>
+          <span class="tooltip">Jeepneys</span>
+        </li>
+        <li>
+          <a href="./drivers.html" style="height: 34px">
+            <!-- <img src="./img/driver.png" style="width:21px; height:21px; margin-left: 14.5px;"> -->
+            <i class="fi fi-br-driver-man"></i>
+            <span class="link_name">Driver</span>
+          </a>
+          <span class="tooltip">Driver</span>
+        </li>
+        <li>
+          <a href="./user.html" id="active">
+            <i class="bx bx-user" id="active-icon"></i>
+            <span class="link_name" id="active-name">User</span>
+          </a>
+          <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="./fare.html">
+            <i class="bx bx-dollar"></i>
+            <span class="link_name">Fare</span>
+          </a>
+          <span class="tooltip">Fare</span>
+        </li>
+        <li>
+          <a href="./setting.html" id="settings-link">
+            <i class="bx bx-cog"></i>
+            <span class="link_name">Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
+    </div>
+    <!-- SIDE BAR ENDS -->
+    <section class="home-section">
+      <section class="layout">
+        <div class="header">
+          <div class="container">
+            <input type="text" class="search-input" />
+            <div class="topbar-user">
+              <h5
+                id="welcomeMessage"
+                style="
+                  margin-top: 0.9%;
+                  font-size: 18px;
+                  color: white;
+                  font-family: Rubik, system-ui;
+                "
+              >
                 Welcome
               </h5>
-          </div>
-          <div class="top-icons">
-            <button style="width: 40px; height: 40px; margin-right: 10px">
-              <a href="./login.html">
-                <img
-                  src="./img/account.png"
-                  style="height: 100%; width: 100%"
-                />
-              </a>
-            </button>
-            <button style="width: 40px; height: 40px">
-              <img src="./img/bell.png" style="height: 100%; width: 100%" />
-            </button>
+            </div>
+            <div class="top-icons">
+              <button style="width: 40px; height: 40px; margin-right: 10px">
+                <a href="./login.html">
+                  <img
+                    src="./img/account.png"
+                    style="height: 100%; width: 100%"
+                  />
+                </a>
+              </button>
+              <button style="width: 40px; height: 40px">
+                <img src="./img/bell.png" style="height: 100%; width: 100%" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="body">
-        <div class="container">
-          <h1>Data Records</h1>
-          <section class="components-layout">
-            <div class="grow1" style="display: flex; align-items: center;">
-              <div class="combobox">
-                <select>
+        <div class="body">
+          <div class="container">
+            <h1>Data Records</h1>
+            <section class="components-layout">
+              <div class="grow1" style="display: flex; align-items: center">
+                <div class="combobox">
+                  <select>
+                    <option>All Time</option>
                     <option>Today</option>
                     <option>This Week</option>
                     <option>This Month</option>
-                    <option>This Year</optin>
-                </select>
-             </div>
-             <div class="request-notification-form">
-              <button class="notification-button">
-                <span class="text">Request</span> <!-- Text now dynamically controlled -->
-                <span class="notification-bubble" id="notification-count">0</span>
-                <i class="fi fi-rr-poll-h" style="padding-left: 8px; margin-top: 3px;"></i>
-              </button>
-              
-            </div>
-            <!-- Confirmation Modal -->
-            <div id="confirmationModal" class="modal">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3>Confirm Action</h3>
-                <p id="modalMessage">Are you sure you want to perform this action?</p>
-                <div class="modal-buttons">
-                  <button id="confirmButton" class="confirm">Yes</button>
-                  <button id="cancelButton" class="cancel">No</button>
+                    <option>This Year</option>
+                  </select>
                 </div>
+                <div class="request-notification-form">
+                  <button class="notification-button">
+                    <span class="text">Request</span>
+                    <!-- Text now dynamically controlled -->
+                    <span class="notification-bubble" id="notification-count"
+                      >0</span
+                    >
+                    <i
+                      class="fi fi-rr-poll-h"
+                      style="padding-left: 8px; margin-top: 3px"
+                    ></i>
+                  </button>
+                </div>
+                <!-- Confirmation Modal -->
+                <div id="confirmationModal" class="modal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Confirm Action</h3>
+                    <p id="modalMessage">
+                      Are you sure you want to perform this action?
+                    </p>
+                    <div class="modal-buttons">
+                      <button id="confirmButton" class="confirm">Yes</button>
+                      <button id="cancelButton" class="cancel">No</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- confirmation modal ends -->
+                <!-- Details Modal -->
+                <div id="detailsModal" class="modal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Passenger Details</h3>
+                    <div id="detailsContent">
+                      <!-- Dynamic content will be populated here -->
+                    </div>
+                    <div class="modal-buttons">
+                      <button id="closeDetailsButton" class="cancel">
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- details modal ends -->
               </div>
-            </div>
-            <!-- confirmation modal ends -->
-            <!-- Details Modal -->
-            <div id="detailsModal" class="modal">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3>Passenger Details</h3>
-                <div id="detailsContent">
-                  <!-- Dynamic content will be populated here -->
-                </div>
-                <div class="modal-buttons">
-                  <button id="closeDetailsButton" class="cancel">Close</button>
-                </div>
-              </div>
-            </div>
-            <!-- details modal ends -->
-            </div>
-            <div class="grow1">
-            </div>
-            <div class="grow1">
-            </div>
-          </section>
-          <!-- table -->
-          <div class="table-container">
-            <table>
+              <div class="grow1"></div>
+              <div class="grow1"></div>
+            </section>
+            <!-- table -->
+            <div class="table-container">
+              <table>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone No.</th>
-                        <th>Type</th>
-                    </tr>
+                  <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone No.</th>
+                    <th>Type</th>
+                  </tr>
                 </thead>
                 <tbody id="dataTableBody"></tbody>
-            </table>
+              </table>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
+      </section>
     </section>
-  </section>
-  <!-- Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script src="./js/script.js"></script>
-  <script src="./js/user.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const username = localStorage.getItem("username");
-      if (username) {
-        document.getElementById("welcomeMessage").textContent = "Welcome " + username;
-      } else {
-        document.getElementById("welcomeMessage").textContent = "Welcome";
-      }
-    });
-  </script>
-</body>
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/user.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const username = localStorage.getItem("username");
+        if (username) {
+          document.getElementById("welcomeMessage").textContent =
+            "Welcome " + username;
+        } else {
+          document.getElementById("welcomeMessage").textContent = "Welcome";
+        }
+      });
+    </script>
+  </body>
 </html>
