@@ -74,7 +74,7 @@ function renderTable(data, searchTerm = "", timeFilter = "") {
         // Render each row
         let row = `
           <tr>
-            <td>${id}</td>
+            <td>${user.user_id}</td>
             <td>${user.firstName || ""}</td>
             <td>${user.middleName || ""}</td>
             <td>${user.lastName || ""}</td>
@@ -88,6 +88,24 @@ function renderTable(data, searchTerm = "", timeFilter = "") {
   } else {
     tbody.innerHTML = "<tr><td colspan='8'>No data available</td></tr>";
   }
+}
+
+// Create an object to store the key-value pairs
+const passengerKeyValuePairs = {};
+
+// Function to get key by value
+function getKeyByValue(object, value) {
+  for (let key in object) {
+    if (object[key] === value) {
+      return key;
+    }
+  }
+  return null; // Return null if no matching value is found
+}
+
+// Function to get value by key
+function getValueByKey(object, key) {
+  return object[key] || null; // Return null if no matching key is found
 }
 
 // Function to render the discount table
@@ -105,6 +123,11 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
       // Iterate through the passengers in the database
       for (let passengerId in passengers) {
         const passenger = passengers[passengerId];
+
+        // Add passengerId and user_id to the key-value pair object
+        if (passenger.user_id) {
+          passengerKeyValuePairs[passengerId] = passenger.user_id;
+        }
 
         // Ensure that discount_details exists for this passenger
         if (passenger.discount_details) {
@@ -155,7 +178,7 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
             // Render each row with the discount details
             let row = `
               <tr>
-                <td>${passengerId}</td>
+                <td>${passenger.user_id}</td>
                 <td>${discount.firstname || "N/A"}</td>
                 <td>${discount.middlename || "N/A"}</td>
                 <td>${discount.lastname || "N/A"}</td>
@@ -178,6 +201,9 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
           console.warn("Missing discount_details for passenger:", passengerId);
         }
       }
+
+      // Debugging output for the key-value pairs
+      console.log("Passenger Key-Value Pairs:", passengerKeyValuePairs);
     } else {
       tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
     }
@@ -296,14 +322,30 @@ document.addEventListener("click", (event) => {
     const button = event.target.closest(".request-action-icons");
     const action = button.id; // Get the button's ID
     const row = button.closest("tr"); // Get the parent row
-    const passengerId = row.cells[0].textContent; // Extract passenger ID from the first column
+
+    // Extract passenger ID from data attribute or text content
+    const passengerId =
+      row.cells[0].dataset.passengerId || row.cells[0].textContent.trim();
+
+    // Ensure passengerKeyValuePairs is ready
+    if (
+      !passengerKeyValuePairs ||
+      Object.keys(passengerKeyValuePairs).length === 0
+    ) {
+      console.error("Passenger Key-Value Pairs not ready");
+      return;
+    }
 
     if (action === "info-icon") {
       // Directly fetch and display details for "view-info"
-      fetchAndShowDetails(passengerId);
+      const key = getKeyByValue(passengerKeyValuePairs, passengerId);
+      console.log("Fetching details for Passenger ID:", key);
+      fetchAndShowDetails(key);
     } else {
       // Show confirmation modal for other actions
-      showConfirmationModal(action, passengerId);
+      const key = getKeyByValue(passengerKeyValuePairs, passengerId);
+      console.log("Showing confirmation for Passenger ID:", key);
+      showConfirmationModal(action, key);
     }
   }
 });
@@ -338,6 +380,11 @@ function showConfirmationModal(action, passengerId) {
 
 // Fetch and display discount details directly
 function fetchAndShowDetails(passengerId) {
+  if (!passengerId) {
+    console.error("Passenger ID is null or undefined");
+    return;
+  }
+
   const passengerRef = database.ref(
     `users/passenger/${passengerId}/discount_details`
   );
@@ -354,6 +401,11 @@ function fetchAndShowDetails(passengerId) {
 
 // Handle the action
 function handleAction(action, passengerId) {
+  if (!passengerId) {
+    console.error("Passenger ID is null or undefined");
+    return;
+  }
+
   const passengerRef = database.ref(
     `users/passenger/${passengerId}/discount_details`
   );
@@ -390,8 +442,11 @@ function showDetailsModal(details, passengerId) {
 
   // Populate modal content with the fields from discount_details
   detailsContent.innerHTML = `
-    <p><strong>ID: </strong>${passengerId}</p>
-    <p >
+    <p><strong>ID: </strong>${getValueByKey(
+      passengerKeyValuePairs,
+      passengerId
+    )}</p>
+    <p>
       ${
         details.file_url
           ? `<div style="text-align: center; border-bottom: 1px solid #696969">
@@ -400,40 +455,38 @@ function showDetailsModal(details, passengerId) {
           : "No File Available"
       }
     </p>
-    <p style="padding: 5px; "><strong>First Name:</strong> ${
+    <p style="padding: 5px;"><strong>First Name:</strong> ${
       details.firstname || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Middle Name:</strong> ${
+    <p style="padding: 5px;"><strong>Middle Name:</strong> ${
       details.middlename || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Last Name:</strong> ${
+    <p style="padding: 5px;"><strong>Last Name:</strong> ${
       details.lastname || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Birthday:</strong> ${
+    <p style="padding: 5px;"><strong>Birthday:</strong> ${
       details.birthday || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Gender:</strong> ${
+    <p style="padding: 5px;"><strong>Gender:</strong> ${
       details.gender || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Address:</strong> ${
+    <p style="padding: 5px;"><strong>Address:</strong> ${
       details.address || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>City:</strong> ${
-      details.city || "N/A"
-    }</p>
-    <p style="padding: 5px; "><strong>Province:</strong> ${
+    <p style="padding: 5px;"><strong>City:</strong> ${details.city || "N/A"}</p>
+    <p style="padding: 5px;"><strong>Province:</strong> ${
       details.province || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Postal ID:</strong> ${
+    <p style="padding: 5px;"><strong>Postal ID:</strong> ${
       details.postal_id || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Contact Number:</strong> ${
+    <p style="padding: 5px;"><strong>Contact Number:</strong> ${
       details.contact_number || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Email:</strong> ${
+    <p style="padding: 5px;"><strong>Email:</strong> ${
       details.email || "N/A"
     }</p>
-    <p style="padding: 5px; "><strong>Status:</strong> ${
+    <p style="padding: 5px;"><strong>Status:</strong> ${
       details.status || "N/A"
     }</p>
   `;
@@ -442,27 +495,40 @@ function showDetailsModal(details, passengerId) {
   modal.style.display = "block";
 }
 
-// Close the details modal
-document.querySelector("#detailsModal .close").onclick = () => {
+// Close the details modal using the "x" close icon
+document.querySelector("#detailsModal .close").addEventListener("click", () => {
   document.getElementById("detailsModal").style.display = "none";
-};
+});
 
-document.getElementById("closeDetailsButton").onclick = () => {
+// Close the details modal using the "Close" button
+document.getElementById("closeDetailsButton").addEventListener("click", () => {
   document.getElementById("detailsModal").style.display = "none";
-};
+});
 
-// Close modal on outside click
-window.onclick = (event) => {
+// Close the confirmation modal using the "x" close icon
+document
+  .querySelector("#confirmationModal #actionClose")
+  .addEventListener("click", () => {
+    document.getElementById("confirmationModal").style.display = "none";
+  });
+
+// Close the confirmation modal using the "No" button
+document.getElementById("cancelButton").addEventListener("click", () => {
+  document.getElementById("confirmationModal").style.display = "none";
+});
+
+// Close modals when clicking outside of them
+window.addEventListener("click", (event) => {
   const detailsModal = document.getElementById("detailsModal");
+  const confirmationModal = document.getElementById("confirmationModal");
+
   if (event.target === detailsModal) {
     detailsModal.style.display = "none";
   }
-
-  const confirmationModal = document.getElementById("confirmationModal");
   if (event.target === confirmationModal) {
     confirmationModal.style.display = "none";
   }
-};
+});
 
 // Call the function to initialize the count
 countPendingStatus();
