@@ -367,13 +367,11 @@ function editDriverData(driverID) {
   driverRef
     .update(updatedData)
     .then(() => {
-      alert("Driver information updated successfully!");
       closeActiveContainer(); // Hide the edit container
       refreshDriverList(); // Optional: Refresh the displayed list of drivers
     })
     .catch((error) => {
       console.error("Error updating driver data:", error);
-      alert("Failed to update driver information. Please try again.");
     });
 }
 

@@ -15,6 +15,7 @@ var database = firebase.database();
 
 var dataRef = database.ref("users/passenger");
 
+// Reference the search input element
 const searchInput = document.querySelector(".search-input");
 const filterSelect = document.querySelector(".combobox select");
 const notificationButton = document.querySelector(".notification-button");
@@ -32,62 +33,58 @@ dataRef.on("value", (snapshot) => {
   }
 });
 
-// Function to render the original table
-function renderTable(data, searchTerm = "", timeFilter = "") {
+// Function to render the table with timestamp filtering
+function renderTable(data, timeFilter = "") {
   const tbody = document.getElementById("dataTableBody");
   tbody.innerHTML = "";
 
   if (data) {
-    const currentDate = new Date();
-
     for (let id in data) {
       const user = data[id];
-      const fullName = `${user.firstName || ""} ${user.middleName || ""} ${
-        user.lastName || ""
-      }`.toLowerCase();
-      const timestamp = user.timestamp ? new Date(user.timestamp) : null;
 
-      if (timestamp && !isWithinTimeRange(timestamp, currentDate, timeFilter)) {
+      // Convert the timestamp from seconds to milliseconds
+      const timestamp = user.timestamp ? user.timestamp * 1000 : null;
+
+      // Apply the time filter if necessary
+      if (
+        timeFilter && // Only filter if a filter is selected
+        timestamp && // Ensure the timestamp exists
+        !isWithinTimeRange(timestamp, timeFilter) // Exclude non-matching rows
+      ) {
         continue;
       }
 
-      if (
-        searchTerm === "" ||
-        fullName.includes(searchTerm) ||
-        (user.email && user.email.toLowerCase().includes(searchTerm)) ||
-        (user.phoneNumber && user.phoneNumber.includes(searchTerm))
-      ) {
-        let statusClass = "";
-
-        // Set the status class based on the user status
-        if (user.status === "Approved") {
-          statusClass = "status-approved"; // Green
-        } else if (user.status === "Pending") {
-          statusClass = "status-pending"; // Grey
-        } else if (user.status === "Rejected") {
-          statusClass = "status-rejected"; // Red
+      // Determine if the passenger is discounted
+      let discountStatus = "Not Discounted";
+      if (user.discount_details) {
+        const discountStatusValue = user.discount_details.status;
+        if (discountStatusValue === "Approved") {
+          discountStatus = "Discounted";
         }
-
-        // Check if the role field exists and render conditionally
-        const roleColumn = user.role ? `<td>${user.role}</td>` : "<td></td>";
-
-        // Render each row
-        let row = `
-          <tr>
-            <td>${user.user_id}</td>
-            <td>${user.firstName || ""}</td>
-            <td>${user.middleName || ""}</td>
-            <td>${user.lastName || ""}</td>
-            <td>${user.email || ""}</td>
-            <td>${user.phoneNumber || ""}</td>
-            ${roleColumn}
-          </tr>`;
-        tbody.innerHTML += row;
       }
+
+      // Render the row for the table
+      const row = `
+        <tr>
+          <td>${user.user_id || ""}</td>
+          <td>${user.firstName || ""}</td>
+          <td>${user.middleName || ""}</td>
+          <td>${user.lastName || ""}</td>
+          <td>${user.email || ""}</td>
+          <td>${user.phoneNumber || ""}</td>
+          <td>${discountStatus}</td>
+        </tr>`;
+      tbody.innerHTML += row;
     }
   } else {
     tbody.innerHTML = "<tr><td colspan='8'>No data available</td></tr>";
   }
+}
+
+// Helper function to determine if a timestamp is within the selected time range
+function isWithinTimeRange(timestamp, timeFilter) {
+  // Implement your time range logic here
+  return true; // Placeholder implementation
 }
 
 // Create an object to store the key-value pairs
