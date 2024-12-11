@@ -33,7 +33,53 @@ dataRef.on("value", (snapshot) => {
   }
 });
 
-// Function to render the table with timestamp filtering
+// Reference the time filter dropdown
+const timestampFilter = document.getElementById("timestampFilter");
+
+// Helper function to determine if a timestamp is within the selected time range
+function isWithinTimeRange(timestamp, filterType) {
+  const currentDate = new Date();
+  const date = new Date(timestamp); // Convert the timestamp to a Date object
+
+  switch (filterType) {
+    case "today":
+      return (
+        date.getFullYear() === currentDate.getFullYear() &&
+        date.getMonth() === currentDate.getMonth() &&
+        date.getDate() === currentDate.getDate()
+      );
+    case "thisWeek":
+      const startOfWeek = new Date(
+        currentDate.setDate(currentDate.getDate() - currentDate.getDay())
+      ); // Get start of the week
+      const endOfWeek = new Date(
+        currentDate.setDate(startOfWeek.getDate() + 6)
+      ); // End of the week
+      return date >= startOfWeek && date <= endOfWeek;
+    case "thisMonth":
+      return (
+        date.getFullYear() === currentDate.getFullYear() &&
+        date.getMonth() === currentDate.getMonth()
+      );
+    case "thisYear":
+      return date.getFullYear() === currentDate.getFullYear();
+    default:
+      return true; // No filter, show all
+  }
+}
+
+// Event listener for time filter dropdown
+timestampFilter.addEventListener("change", () => {
+  const selectedFilter = timestampFilter.value; // Get the selected filter
+
+  if (isOriginalTable) {
+    renderTable(firebaseData, selectedFilter); // Apply filter to the original table
+  } else {
+    renderDiscountTable("", selectedFilter); // Apply filter to the discount table
+  }
+});
+
+// Updated renderTable function to include timestamp filtering
 function renderTable(data, timeFilter = "") {
   const tbody = document.getElementById("dataTableBody");
   tbody.innerHTML = "";
@@ -41,9 +87,7 @@ function renderTable(data, timeFilter = "") {
   if (data) {
     for (let id in data) {
       const user = data[id];
-
-      // Convert the timestamp from seconds to milliseconds
-      const timestamp = user.timestamp ? user.timestamp * 1000 : null;
+      const timestamp = user.timestamp ? user.timestamp * 1000 : null; // Convert from seconds to milliseconds
 
       // Apply the time filter if necessary
       if (
@@ -81,12 +125,6 @@ function renderTable(data, timeFilter = "") {
   }
 }
 
-// Helper function to determine if a timestamp is within the selected time range
-function isWithinTimeRange(timestamp, timeFilter) {
-  // Implement your time range logic here
-  return true; // Placeholder implementation
-}
-
 // Create an object to store the key-value pairs
 const passengerKeyValuePairs = {};
 
@@ -105,7 +143,7 @@ function getValueByKey(object, key) {
   return object[key] || null; // Return null if no matching key is found
 }
 
-// Function to render the discount table
+// Updated renderDiscountTable function to include timestamp filtering
 function renderDiscountTable(searchTerm = "", timeFilter = "") {
   const passengerDataRef = database.ref("users/passenger");
 
@@ -115,36 +153,19 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
     tbody.innerHTML = ""; // Clear existing table rows
 
     if (passengers) {
-      const currentDate = new Date();
-
-      // Iterate through the passengers in the database
       for (let passengerId in passengers) {
         const passenger = passengers[passengerId];
 
-        // Add passengerId and user_id to the key-value pair object
-        if (passenger.user_id) {
-          passengerKeyValuePairs[passengerId] = passenger.user_id;
-        }
-
-        // Ensure that discount_details exists for this passenger
         if (passenger.discount_details) {
           const discount = passenger.discount_details;
           const fullName = `${discount.firstName || ""} ${
             discount.middleName || ""
           } ${discount.lastName || ""}`.toLowerCase();
           const timestamp = discount.timestamp
-            ? new Date(discount.timestamp)
-            : null;
+            ? discount.timestamp * 1000
+            : null; // Convert from seconds to milliseconds
 
-          // Debugging output to check the data structure
-          console.log(
-            "Passenger ID:",
-            passengerId,
-            "Discount Details:",
-            discount
-          );
-
-          // Apply search term filter (e.g., firstName, lastName, email, etc.)
+          // Apply the search term filter
           if (
             searchTerm === "" ||
             fullName.includes(searchTerm) ||
@@ -153,12 +174,13 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
             (discount.contact_number &&
               discount.contact_number.includes(searchTerm))
           ) {
-            // Apply time filter if necessary
+            // Apply the time filter
             if (
+              timeFilter &&
               timestamp &&
-              !isWithinTimeRange(timestamp, currentDate, timeFilter)
+              !isWithinTimeRange(timestamp, timeFilter)
             ) {
-              continue;
+              continue; // Skip rows that don't match the time filter
             }
 
             let statusClass = "";
@@ -175,13 +197,13 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
             // Render each row with the discount details
             let row = `
               <tr>
-                <td>${passenger.user_id}</td>
-                <td>${discount.firstname || "N/A"}</td>
-                <td>${discount.middlename || "N/A"}</td>
-                <td>${discount.lastname || "N/A"}</td>
+                <td>${passenger.user_id || "N/A"}</td>
+                <td>${discount.firstName || "N/A"}</td>
+                <td>${discount.middleName || "N/A"}</td>
+                <td>${discount.lastName || "N/A"}</td>
                 <td>${
-                  discount.birthday || "N/A"
-                }</td> <!-- Assuming birthday is available -->
+                  timestamp ? new Date(timestamp).toLocaleDateString() : "N/A"
+                }</td>
                 <td><span class="${statusClass}">${
               discount.status || "N/A"
             }</span></td>
@@ -193,46 +215,12 @@ function renderDiscountTable(searchTerm = "", timeFilter = "") {
               </tr>`;
             tbody.innerHTML += row;
           }
-        } else {
-          // If discount_details is missing, log a warning
-          console.warn("Missing discount_details for passenger:", passengerId);
         }
       }
-
-      // Debugging output for the key-value pairs
-      console.log("Passenger Key-Value Pairs:", passengerKeyValuePairs);
     } else {
       tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
     }
   });
-}
-
-// Check if timestamp is within the filter's time range
-function isWithinTimeRange(timestamp, currentDate, filterType) {
-  const oneDay = 24 * 60 * 60 * 1000;
-
-  switch (filterType) {
-    case "Today":
-      return (
-        timestamp.getFullYear() === currentDate.getFullYear() &&
-        timestamp.getMonth() === currentDate.getMonth() &&
-        timestamp.getDate() === currentDate.getDate()
-      );
-    case "This Week":
-      const startOfWeek = new Date(
-        currentDate.setDate(currentDate.getDate() - currentDate.getDay())
-      );
-      return timestamp >= startOfWeek;
-    case "This Month":
-      return (
-        timestamp.getFullYear() === currentDate.getFullYear() &&
-        timestamp.getMonth() === currentDate.getMonth()
-      );
-    case "This Year":
-      return timestamp.getFullYear() === currentDate.getFullYear();
-    default:
-      return true;
-  }
 }
 
 // Toggle between the tables

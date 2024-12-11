@@ -39,6 +39,12 @@ dataRef.on("value", (snapshot) => {
 });
 
 // Function to handle showing the driver-edit-container
+function showAddContainer() {
+  const addContaienr = document.querySelector(".add-driver-jeep-container");
+  addContaienr.style.display = "flex";
+}
+
+// Function to handle showing the driver-edit-container
 function showEditContainer() {
   const editContainer = document.querySelector(".driver-edit-container");
   editContainer.style.display = "flex";
@@ -50,11 +56,15 @@ function showViewContainer() {
   viewContainer.style.display = "flex";
 }
 
+document
+  .querySelector(".add-button")
+  .addEventListener("click", showAddContainer);
+
 // Function to close the active container
 function closeActiveContainer() {
   const editContainer = document.querySelector(".driver-edit-container");
   const viewContainer = document.querySelector(".driver-view-container");
-  const addContainer = document.querySelector(".driver-jeep-container");
+  const addContainer = document.querySelector(".add-driver-jeep-container");
 
   // Hide both containers
   editContainer.style.display = "none";
