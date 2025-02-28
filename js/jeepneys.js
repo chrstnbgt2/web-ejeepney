@@ -1,3 +1,4 @@
+// ✅ Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAbKR42baFMFZSKbE63pr8cKE8IJ-6iVeY",
   authDomain: "e-jeepney-8fe2e.firebaseapp.com",
@@ -6,368 +7,560 @@ const firebaseConfig = {
   storageBucket: "e-jeepney-8fe2e.appspot.com",
   messagingSenderId: "70390538365",
   appId: "1:70390538365:web:59ffb8bac69c67db491114",
-  measurementId: "G-VJH1K6M4T2",
 };
 
+// ✅ Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const jeepneyRef = database.ref("jeepneys");
-const latestJeepIdRef = database.ref("latestJeepId");
-let currentData = {};
-const searchInput = document.querySelector(".search-input");
+const usersRef = database.ref("users/accounts");
+let driverMap = {};
 
-searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.trim().toLowerCase();
-  renderJeepneyData(currentData, searchTerm);
-});
+ 
+/** 🚀 Fetch Unassigned Drivers & Preserve Current Assigned Driver */
+function fetchUnassignedDriversForSelect(currentDriverId) {
+  return new Promise((resolve, reject) => {
+    Promise.all([
+      usersRef.orderByChild("role").equalTo("driver").once("value"),
+      jeepneyRef.once("value"),
+    ])
+      .then(([driverSnapshot, jeepneySnapshot]) => {
+        const assignedDrivers = new Set();
 
-jeepneyRef.on("value", (snapshot) => {
-  currentData = snapshot.val();
-  renderJeepneyData(currentData); 
-});
-
-function fetchAndRenderFilteredData() {
-  const timeFilter = document.getElementById("timeFilter").value;
-  const statusFilter = document.getElementById("statusFilter").value;
-  const currentDate = new Date();
-  
-  let query = firebase.database().ref("jeepneys");
-
-  // Apply status filter to Firebase query
-  if (statusFilter !== "allStatus") {
-    const statusValue = statusFilter === "inService" ? "in-service" : "out-of-service"; // Match the Firebase format
-    query = query.orderByChild("status").equalTo(statusValue);
-  }
-
-  // Fetch data from Firebase
-  query.once("value").then((snapshot) => {
-    const data = snapshot.val();
-    const filteredData = {};
-
-    // Filter data based on time period
-    for (let id in data) {
-      const jeepney = data[id];
-      const timestamp = new Date(jeepney.timestamp); // Convert timestamp to Date
-
-      const matchesTime = (function () {
-        switch (timeFilter) {
-          case "today":
-            return (
-              timestamp.getDate() === currentDate.getDate() &&
-              timestamp.getMonth() === currentDate.getMonth() &&
-              timestamp.getFullYear() === currentDate.getFullYear()
-            );
-          case "thisWeek":
-            const weekStart = new Date(currentDate);
-            weekStart.setDate(currentDate.getDate() - currentDate.getDay());
-            const weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekStart.getDate() + 6);
-            return timestamp >= weekStart && timestamp <= weekEnd;
-          case "thisMonth":
-            return (
-              timestamp.getMonth() === currentDate.getMonth() &&
-              timestamp.getFullYear() === currentDate.getFullYear()
-            );
-          case "thisYear":
-            return timestamp.getFullYear() === currentDate.getFullYear();
-          default: // allTime
-            return true;
-        }
-      })();
-
-      // Only add jeepneys matching the time filter
-      if (matchesTime) {
-        filteredData[id] = jeepney;
-      }
-    }
-
-    // Render only filtered data
-    renderJeepneyData(filteredData);
-  });
-}
-
-// Event listeners to re-fetch and render data when filters change
-document.getElementById("timeFilter").addEventListener("change", fetchAndRenderFilteredData);
-document.getElementById("statusFilter").addEventListener("change", fetchAndRenderFilteredData);
-
-// Function to render the jeepney data
-function renderJeepneyData(data, searchTerm = "") {
-  const tbody = document.getElementById("dataTableBody");
-  tbody.innerHTML = ""; 
-
-  if (data) {
-    for (let id in data) {
-      const jeepney = data[id];
-      const plateNumber = (jeepney.plateNumber || "").toString().toLowerCase();
-      const capacity = (jeepney.capacity || "").toString().toLowerCase();
-      const route = (jeepney.route || "").toString().toLowerCase();
-      const status = (jeepney.status || "").toString().toLowerCase();
-
-      if (
-        searchTerm === "" ||
-        plateNumber.includes(searchTerm) ||
-        capacity.includes(searchTerm) ||
-        route.includes(searchTerm) ||
-        status.includes(searchTerm)
-      ) {
-        const row = `
-          <tr data-id="${id}">
-            <td>${id}</td>
-            <td>${jeepney.plateNumber || ""}</td>
-            <td>${jeepney.capacity || ""}</td>
-            <td>${jeepney.route || ""}</td>
-            <td>${jeepney.status || ""}</td>
-            <td>
-              <div class="action-icons">
-                <img src="./img/edit.png" alt="edit" class="edit-icon" data-id="${id}">
-                <img src="./img/trash-bin.png" alt="delete" class="delete-icon">
-                <img src="./img/more.png" alt="view" class="view-icon" data-id="${id}">
-              </div>
-            </td>
-          </tr>`;
-        tbody.innerHTML += row;
-      }
-    }
-    
-    // Attach event listeners to edit and view icons
-    const editIcons = document.querySelectorAll(".edit-icon");
-    editIcons.forEach(icon => {
-      icon.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("data-id");
-        const jeepney = data[id];
-        populateEditForm(jeepney, id); 
-      });
-    });
-
-    const viewIcons = document.querySelectorAll(".view-icon");
-    viewIcons.forEach(icon => {
-      icon.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("data-id");
-        const jeepney = data[id];
-        populateViewForm(jeepney, id); 
-      });
-    });
-  } else {
-    tbody.innerHTML = "<tr><td colspan='6'>No data available</td></tr>";
-  }
-}
-
-function populateEditForm(jeepney, id) {
-  document.getElementById("editPlateNumber").value = jeepney.plateNumber || "";
-  document.getElementById("editCapacity").value = jeepney.capacity || ""; 
-  document.getElementById("editRoute").value = jeepney.route || "";
-  document.getElementById("editStatus").value = jeepney.status || "";
-  document.getElementById("editDriverSelect").value = jeepney.driver || "";
-
-  document.getElementById("editJeepId").value = id; 
-  document.getElementById("editJeepContainer").style.display = "block";
-}
-
-function populateViewForm(jeepney, id) {
-  document.getElementById("viewPlateNumber").value = jeepney.plateNumber || "";
-  document.getElementById("viewCapacity").value = jeepney.capacity || ""; 
-  document.getElementById("viewRoute").value = jeepney.route || "";
-  document.getElementById("viewStatus").value = jeepney.status || "";
-  document.getElementById("viewJeepId").value = id; 
-  document.getElementById("viewJeepContainer").style.display = "flex";
-
-  const driverId = jeepney.driver;
-  if (driverId) {
-    firebase.database().ref(`users/driver/${driverId}`).once('value').then(snapshot => {
-      const driverData = snapshot.val();
-      if (driverData) {
-        const driverFullName = `${driverData.firstName || ""} ${driverData.middleName || ""} ${driverData.lastName || ""}`.trim();
-        document.getElementById("viewSelect").value = driverFullName;
-      } else {
-        console.log("Driver data not found for ID:", driverId);
-      }
-    }).catch(error => {
-      console.error("Error fetching driver data:", error);
-    });
-  } else {
-    document.getElementById("viewSelect").value = "";
-  }
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  const infoJeepContainer = document.getElementById("editJeepContainer");
-  const viewJeepContainer = document.getElementById("viewJeepContainer");
-  const editCloseIcon = document.getElementById("editCloseIcon");
-  const viewCloseIcon = document.getElementById("viewCloseIcon");
-
-  editCloseIcon.addEventListener("click", function () {
-    infoJeepContainer.style.display = "none";
-  });
-
-  viewCloseIcon.addEventListener("click", function () {
-    viewJeepContainer.style.display = "none";
-  });
-
-const confirmDelete = document.querySelector(".confirm-delete");
-  document
-    .getElementById("dataTableBody")
-    .addEventListener("click", function (event) {
-      const row = event.target.closest("tr");
-      const jeepneyId = row ? row.getAttribute("data-id") : null;
-      const deleteContainer = document.querySelector(".delete-jeep-container");
-
-      if (event.target && event.target.classList.contains("edit-icon")) {
-        infoJeepContainer.style.display = "flex";
-        const cells = row.getElementsByTagName("td");
-        document.getElementById("plateNumber").value = cells[1].innerText;
-        document.getElementById("capacity").value = cells[2].innerText;
-        document.getElementById("route").value = cells[3].innerText;
-        document.getElementById("status").value = cells[4].innerText;
-      } else if (
-        event.target &&
-        event.target.classList.contains("delete-icon")
-      ) {
-        deleteContainer.style.display = "flex";
-
-        const confirmDelete = document.querySelector(".confirm-delete");
-
-        confirmDelete.addEventListener(
-          "click",
-          () => {
-            if (jeepneyId) {
-              jeepneyRef
-                .child(jeepneyId)
-                .remove()
-                .then(() => {
-                  alert("Record deleted successfully.");
-                })
-                .catch((error) => {
-                  console.error("Error deleting record: ", error);
-                });
+        // ✅ Step 1: Collect assigned drivers from jeepneys
+        if (jeepneySnapshot.exists()) {
+          jeepneySnapshot.forEach((childSnapshot) => {
+            const jeepneyData = childSnapshot.val();
+            if (jeepneyData.driver && jeepneyData.driver !== "") {
+              assignedDrivers.add(jeepneyData.driver);
             }
-            deleteContainer.style.display = "none";
-          },
-          { once: true }
-        );
-      } else if (event.target && event.target.alt === "more") {
-        viewJeepContainer.style.display = "flex";
-        const cells = row.getElementsByTagName("td");
-        document.getElementById("plateNumber").value = cells[1].innerText;
-        document.getElementById("capacity").value = cells[2].innerText;
-        document.getElementById("route").value = cells[3].innerText;
-        document.getElementById("status").value = cells[4].innerText;
-        document.getElementById("driver").value = "Sample Driver";
-      }
-    });
-});
+          });
+        }
 
+        // ✅ Step 2: Populate unassigned drivers (except for the current driver)
+        const editDriverSelect = document.getElementById("editDriverSelect");
+        if (!editDriverSelect) {
+          console.error("❌ 'editDriverSelect' dropdown not found in DOM!");
+          return reject("Dropdown not found");
+        }
+
+        // Clear existing options
+        editDriverSelect.innerHTML = `<option value="">Select a Driver</option>`; // Default option
+
+        driverSnapshot.forEach((childSnapshot) => {
+          const driverData = childSnapshot.val();
+          const driverId = childSnapshot.key;
+          const driverName = `${driverData.firstName || ""} ${driverData.middleName || ""} ${driverData.lastName || ""}`.trim();
+
+          // ✅ Only add unassigned drivers OR the current assigned driver
+          if (!assignedDrivers.has(driverId) || driverId === currentDriverId) {
+            editDriverSelect.innerHTML += `<option value="${driverId}">${driverName}</option>`;
+          }
+        });
+
+        console.log("✅ Unassigned drivers loaded for edit dropdown.");
+        resolve();
+      })
+      .catch((error) => {
+        console.error("❌ Error fetching unassigned drivers:", error);
+        reject(error);
+      });
+  });
+}
+
+
+/** 🚀 Fetch Drivers and Populate Dropdown */
 function fetchDrivers() {
-  var driverSelect = document.getElementById("editDriverSelect");
-  var driverRef = database.ref("users/driver");
-  driverRef.once("value", function(snapshot) {
-    driverSelect.innerHTML = '<option value="">Select a Driver</option>';
-    snapshot.forEach(function(childSnapshot) {
-      var driver = childSnapshot.val();
-      var driverId = childSnapshot.key;
-      var driverName = `${driver.firstName || ""} ${driver.middleName || ""} ${driver.lastName || ""}`.trim();
+  usersRef
+    .orderByChild("role")
+    .equalTo("driver")
+    .once("value")
+    .then((snapshot) => {
+      driverMap = {};
       
-      var option = document.createElement("option");
-      option.value = driverId;
-      option.text = driverName;
-      driverSelect.appendChild(option);
-    });
-  }).catch(function(error) {
-    console.error("Error fetching drivers: ", error);
-  });
-}
-document.addEventListener("DOMContentLoaded", function() {
-  fetchDrivers();
-});
+      // Get both Add & Edit select dropdowns
+      const driverSelects = document.querySelectorAll(".driver-select");
 
-function showEditForm(jeepneyId) {
-  // Hide view form, show edit form
-  document.getElementById("viewJeepContainer").style.display = "none";
-  document.getElementById("editJeepContainer").style.display = "block";
+      // Clear existing options in dropdowns
+      driverSelects.forEach((select) => {
+        select.innerHTML = `<option value="">Select a Driver</option>`; // Default option
+      });
 
-  // Fetch and populate data in edit form
-  jeepneyRef.child(jeepneyId).once("value").then((snapshot) => {
-    const jeepneyData = snapshot.val();
-    document.getElementById("editPlateNumber").value = jeepneyData.plateNumber || "";
-    // Populate other fields as necessary
-  });
-}
+      snapshot.forEach((childSnapshot) => {
+        const driverData = childSnapshot.val();
+        const driverId = childSnapshot.key; // Get driver UID
+        const driverName = `${driverData.firstName || ""} ${driverData.middleName || ""} ${driverData.lastName || ""}`.trim();
 
-function save() {
-  const plateNumber = document.getElementById("add-plateNumber").value;
-  const capacity = document.getElementById("add-capacity").value;
-  const route = document.getElementById("add-route").value;
-  const status = document.getElementById("status").value;
+        driverMap[driverId] = driverName || "Unknown Driver"; // Store driver in map
 
-  if (!plateNumber || !capacity || !route || !status) {
-    alert("Please fill in all the fields.");
-    return;
-  }
+        // Append driver options to both Add & Edit dropdowns
+        driverSelects.forEach((select) => {
+          select.innerHTML += `<option value="${driverId}">${driverName}</option>`;
+        });
+      });
 
-  latestJeepIdRef.transaction((currentId) => {
-    return (currentId || 0) + 1;
-  }).then((result) => {
-    const newJeepId = result.snapshot.val();
-    const timestamp = Date.now();
-
-    jeepneyRef.child(newJeepId).set({
-      id: newJeepId,
-      plateNumber: plateNumber,
-      capacity: capacity,
-      route: route,
-      status: status,
-      timestamp: timestamp
-    }).then(() => {
-      document.getElementById("add-plateNumber").value = "";
-      document.getElementById("add-capacity").value = "";
-      document.getElementById("add-route").value = "";
-      document.getElementById("status").value = "";
-      document.querySelector(".info-jeep-container").style.display = "none";
-    }).catch((error) => {
-      console.error("Error adding jeepney: ", error);
-    });
-  }).catch((error) => {
-    console.error("Error fetching latest Jeepney ID: ", error);
-  });
+      console.log("✅ Drivers loaded and dropdowns populated:", driverMap);
+      fetchAndRenderJeepneys(); // Continue rendering jeepneys after drivers are loaded
+    })
+    .catch((error) => console.error("❌ Error fetching drivers:", error));
 }
 
-function updateJeepney() {
-  const jeepneyId = document.getElementById("editJeepId").value;
-  const plateNumber = document.getElementById("editPlateNumber").value;
-  const capacity = document.getElementById("editCapacity").value;
-  const route = document.getElementById("editRoute").value;
-  const status = document.getElementById("editStatus").value;
-  const driver = document.getElementById("editDriverSelect").value;
-
-  if (!plateNumber || !capacity || !route || !status || !driver) {
-    alert("Please fill in all the fields.");
-    return;
-  }
-
-  const timestamp = Date.now();
-
-  jeepneyRef.child(jeepneyId).update({
-    plateNumber: plateNumber,
-    capacity: capacity,
-    route: route,
-    status: status,
-    driver: driver,
-    timestamp: timestamp 
-  }).then(() => {
-    alert("Jeepney information updated successfully.");
-    document.getElementById("editJeepContainer").style.display = "none";
-    fetchAndRenderJeepneyData(); // Fetch and render the latest data
-  }).catch((error) => {
-    console.error("Error updating jeepney: ", error);
-  });
-}
-
-
-function fetchAndRenderJeepneyData() {
-  jeepneyRef.once('value', (snapshot) => {
+/** 🚗 Fetch Jeepneys and Render into Table */
+function fetchAndRenderJeepneys() {
+  jeepneyRef.on("value", (snapshot) => {
     const data = snapshot.val();
     renderJeepneyData(data);
-  }).catch((error) => {
-    console.error("Error fetching jeepney data: ", error);
   });
 }
+
+function formatTimestamp(timestamp) {
+  if (!timestamp) return "N/A"; // Handle missing timestamps
+  const date = new Date(timestamp);
+  return date.toLocaleDateString(); // Converts to MM/DD/YYYY format
+}
+
+
+function viewJeepneyDetails(jeepneyId) {
+  const jeepneyModal = document.getElementById("jeepneyModalContainer");
+  if (!jeepneyModal) {
+    console.error("Error: jeepneyModalContainer not found in the DOM.");
+    return;
+  }
+
+  const jeepneyRef = firebase.database().ref(`jeepneys/${jeepneyId}`);
+
+  jeepneyRef.once("value").then((snapshot) => {
+    if (!snapshot.exists()) {
+      alert("Jeepney not found.");
+      return;
+    }
+
+    const jeepneyData = snapshot.val();
+
+    // // ✅ Populate modal with jeepney details
+    // document.getElementById("viewPlateNumber").textContent = jeepneyData.plateNumber || "N/A";
+    // document.getElementById("viewCapacity").textContent = jeepneyData.capacity || "N/A";
+    // document.getElementById("viewRoute").textContent = jeepneyData.route || "N/A";
+    // document.getElementById("viewStatus").textContent = jeepneyData.status || "N/A";
+
+    // ✅ Fetch Driver History from `jeepneys/{jeepneyId}/history_driver`
+    const historyRef = firebase.database().ref(`jeepneys/${jeepneyId}/history_driver`);
+
+    historyRef.once("value").then((historySnapshot) => {
+      const historyList = document.getElementById("viewDriverHistory");
+      historyList.innerHTML = ""; // Clear previous content
+
+      if (historySnapshot.exists()) {
+        let foundHistory = false; // Track if at least one valid history entry is found
+
+        historySnapshot.forEach((childSnapshot) => {
+          const history = childSnapshot.val();
+
+          if (history.driverName && history.dateAssigned) { // Ensure valid data
+            foundHistory = true;
+            const driverName = history.driverName;
+            const dateAssigned = new Date(history.dateAssigned).toLocaleString();
+
+            const historyItem = document.createElement("li");
+            historyItem.textContent = `${driverName} (Assigned: ${dateAssigned})`;
+            historyList.appendChild(historyItem);
+          }
+        });
+
+        // If no valid history found, display a default message
+        if (!foundHistory) {
+          historyList.innerHTML = "<li>No previous drivers assigned.</li>";
+        }
+      } else {
+        historyList.innerHTML = "<li>No previous drivers assigned.</li>";
+      }
+    }).catch((error) => {
+      console.error("❌ Error fetching driver history:", error);
+      historyList.innerHTML = "<li>Error loading driver history.</li>";
+    });
+
+    // ✅ Show modal
+    jeepneyModal.style.display = "block";
+  }).catch((error) => {
+    console.error("❌ Error fetching jeepney details:", error);
+    alert("❌ Error fetching jeepney details.");
+  });
+}
+
+
+
+// Function to close the modal
+function closeJeepneyModal() {
+  document.getElementById("jeepneyModalContainer").style.display = "none";
+}
+
+function sanitizeHTML(str) {
+  if (!str) return ""; // Ensure input is always a string
+
+  let temp = document.createElement("div");
+  temp.textContent = str; // Convert to plain text, escaping any HTML tags
+
+  return temp.innerHTML
+    .replace(/javascript:/gi, "") // Remove `javascript:` URLs
+    .replace(/<script.*?>.*?<\/script>/gi, "") // Remove <script> tags
+    .replace(/on\w+\s*=\s*(['"]).*?\1/gi, ""); // Remove inline event handlers (onclick, onerror)
+}
+
+
+function renderJeepneyData(data) {
+  const tbody = document.getElementById("dataTableBody");
+  tbody.innerHTML = "";
+
+  if (data) {
+    const sortedData = Object.entries(data).sort((b, a) => {
+      const timestampA = a[1].timestamp || 0;
+      const timestampB = b[1].timestamp || 0;
+      return timestampB - timestampA;
+    });
+
+    let idnumber = 1;
+    for (let [id, jeepney] of sortedData) {
+      const driverName = driverMap[jeepney.driver] || "Unassigned";
+      const formattedTimestamp = formatTimestamp(jeepney.timestamp);
+
+      const row = `
+       <tr data-id="${sanitizeHTML(id)}">
+    <td>${sanitizeHTML(idnumber.toString())}</td>
+    <td>${sanitizeHTML(jeepney.plateNumber || "")}</td>
+    <td>${sanitizeHTML(jeepney.capacity || "")}</td>
+    <td>${sanitizeHTML(jeepney.route || "")}</td>
+    <td>${sanitizeHTML(jeepney.status || "")}</td>
+    <td>${sanitizeHTML(driverName)}</td>
+    <td>${sanitizeHTML(formattedTimestamp)}</td>
+    <td>
+        <img src="./img/edit.png" alt="edit" class="edit-icon" data-id="${sanitizeHTML(id)}">
+        <img src="./img/trash-bin.png" alt="delete" class="delete-icon" data-id="${sanitizeHTML(id)}">
+        <img src="./img/more.png" alt="view" class="view-icon" data-id="${sanitizeHTML(id)}" onclick="viewJeepneyDetails('${sanitizeHTML(id)}')">
+    </td>
+</tr>
+
+      `;
+
+      tbody.innerHTML += row;
+      idnumber++;
+    }
+
+    attachActionListeners(data);
+  } else {
+    tbody.innerHTML = "<tr><td colspan='8'>No data available</td></tr>";
+  }
+}
+
+/**
+ * 📌 Function to Display Jeepney Details in a Modal
+ */
+function showJeepneyDetails(jeepney) {
+  const modalContainer = document.getElementById("jeepneyModalContainer");
+  const modalContent = document.getElementById("jeepneyModalContent");
+
+  // ✅ Populate Modal with Jeepney Data
+  modalContent.innerHTML = `
+    <h2>Jeepney Details</h2>
+    <p><strong>Plate Number:</strong> ${jeepney.plateNumber || "N/A"}</p>
+    <p><strong>Capacity:</strong> ${jeepney.capacity || "N/A"}</p>
+    <p><strong>Route:</strong> ${jeepney.route || "N/A"}</p>
+    <p><strong>Status:</strong> ${jeepney.status || "N/A"}</p>
+    <p><strong>Driver:</strong> ${driverMap[jeepney.driver] || "Unassigned"}</p>
+    <p><strong>Last Updated:</strong> ${formatTimestamp(jeepney.timestamp)}</p>
+    <button class="close-modal">Close</button>
+  `;
+
+  // ✅ Show the modal
+  modalContainer.style.display = "block";
+
+  // ✅ Close the modal when clicking "Close" button
+  document.querySelector(".close-modal").addEventListener("click", () => {
+    modalContainer.style.display = "none";
+  });
+}
+
+
+
+/** 🔗 Attach Event Listeners for Edit and Delete */
+function attachActionListeners(data) {
+  document.querySelectorAll(".edit-icon").forEach((icon) => {
+    icon.addEventListener("click", (event) => {
+      const id = event.target.getAttribute("data-id");
+      openEditModal(id);
+    });
+  });
+
+  document.querySelectorAll(".delete-icon").forEach((icon) => {
+    icon.addEventListener("click", (event) => {
+      const id = event.target.getAttribute("data-id");
+      confirmDelete(id);
+    });
+  });
+}
+
+/** ✏️ Open Edit Modal & Populate Data */
+function openEditModal(id) {
+  console.log(`✏️ Editing Jeepney: ${id}`);
+
+  const jeepneyRef = database.ref(`jeepneys/${id}`);
+  jeepneyRef.once("value").then((snapshot) => {
+    if (!snapshot.exists()) {
+      alert("Jeepney not found!");
+      return;
+    }
+
+    const jeepneyData = snapshot.val();
+
+    // ✅ Populate fields
+    document.getElementById("editJeepId").value = id;
+    document.getElementById("editPlateNumber").value = jeepneyData.plateNumber || "";
+    document.getElementById("editCapacity").value = jeepneyData.capacity || "";
+    document.getElementById("editRoute").value = jeepneyData.route || "";
+    document.getElementById("editStatus").value = jeepneyData.status || "";
+
+    const currentDriverId = jeepneyData.driver || "";
+
+    // ✅ Fetch unassigned drivers first, THEN set the selected driver
+    fetchUnassignedDriversForSelect(currentDriverId).then(() => {
+      const editDriverSelect = document.getElementById("editDriverSelect");
+      if (editDriverSelect) {
+        editDriverSelect.value = currentDriverId; // Ensure the current driver is still assigned
+      }
+    });
+
+    document.getElementById("editJeepContainer").style.display = "flex";
+  }).catch(error => console.error("❌ Error fetching jeepney details:", error));
+}
+
+ 
+
+/** ✅ Open & Close Add Jeepney Modal */
+document.querySelector(".add-button").addEventListener("click", () => {
+  document.querySelector(".info-jeep-container").style.display = "flex";
+});
+
+document.querySelector(".close-icon").addEventListener("click", () => {
+  document.querySelector(".info-jeep-container").style.display = "none";
+});
+ 
+
+/** 🚮 Delete Confirmation Modal Logic */
+let deleteModal = document.querySelector(".delete-jeep-container");
+let confirmDeleteBtn = document.querySelector(".confirm-delete");
+let cancelDeleteBtn = document.querySelector(".cancel-delete");
+let closeDeleteIcon = document.querySelector(".delete-close-icon");
+let jeepneyToDelete = null;
+
+// Show Delete Modal
+function confirmDelete(id) {
+  jeepneyToDelete = id;
+  deleteModal.style.display = "flex"; // Show modal
+}
+
+// Close the modal without deleting
+cancelDeleteBtn.addEventListener("click", function () {
+  deleteModal.style.display = "none";
+  jeepneyToDelete = null;
+});
+
+closeDeleteIcon.addEventListener("click", function () {
+  deleteModal.style.display = "none";
+  jeepneyToDelete = null;
+});
+
+// Confirm delete
+confirmDeleteBtn.addEventListener("click", function () {
+  if (jeepneyToDelete) {
+    deleteJeepney(jeepneyToDelete);
+    deleteModal.style.display = "none";
+    jeepneyToDelete = null;
+  }
+});
+
+/** 🗑️ Function to Delete Jeepney from Firebase */
+function deleteJeepney(id) {
+  jeepneyRef.child(id)
+    .remove()
+    .then(() => {
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "The Jeepney has been successfully removed.",
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      fetchAndRenderJeepneys(); // Refresh table
+    })
+    .catch((error) => {
+      console.error("❌ Error deleting jeepney:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: "An error occurred while deleting the Jeepney. Please try again.",
+      });
+    });
+}
+
+/** ✅ Save Jeepney Data to Firebase */
+/** ✅ Save Jeepney Data to Firebase with Duplicate Plate Number Validation */
+function saveJeepney() {
+  const plateNumber = document.getElementById("add-plateNumber").value.trim();
+  const capacity = document.getElementById("add-capacity").value.trim();
+  const route = document.getElementById("add-route").value.trim();
+  const status = document.getElementById("status").value.trim();
+  const driverId = ""; // No driver assigned initially
+
+  if (!plateNumber || !capacity || !route || !status) {
+    alert("❌ Please fill in all fields!");
+    return;
+  }
+
+  // ✅ Check if plate number already exists
+  jeepneyRef.orderByChild("plateNumber").equalTo(plateNumber).once("value", (snapshot) => {
+    if (snapshot.exists()) {
+      alert("❌ This Plate Number already exists! Please use a different one.");
+      return;
+    }
+
+    const newJeepneyRef = jeepneyRef.push(); // Generates a unique ID
+    const newJeepneyId = newJeepneyRef.key; // Get generated ID
+
+    const newJeepneyData = {
+      availableSeats: parseInt(capacity), // Integer
+      capacity: capacity, // String
+      currentCapacity: parseInt(capacity), // Integer
+      driver: driverId, // Initially empty
+      plateNumber: plateNumber,
+      route: route,
+      status: status,
+      timestamp: Date.now(),
+    };
+
+    newJeepneyRef
+      .set(newJeepneyData)
+      .then(() => {
+        console.log("✅ Jeepney Added Successfully!", newJeepneyData);
+        alert("🚗 Jeepney successfully added!");
+
+        // Close modal and clear input fields
+        document.querySelector(".info-jeep-container").style.display = "none";
+        document.getElementById("add-plateNumber").value = "";
+        document.getElementById("add-capacity").value = "";
+        document.getElementById("add-route").value = "";
+        document.getElementById("status").value = "in-service";
+
+        fetchAndRenderJeepneys(); // Refresh table
+      })
+      .catch((error) => {
+        console.error("❌ Error adding jeepney:", error);
+        alert("❌ Error saving data. Please try again.");
+      });
+  });
+}
+
+
+/** ✅ Update Jeepney Data in Firebase */
+/** ✅ Update Jeepney Data in Firebase with Duplicate Plate Number Validation */
+function updateJeepney() {
+  const jeepneyId = document.getElementById("editJeepId").value;
+  const plateNumber = document.getElementById("editPlateNumber").value.trim();
+  const capacity = document.getElementById("editCapacity").value.trim();
+  const route = document.getElementById("editRoute").value.trim();
+  const status = document.getElementById("editStatus").value.trim();
+  const driverId = document.getElementById("editDriverSelect").value; // Selected driver UID
+
+  if (!jeepneyId || !plateNumber || !capacity || !route || !status) {
+    alert("❌ Please fill in all fields!");
+    return;
+  }
+
+  // ✅ Reference to Jeepneys
+  const jeepneyRef = firebase.database().ref(`jeepneys`);
+
+  // ✅ Check if another jeepney already has this plate number
+  jeepneyRef.orderByChild("plateNumber").equalTo(plateNumber).once("value", (snapshot) => {
+    let duplicateFound = false;
+
+    snapshot.forEach((childSnapshot) => {
+      if (childSnapshot.key !== jeepneyId) {
+        duplicateFound = true;
+      }
+    });
+
+    if (duplicateFound) {
+      alert("❌ This Plate Number is already assigned to another Jeepney! Please use a different one.");
+      return;
+    }
+
+    const updatedJeepneyData = {
+      availableSeats: parseInt(capacity), // Convert to integer
+      capacity: capacity, // String
+      currentCapacity: parseInt(capacity), // Convert to integer
+      driver: driverId || "", // Update the driver (can be empty)
+      plateNumber: plateNumber,
+      route: route,
+      status: status,
+    };
+
+    // ✅ Update Jeepney Data
+    jeepneyRef.child(jeepneyId)
+      .update(updatedJeepneyData)
+      .then(() => {
+        console.log("✅ Jeepney Updated Successfully!", updatedJeepneyData);
+        alert("🚗 Jeepney successfully updated!");
+
+        if (driverId) {
+          const driverRef = firebase.database().ref(`users/accounts/${driverId}`);
+
+          driverRef.once("value").then((snapshot) => {
+            if (snapshot.exists()) {
+              const driverData = snapshot.val();
+              const driverName = `${driverData.firstName || ""} ${driverData.lastName || ""}`.trim();
+              const currentDate = new Date().toISOString(); // Current Date (ISO format)
+
+              // ✅ Update the driver's assigned jeepney
+              driverRef.update({ jeep_assigned: jeepneyId })
+                .then(() => {
+                  console.log("✅ Jeepney assigned to driver:", driverId);
+                })
+                .catch((error) => {
+                  console.error("❌ Error assigning jeepney to driver:", error);
+                });
+
+              // ✅ Save History Log Inside `jeepneys/{jeepneyId}/history_driver`
+              const historyRef = firebase.database().ref(`jeepneys/${jeepneyId}/history_driver`).push();
+              historyRef.set({
+                driverId: driverId,
+                driverName: driverName,
+                dateAssigned: currentDate,
+              }).then(() => {
+                console.log("✅ Driver history recorded successfully inside jeepneys node!");
+              }).catch((error) => {
+                console.error("❌ Error saving driver history inside jeepneys node:", error);
+              });
+            }
+          });
+        }
+
+        // Close modal
+        document.getElementById("editJeepContainer").style.display = "none";
+
+        // Refresh the table
+        fetchAndRenderJeepneys();
+      })
+      .catch((error) => {
+        console.error("❌ Error updating jeepney:", error);
+        alert("❌ Error updating data. Please try again.");
+      });
+  });
+}
+
+
+
+/** ✅ Load Everything on Page Load */
+document.addEventListener("DOMContentLoaded", () => {
+  fetchDrivers();
+  fetchUnassignedDriversForSelect();
+});
+

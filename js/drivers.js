@@ -12,29 +12,36 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+
+
+
+
+
 var database = firebase.database();
 var auth = firebase.auth();
-var storage = firebase.storage();
+ 
+
 
 // Reference the 'drivers' node
-var dataRef = database.ref("users/driver");
+var accountsRef = database.ref("users/accounts");
 
 // Reference the search input element
 const searchInput = document.querySelector(".search-input");
 
 // Fetch Data from Firebase and Render it into the Table
-dataRef.on("value", (snapshot) => {
+accountsRef.on("value", (snapshot) => {
   const data = snapshot.val();
   const tbody = document.getElementById("dataTableBody");
   tbody.innerHTML = ""; // Clear the existing table content before rendering new data
 
-  // Render the data initially (with no filter)
-  renderData(data);
+  // Render only drivers initially (with no filter)
+  renderData(data, "driver");
 
   // Add a search filter
   searchInput.addEventListener("input", () => {
     const searchTerm = searchInput.value.trim().toLowerCase(); // Trim spaces
-    renderData(data, searchTerm);
+    renderData(data, "driver", searchTerm);
   });
 });
 
@@ -44,18 +51,18 @@ function showAddContainer() {
   addContaienr.style.display = "flex";
 }
 
+
+
+ 
+
+
 // Function to handle showing the driver-edit-container
 function showEditContainer() {
   const editContainer = document.querySelector(".driver-edit-container");
   editContainer.style.display = "flex";
 }
 
-// Function to handle showing the driver-view-container
-function showViewContainer() {
-  const viewContainer = document.querySelector(".driver-view-container");
-  viewContainer.style.display = "flex";
-}
-
+ 
 document
   .querySelector(".add-button")
   .addEventListener("click", showAddContainer);
@@ -63,62 +70,95 @@ document
 // Function to close the active container
 function closeActiveContainer() {
   const editContainer = document.querySelector(".driver-edit-container");
-  const viewContainer = document.querySelector(".driver-view-container");
-  const addContainer = document.querySelector(".add-driver-jeep-container");
+   const addContainer = document.querySelector(".add-driver-jeep-container");
 
   // Hide both containers
   editContainer.style.display = "none";
-  viewContainer.style.display = "none";
+ 
   addContainer.style.display = "none";
 }
 
+function formatTimestamp(timestamp) {
+  if (!timestamp || isNaN(timestamp)) return "N/A"; // Handle missing timestamps
+  const date = new Date(Number(timestamp)); // Convert to Date using Number()
+  return date.toLocaleDateString("en-US"); // Converts to MM/DD/YYYY format
+}
+function sanitizeHTML(str) {
+  if (!str) return ""; // Ensure input is always a string
+
+  let temp = document.createElement("div");
+  temp.textContent = str; // Convert to plain text, escaping any HTML tags
+
+  return temp.innerHTML
+    .replace(/javascript:/gi, "")  
+    .replace(/<script.*?>.*?<\/script>/gi, "")  
+    .replace(/on\w+\s*=\s*(['"]).*?\1/gi, "");  
+}
+
+
 // Function to render the data into the table
-function renderData(data, searchTerm = "", startTime = 0, endTime = Infinity) {
+function renderData(data, roleFilter, searchTerm = "", startTime = 0, endTime = Infinity) {
   const tbody = document.getElementById("dataTableBody");
   tbody.innerHTML = ""; // Clear the table content
 
   if (data) {
-    // Loop through the data and construct each row
+    let rows = [];
+
     for (let id in data) {
-      const driver = data[id];
-      const fullName = `${driver.firstName || ""} ${driver.middleName || ""} ${
-        driver.lastName || ""
-      }`.toLowerCase();
+      const account = data[id];
 
-      const recordTimestamp = driver.timestamp || 0; // Default to 0 if timestamp is missing
+      if (account.role === roleFilter) {
+        const fullName = `${account.firstName || ""} ${account.middleName || ""} ${account.lastName || ""}`.toLowerCase();
+        const recordTimestamp = account.timestamp || 0; // Default to 0 if timestamp is missing
+        const formattedTimestamp = formatTimestamp(recordTimestamp);  
 
-      // Apply both the search and timestamp filter
-      if (
-        (searchTerm === "" || // If searchTerm is empty, show all data
-          fullName.includes(searchTerm) ||
-          (driver.email && driver.email.toLowerCase().includes(searchTerm)) ||
-          (driver.phone && driver.phone.includes(searchTerm))) &&
-        recordTimestamp >= startTime &&
-        recordTimestamp <= endTime
-      ) {
-        // Create a new table row with the fetched data
-        let row = `
-            <tr data-id=${id}>
-                <td style="font-size:10px;">${id}</td>
-                <td>${driver.firstName || ""}</td>
-                <td>${driver.middleName || ""}</td>
-                <td>${driver.lastName || ""}</td>
-                <td>${driver.email || ""}</td>
-                <td>${driver.phone || ""}</td>
-                <td>${driver.role || ""}</td>
-                <td>
-                    <div class="action-icons">
-                        <img src="./img/edit.png" alt="edit" class="edit-icon">
-                        <img src="./img/trash-bin.png" alt="delete" class="delete-icon">
-                        <img src="./img/more.png" alt="more" class="more-icon">
-                    </div>
-                </td>
-            </tr>`;
-        tbody.innerHTML += row;
+        if (
+          (searchTerm === "" || 
+            fullName.includes(searchTerm) || 
+            formattedTimestamp.includes(searchTerm) ||
+            (account.email && account.email.toLowerCase().includes(searchTerm)) ||
+            (account.phone && account.phone.includes(searchTerm))) &&
+          recordTimestamp >= startTime &&
+          recordTimestamp <= endTime
+        ) {
+          // Store row in an array for sorting, without the id count yet
+          rows.push({
+            id,
+            timestamp: recordTimestamp,
+            account
+          });
+        }
       }
     }
 
-    // Add event listeners to the edit and more icons after rendering
+    // ✅ Step 1: Sort rows by timestamp (Oldest to Newest)
+    rows.sort((a, b) => a.timestamp - b.timestamp);
+
+    // ✅ Step 2: Assign proper ID numbers after sorting
+    let id_name = 1; // Reset ID counter
+
+    // ✅ Step 3: Generate the HTML content
+    tbody.innerHTML = rows.map(row => {
+      const account = row.account;
+      return `
+        <tr data-id="${sanitizeHTML(row.id)}" data-timestamp="${sanitizeHTML(row.timestamp)}">
+    <td>${id_name++}</td>  <!-- ✅ Now properly incremented after sorting -->
+    <td>${sanitizeHTML(account.firstName || "")}</td>
+    <td>${sanitizeHTML(account.middleName || "")}</td>
+    <td>${sanitizeHTML(account.lastName || "")}</td>
+    <td>${sanitizeHTML(account.email || "")}</td>
+    <td>${sanitizeHTML(account.phoneNumber || "")}</td>
+    <td>${sanitizeHTML(formatTimestamp(row.timestamp))}</td>  
+    <td>
+        <div class="action-icons">
+             <img src="./img/trash-bin.png" alt="delete" class="delete-icon">
+        </div>
+    </td>
+</tr>
+`;
+    }).join(""); 
+
+    // ✅ Step 4: Attach event listeners after rendering
     document.querySelectorAll(".edit-icon").forEach((icon) => {
       icon.addEventListener("click", showEditContainer);
     });
@@ -127,9 +167,13 @@ function renderData(data, searchTerm = "", startTime = 0, endTime = Infinity) {
       icon.addEventListener("click", showViewContainer);
     });
   } else {
-    tbody.innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='8'>No drivers found</td></tr>";
   }
 }
+
+
+
+
 
 // Close the active container when the close icon is clicked
 document.querySelectorAll(".close-icon").forEach((icon) => {
@@ -214,103 +258,105 @@ timestampFilter.addEventListener("change", () => {
   });
 });
 
-// ADDING OF DRIVERS
 function addDriver() {
   // Get the form values
-  const firstName = document.getElementById("fname").value;
-  const middleName = document.getElementById("mname").value;
-  const lastName = document.getElementById("lname").value;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phoneNumber").value;
+  const firstName = document.getElementById("fname").value.trim();
+  const middleName = document.getElementById("mname").value.trim();
+  const lastName = document.getElementById("lname").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phoneNumber").value.trim();
   const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("cpassword").value;
 
-  // Validate required fields
-  if (!firstName || !lastName || !email || !phone || !password) {
-    alert("Please fill in all required fields!");
+  // ✅ Validate required fields
+  if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+    alert("❌ Please fill in all required fields!");
     return;
   }
 
-  // Fetch the latestUserID from the database
-  database
-    .ref("/latestUserId")
-    .once("value")
-    .then((snapshot) => {
-      let latestUserID = snapshot.val() || 0; // Default to 0 if not set
+  // ✅ Validate password match
+  if (password !== confirmPassword) {
+    alert("❌ Passwords do not match! Please try again.");
+    return;
+  }
 
-      // Increment latestUserID by 1 to generate the new UID
-      const newUserID = latestUserID + 1;
-      const uid = newUserID; // Use plain number as UID
+  // ✅ Validate only letters for name fields
+  const nameRegex = /^[A-Za-z\s]+$/;
+  if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+    alert("❌ Name fields should contain only letters!");
+    return;
+  }
 
-      // Driver data to store in the database
-      const driverData = {
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        role: "Driver",
-        wallet_balance: 0,
-        timestamp: Date.now(),
-        userID: newUserID, // Add the new userID
-      };
+  // ✅ Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("❌ Invalid email format!");
+    return;
+  }
 
-      // Create a user in Firebase Authentication
-      return auth.createUserWithEmailAndPassword(email, password).then(() => {
-        // Save driver data in the Realtime Database with the new UID
-        return database
-          .ref(`users/driver/${uid}`)
-          .set(driverData)
-          .then(() => {
-            // Generate QR code content
-            const qrContent = `Driver Name: ${firstName} ${lastName}\nUID: ${uid}`;
-            const qrCanvas = document.createElement("canvas");
+  // ✅ Validate phone number (10-15 digits)
+  const phoneRegex = /^[0-9]{10,15}$/;
+  if (!phoneRegex.test(phone)) {
+    alert("❌ Please enter a valid phone number (10-15 digits)!");
+    return;
+  }
 
-            return new Promise((resolve, reject) => {
-              QRCode.toCanvas(qrCanvas, qrContent, (err) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  qrCanvas.toBlob((blob) => resolve(blob));
-                }
-              });
-            });
-          })
-          .then((blob) => {
-            // Upload QR code Blob to Firebase Storage
-            const storageRef = storage.ref(`qrcodes/driver/${uid}.png`);
-            return storageRef.put(blob).then(() => storageRef.getDownloadURL());
-          })
-          .then((downloadURL) => {
-            // Update the Realtime Database with the QR code link
-            return database
-              .ref(`users/driver/${uid}`)
-              .update({ qr: downloadURL })
-              .then(() => {
-                // Update the latestUserID in the database
-                return database
-                  .ref("/latestUserId")
-                  .set(newUserID)
-                  .then(() => {
-                    console.log("QR Code URL:", downloadURL);
+  // ✅ Prepare driver data for the database
+  const driverData = {
+    firstName: firstName,
+    middleName: middleName,
+    lastName: lastName,
+    email: email,
+    phoneNumber: phone,
+    role: "driver",
+    wallet_balance: 0,
+    timestamp: Date.now(),
+  };
 
-                    // Optionally, clear the form
-                    document.getElementById("fname").value = "";
-                    document.getElementById("mname").value = "";
-                    document.getElementById("lname").value = "";
-                    document.getElementById("email").value = "";
-                    document.getElementById("phoneNumber").value = "";
-                    document.getElementById("password").value = "";
-                    closeActiveContainer();
-                  });
-              });
-          });
-      });
+  // ✅ Create a user in Firebase Authentication
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const uid = userCredential.user.uid; // Get generated UID from Firebase Auth
+
+      return database
+        .ref(`users/accounts/${uid}`)
+        .set(driverData)
+        .then(() => {
+          // ✅ Clear form fields after successful submission
+          document.getElementById("fname").value = "";
+          document.getElementById("mname").value = "";
+          document.getElementById("lname").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("phoneNumber").value = "";
+          document.getElementById("password").value = "";
+          document.getElementById("cpassword").value = "";
+
+          // ✅ Close modal safely if it exists
+          const modal = document.querySelector(".add-driver-jeep-container");
+          if (modal) {
+            modal.style.display = "none";
+          } else {
+            console.warn("⚠️ Modal not found: .add-driver-jeep-container");
+          }
+
+          alert("✅ Driver added successfully.");
+        });
     })
     .catch((error) => {
-      console.error("Error adding driver:", error);
-      alert(`Failed to add driver: ${error.message}`);
+      console.error("❌ Failed to add driver:", error);
+
+      let errorMessage = "❌ Failed to add driver.";
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "❌ Email is already in use! Try another email.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "❌ Password is too weak! Use at least 6 characters.";
+      }
+
+      alert(errorMessage);
     });
 }
+
 
 function fetchDriverDataAndView(driverID) {
   dataRef
@@ -323,7 +369,7 @@ function fetchDriverDataAndView(driverID) {
         document.getElementById("view-mname").value = driver.middleName || "";
         document.getElementById("view-lname").value = driver.lastName || "";
         document.getElementById("view-email").value = driver.email || "";
-        document.getElementById("view-phoneNumber").value = driver.phone || "";
+        document.getElementById("view-phoneNumber").value = driver.phoneNumber|| "";
         document.getElementById("view-password").value = driver.password; // Leave password blank for security
 
         // Show the edit container
@@ -338,95 +384,320 @@ function fetchDriverDataAndView(driverID) {
     });
 }
 
-// Delegate the click event to the table body for dynamically generated rows
 document.getElementById("dataTableBody").addEventListener("click", (event) => {
-  if (event.target && event.target.classList.contains("edit-icon")) {
+  if (event.target.classList.contains("edit-icon")) {
     const row = event.target.closest("tr");
-    const driverID = row ? row.getAttribute("data-id") : null;
-    if (driverID) {
-      fetchDriverData(driverID);
-    } else {
-      alert("Driver ID not found.");
+
+    if (!row) {
+      alert("❌ Error: No row found!");
+      return;
     }
-  }
-  if (event.target && event.target.classList.contains("more-icon")) {
-    const row = event.target.closest("tr");
-    const driverID = row ? row.getAttribute("data-id") : null;
+
+    const driverID = row.getAttribute("data-id");
+
     if (driverID) {
-      fetchDriverDataAndView(driverID);
+      fetchDriverData(driverID); // ✅ Fetch driver details
     } else {
-      alert("Driver ID not found.");
+      alert("❌ Driver ID not found in row.");
     }
   }
 });
 
-// Function to handle editing driver data
-function editDriverData(driverID) {
-  // Collect data from the input fields
+
+function editDriverData() {
+  // ✅ Get the driver ID from the edit modal
+  const editContainer = document.querySelector(".edit-driver-modal");
+  const driverID = editContainer.getAttribute("data-id");
+
+  if (!driverID) {
+    console.error("❌ Driver ID not found in modal.");
+    alert("❌ Driver ID not found!");
+    return;
+  }
+
+  // ✅ Collect updated values
+  const firstName = document.getElementById("edit-fname").value.trim();
+  const middleName = document.getElementById("edit-mname").value.trim();
+  const lastName = document.getElementById("edit-lname").value.trim();
+  const phone = document.getElementById("edit-phoneNumber").value.trim();
+  const email = document.getElementById("edit-email").value.trim();
+
+  if (!firstName || !lastName || !email || !phone) {
+    alert("❌ Please fill in all required fields!");
+    return;
+  }
+
   const updatedData = {
-    firstName: document.getElementById("edit-fname").value.trim(),
-    middleName: document.getElementById("edit-mname").value.trim(),
-    lastName: document.getElementById("edit-lname").value.trim(),
-    phone: document.getElementById("edit-phoneNumber").value.trim(),
+    firstName,
+    middleName,
+    lastName,
+    phone,
+    email,
   };
 
-  // Reference to the driver's data in the Firebase database (users/driver/{driverID})
-  const driverRef = firebase.database().ref(`users/driver/${driverID}`);
-
-  // Update the data
-  driverRef
-    .update(updatedData)
+  // ✅ Update driver data in Firebase
+  firebase.database().ref(`users/accounts/${driverID}`).update(updatedData)
     .then(() => {
-      closeActiveContainer(); // Hide the edit container
-      refreshDriverList(); // Optional: Refresh the displayed list of drivers
+      alert("✅ Driver details updated successfully!");
+      editContainer.style.display = "none"; // ✅ Close modal
+      fetchAndRenderDrivers(); // ✅ Refresh the driver list
     })
     .catch((error) => {
-      console.error("Error updating driver data:", error);
+      console.error("❌ Error updating driver:", error);
+      alert("❌ Failed to update driver details.");
     });
 }
 
-// Add an event listener to the SAVE button
-document.getElementById("driver-edit").addEventListener("click", () => {
-  const driverID = getSelectedDriverID(); // Retrieve the current driver ID
-  if (driverID) {
-    editDriverData(driverID);
+
+
+// ✅ Fix refresh function
+function fetchAndRenderDrivers() {
+  firebase.database().ref("users/accounts").once("value", (snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      renderData(data, "driver"); // ✅ Refresh driver list
+    }
+  });
+}
+
+// ✅ Event Listener for Save Button
+document.addEventListener("DOMContentLoaded", function () {
+  const saveButton = document.getElementById("driver-edit");
+
+  if (saveButton) {
+    saveButton.addEventListener("click", () => {
+      const driverID = getSelectedDriverID();
+      if (driverID) {
+        editDriverData(driverID);
+      } else {
+        alert("❌ Driver ID not found. Unable to save changes.");
+      }
+    });
   } else {
-    alert("Driver ID not found. Unable to save changes.");
+    console.error("❌ ERROR: Save button (#driver-edit) not found in the DOM!");
   }
 });
 
-// Function to retrieve the selected driver ID
+// ✅ Function to get selected Driver ID
 function getSelectedDriverID() {
-  // Ensure that the driver-edit container has the data-id attribute set
   const editContainer = document.querySelector(".driver-edit-container");
   return editContainer ? editContainer.getAttribute("data-id") : null;
 }
-
+ 
 // Function to refresh the driver list (optional)
 function refreshDriverList() {
   // Your logic to refresh the displayed list of drivers after an update
   fetchAllDrivers(); // Example placeholder function, replace with your actual function
 }
 
-// Function to fetch and display driver data for editing (this function should be called when editing a driver)
-function fetchDriverData(driverID) {
-  const editContainer = document.querySelector(".driver-edit-container");
+ function fetchDriverData(driverID) {
+  if (!driverID) {
+    console.error("❌ Driver ID is undefined or null.");
+    alert("❌ Driver ID not found!");
+    return;
+  }
 
-  // Set the driver ID in the edit container's data-id attribute
+  const editContainer = document.querySelector(".edit-driver-modal");
+
+  if (!editContainer) {
+    console.error("❌ Error: Edit modal (.edit-driver-modal) not found in the DOM!");
+    return;
+  }
+
+  // ✅ Set the driver ID inside the modal
   editContainer.setAttribute("data-id", driverID);
 
-  // Fetch driver data from Firebase
-  const driverRef = firebase.database().ref(`users/driver/${driverID}`);
-  driverRef.once("value", (snapshot) => {
-    const driver = snapshot.val();
-    if (driver) {
-      // Populate the form fields with the driver data
-      document.getElementById("edit-fname").value = driver.firstName || "";
-      document.getElementById("edit-mname").value = driver.middleName || "";
-      document.getElementById("edit-lname").value = driver.lastName || "";
-      document.getElementById("edit-phoneNumber").value = driver.phone || "";
+  // ✅ Fetch driver data from Firebase
+  const driverRef = firebase.database().ref(`users/accounts/${driverID}`);
+  driverRef
+    .once("value")
+    .then((snapshot) => {
+      const driver = snapshot.val();
+      if (driver) {
+        document.getElementById("edit-fname").value = driver.firstName || "";
+        document.getElementById("edit-mname").value = driver.middleName || "";
+        document.getElementById("edit-lname").value = driver.lastName || "";
+        document.getElementById("edit-phoneNumber").value = driver.phoneNumber || "";
+        document.getElementById("edit-email").value = driver.email || "";
+
+        // ✅ Show the modal
+        editContainer.style.display = "flex";
+      } else {
+        alert("❌ Driver data not found.");
+      }
+    })
+    .catch((error) => {
+      console.error("❌ Error fetching driver data:", error);
+      alert("❌ Failed to fetch driver data.");
+    });
+}
+
+
+
+
+// Delete a driver
+// Delete a driver
+function deleteDriver(driverID) {
+  const driverRef = firebase.database().ref(`users/accounts/${driverID}`);
+  const usersRef = firebase.database().ref("users/accounts");
+
+  // Display confirmation dialog
+  const deleteContainer = document.querySelector(".delete-jeep-container");
+  deleteContainer.style.display = "flex";
+
+  const confirmDelete = document.querySelector(".confirm-delete");
+  const cancelDelete = document.querySelector(".cancel-delete");
+
+  confirmDelete.addEventListener(
+    "click",
+    async () => {
+      try {
+        // Step 1: Get all users whose creatorUid matches driverID
+        const usersSnapshot = await usersRef.once("value");
+        const usersData = usersSnapshot.val();
+
+        if (usersData) {
+          const updates = {};
+          Object.keys(usersData).forEach((userId) => {
+            if (usersData[userId].creatorUid === driverID) {
+              // Step 2: Update creatorUid to "unassigned" and status to "Deactivated"
+              updates[`users/accounts/${userId}/creatorUid`] = "unassigned";
+              updates[`users/accounts/${userId}/status`] = "Deactivated";
+            }
+          });
+
+          // Step 3: Apply updates
+          await firebase.database().ref().update(updates);
+          console.log("Updated creatorUid and status for affected users.");
+        }
+
+        // Step 4: Delete the driver
+        await driverRef.remove();
+        alert("Driver deleted successfully.");
+        deleteContainer.style.display = "none";
+
+        // Refresh the driver list
+        accountsRef.once("value").then((snapshot) => {
+          const data = snapshot.val();
+          renderData(data, "driver"); // Re-render the driver list
+        });
+      } catch (error) {
+        console.error("Error deleting driver:", error);
+        alert("Failed to delete driver. Please try again.");
+      }
+    },
+    { once: true }
+  );
+
+  cancelDelete.addEventListener(
+    "click",
+    () => {
+      deleteContainer.style.display = "none";
+    },
+    { once: true }
+  );
+}
+
+// Attach delete functionality to delete icons
+document.getElementById("dataTableBody").addEventListener("click", (event) => {
+  if (event.target && event.target.classList.contains("delete-icon")) {
+    const row = event.target.closest("tr");
+    const driverID = row ? row.getAttribute("data-id") : null;
+    if (driverID) {
+      deleteDriver(driverID); // Call the delete function
     } else {
-      alert("Driver data not found.");
+      alert("Driver ID not found. Unable to delete.");
+    }
+  }
+});
+
+/**
+ * Logout function to log out the user and redirect to the login page.
+ */
+function setupLogoutButton() {
+  const logoutButton = document.getElementById("logoutButton");
+
+  if (logoutButton) {
+    logoutButton.addEventListener("click", async () => {
+      try {
+        await auth.signOut();
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log("User logged out successfully.");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Error logging out:", error);
+        alert("Logout failed. Redirecting to the login page.");
+        window.location.href = "index.html";
+      }
+    });
+  }
+}
+/**
+ * ✅ Check if user is logged in
+ */
+function checkUserLoggedIn() {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      console.log("✅ User logged in:", user.email);
+
+      const welcomeMessage = document.getElementById("welcomeMessage");
+      if (welcomeMessage) {
+        welcomeMessage.textContent = `Welcome, ${user.email}`;
+      }
+    } else {
+      console.warn("⚠️ No user found! Redirecting to login.");
+      window.location.href = "index.html";
     }
   });
 }
+
+/**
+ * ✅ Logout user when clicking "Sign Out"
+ */
+function setupLogoutButton() {
+  const logoutButton = document.getElementById("logoutButton");
+
+  if (!logoutButton) {
+    console.warn("❌ Logout button not found!");
+    return;
+  }
+
+  logoutButton.addEventListener("click", async () => {
+    try {
+      console.log("🔑 Logging out...");
+      await auth.signOut();
+      console.log("✅ Successfully logged out.");
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    } catch (error) {
+      console.error("❌ Error logging out:", error);
+      alert("Logout failed!");
+      window.location.href = "index.html";
+    }
+  });
+}
+
+/**
+ * ✅ Initialize Dashboard
+ */
+function initializeDashboard() {
+  console.log("📊 Initializing dashboard...");
+
+  const dbRef = database.ref("users/accounts");
+  dbRef.once("value", (snapshot) => {
+    if (snapshot.exists()) {
+      //console.log("✅ Database data loaded:", snapshot.val());
+    } else {
+      console.warn("⚠️ No data found in Firebase.");
+    }
+  });
+}
+
+// ✅ Run Functions on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🔥 DOM loaded, running functions...");
+ 
+  initializeDashboard();
+});

@@ -359,7 +359,6 @@ body {
 .jeepney-logo {
   width: 40px;
 }
-
 .search-input {
   background-image: url("/img/magnifying-glass.png");
   background-repeat: no-repeat;
@@ -369,17 +368,33 @@ body {
   border: 1px solid #fff;
   border-radius: 10px;
   height: 40px;
-  width: 300px;
-  background-color: #fff;
+  width: 300px;  
+  outline: 2px solid black; /* Adds a white outline */
 }
 
 .topbar-user {
-  text-align: right;
-  margin-left: 150px;
-  display: flex;
-  width: 40%;
-  justify-content: right;
-  align-items: center;
+    display: flex;  /* Enables horizontal alignment */
+    align-items: center;  /* Aligns items vertically in center */
+    justify-content: flex-end;  /* Aligns content to the right */
+    gap: 15px; /* Adds spacing between items */
+    width: 100%;
+}
+
+.topbar-user h5 {
+    margin: 0;
+    font-size: 18px;
+    color: white;
+    font-family: "Rubik", sans-serif;
+    white-space: nowrap; /* Prevents text from breaking */
+}
+
+.topbar-user .user-icon,
+.topbar-user .notification-icon {
+    font-size: 20px; /* Adjust icon size */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .top-icons button {
@@ -396,6 +411,12 @@ body {
   gap: 8px;
 }
 
+.text-left {
+    text-align: left; /* Align text to the left */
+    margin-left: 0; /* Remove any margin */
+}
+
+
 /* main page graph and recently added*/
 .main-content {
   grid-area: main-content;
@@ -411,7 +432,7 @@ body {
 .graph {
   margin-left: 10px;
   margin-bottom: 10px;
-  width: 96%;
+  width: 99%;
   height: 265px;
   border-radius: 10px;
   background-color: #f4f4f4;
@@ -421,7 +442,7 @@ body {
 
 .added {
   margin-left: 10px;
-  width: 100%;
+  width: 99%;
   height: 275px;
   display: flex;
   flex-direction: column;
@@ -489,7 +510,7 @@ body {
 
 .jeep {
   width: 100%;
-  height: 131px;
+  height: 250px;
   border-radius: 10px;
   background: linear-gradient(
     180deg,
@@ -504,7 +525,7 @@ body {
 
 .driver {
   width: 100%;
-  height: 131px;
+  height: 250px;
   border-radius: 10px;
   background: linear-gradient(
     180deg,
@@ -519,7 +540,7 @@ body {
 
 .conduc {
   width: 100%;
-  height: 131px;
+  height: 250px;
   border-radius: 10px;
   background: linear-gradient(
     180deg,
@@ -534,7 +555,7 @@ body {
 
 .users {
   width: 100%;
-  height: 131px;
+  height: 250px;
   border-radius: 10px;
   background: linear-gradient(
     180deg,
@@ -562,8 +583,5 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 }
-
-/* main page side bar end*/
-
-/*settings start*/

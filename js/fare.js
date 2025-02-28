@@ -13,9 +13,47 @@ const firebaseConfig = {
       
           // Set database variable
           var database = firebase.database();
-          console.log('Firebase initialized:', firebase);
-          console.log('Database reference:', database);
-      
+  
+
+
+
+
+ 
+/**
+ * ✅ Initialize Dashboard
+ */
+function initializeDashboard() {
+  console.log("📊 Initializing dashboard...");
+
+  const dbRef = database.ref("users/accounts");
+  dbRef.once("value", (snapshot) => {
+    if (snapshot.exists()) {
+      console.log("✅ Database data loaded:", snapshot.val());
+    } else {
+      console.warn("⚠️ No data found in Firebase.");
+    }
+  });
+}
+
+// ✅ Run Functions on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🔥 DOM loaded, running functions...");
+ 
+  initializeDashboard();
+});
+
+// Run the functions when the DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+ 
+  displayUsers(); 
+});
+
+
+
+
+
+ 
+
           function toggleEdit(type) {
             const firstKmInput = document.getElementById(`${type}-first-km`);
             const succeedingKmInput = document.getElementById(`${type}-succeeding-km`);
@@ -95,3 +133,79 @@ const firebaseConfig = {
           // Load initial data
           loadFareData('regular');
           loadFareData('discount');
+
+
+          /**
+ * Check if a user is logged in, otherwise redirect to the login page.
+ */
+function checkUserLoggedIn() {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Logged-in user:", user.email);
+
+      // Update the welcome message
+      const welcomeMessage = document.getElementById("welcomeMessage");
+      if (welcomeMessage) {
+        welcomeMessage.textContent = `Welcome, ${user.email}`;
+      }
+    } else {
+      console.warn("No user is logged in. Redirecting to login page.");
+      window.location.href = "index.html";
+    }
+  });
+}
+
+/**
+ * Updates counts for each role: driver, conductor, user, and jeepneys.
+ */
+function updateCounts() {
+  const roleCounts = {
+    driver: 0,
+    conductor: 0,
+    user: 0,
+  };
+  let jeepneyCount = 0;
+
+  const accountsPromise = database
+    .ref("users/accounts")
+    .once("value")
+    .then((snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const user = childSnapshot.val();
+        const role = user.role;
+
+        if (roleCounts.hasOwnProperty(role)) {
+          roleCounts[role]++;
+        }
+      });
+    });
+
+  const jeepneysPromise = database
+    .ref("jeepneys")
+    .once("value")
+    .then((snapshot) => {
+      jeepneyCount = snapshot.numChildren();
+    });
+
+  Promise.all([accountsPromise, jeepneysPromise])
+    .then(() => {
+      document.querySelector(".driver .display_count").textContent =
+        roleCounts.driver;
+      document.querySelector(".conduc .display_count").textContent =
+        roleCounts.conductor;
+      document.querySelector(".users .display_count").textContent =
+        roleCounts.user;
+      document.querySelector(".jeep .display_count").textContent = jeepneyCount;
+
+      console.log("Counts Updated:", {
+        drivers: roleCounts.driver,
+        conductors: roleCounts.conductor,
+        users: roleCounts.user,
+        jeepneys: jeepneyCount,
+      });
+    })
+    .catch((error) => {
+      console.error("Error updating counts:", error);
+    });
+}
+ 
